@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://akramtools.github.io/Filemagicpro1/sitemap.xml
