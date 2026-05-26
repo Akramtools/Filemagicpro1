@@ -1,12 +1,13 @@
 # FileMagic Pro
 
-FileMagic Pro ek free online tool hai jo aapki 
-files ko easily manage karne mein help karta hai.
+FileMagic Pro is a free online tool that helps 
+you manage and convert your files easily.
 
 ## Features
 - Fast file processing
 - Easy to use
-- Free forever
+- 100% Free forever
+- Works on all devices
 
-## Website
+## Visit Website
 https://akramtools.github.io/Filemagicpro1/
