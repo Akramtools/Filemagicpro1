@@ -37,18 +37,6 @@ html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
 body::before {
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: 
-        radial-gradient(ellipse 60% 40% at 15% 20%, rgba(255, 59, 48, 0.25), transparent 50%),
-        radial-gradient(ellipse 50% 40% at 85% 30%, rgba(0, 122, 255, 0.25), transparent 50%),
-        radial-gradient(ellipse 70% 50% at 40% 80%, rgba(255, 215, 0, 0.15), transparent 50%);
-    pointer-events: none;
-    z-index: -1;
-    filter: blur(20px);
-}
   content: '';
   position: fixed; inset: 0;
   background:
@@ -269,7 +257,6 @@ footer { position: relative; z-index: 1; border-top: 1px solid var(--border); pa
     <div><div class="stat-num">300MB</div><div class="stat-label">Max File Size</div></div>
     <div><div class="stat-num">15+</div><div class="stat-label">Formats</div></div>
     <div><div class="stat-num">100%</div><div class="stat-label">Free & Real</div></div>
-    <div><div class="stat-num">🔒</div><div class="stat-label">Private</div></div>
   </div>
 </section>
 
@@ -309,7 +296,7 @@ footer { position: relative; z-index: 1; border-top: 1px solid var(--border); pa
         </div>
         <div class="drop-zone" onclick="document.getElementById('conv-inp').click()"
           ondragover="dOver(event,this)" ondragleave="dLeave(this)" ondrop="dDrop(event,'conv')">
-          <input type="file" id="conv-inp" accept="image/*,.pdf" multiple style="display:none" onchange="addFiles(event,'conv')">
+          <input type="file" id="conv-inp" accept="image/*,.pdf,.txt,.xlsx,.xls,.csv" multiple style="display:none" onchange="addFiles(event,'conv')">
           <span class="drop-icon">📂</span>
           <div class="max-size-note">Max 300MB per file</div>
           <h3>Drop Files Here</h3>
@@ -327,6 +314,9 @@ footer { position: relative; z-index: 1; border-top: 1px solid var(--border); pa
           <div class="opt-card" data-group="conv" data-val="img2jpg" onclick="pickOpt(this)"><div class="opt-icon">🖼️→📸</div><div class="opt-title">Image → JPG</div><div class="opt-sub">Universal format</div></div>
           <div class="opt-card" data-group="conv" data-val="img2png" onclick="pickOpt(this)"><div class="opt-icon">🖼️→🖼️</div><div class="opt-title">Image → PNG</div><div class="opt-sub">Lossless quality</div></div>
           <div class="opt-card" data-group="conv" data-val="img2webp" onclick="pickOpt(this)"><div class="opt-icon">🖼️→🌐</div><div class="opt-title">Image → WEBP</div><div class="opt-sub">Best web format</div></div>
+          <div class="opt-card" data-group="conv" data-val="pdf2text" onclick="pickOpt(this)"><div class="opt-icon">📋→📝</div><div class="opt-title">PDF → Text</div><div class="opt-sub">Extract text from PDF</div></div>
+          <div class="opt-card" data-group="conv" data-val="text2pdf" onclick="pickOpt(this)"><div class="opt-icon">📝→📋</div><div class="opt-title">Text → PDF</div><div class="opt-sub">Convert text to PDF</div></div>
+          <div class="opt-card" data-group="conv" data-val="excel2pdf" onclick="pickOpt(this)"><div class="opt-icon">📊→📋</div><div class="opt-title">Excel → PDF</div><div class="opt-sub">XLSX/CSV to PDF</div></div>
         </div>
         <div class="card">
           <div class="s-row">
@@ -352,6 +342,93 @@ footer { position: relative; z-index: 1; border-top: 1px solid var(--border); pa
             <div class="r-stat"><div class="r-val" id="conv-rv3">-</div><div class="r-lbl">Size</div></div>
           </div>
           <button class="btn-dl" id="conv-dl">⬇️ Download Now</button>
+        </div>
+
+        <!-- PDF → TEXT section -->
+        <div id="sec-pdf2text" style="display:none;margin-top:18px">
+          <div class="card" style="margin-bottom:12px">
+            <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:10px">📋 Extracted Text</div>
+            <textarea id="p2t-out" placeholder="Text yahan aayega PDF process hone ke baad…"
+              style="width:100%;min-height:200px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;padding:14px;resize:vertical;outline:none;line-height:1.7"></textarea>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+              <div class="r-stat"><div class="r-val" id="p2t-rp" style="font-size:20px">0</div><div class="r-lbl">Pages</div></div>
+              <div class="r-stat"><div class="r-val" id="p2t-rw" style="font-size:20px">0</div><div class="r-lbl">Words</div></div>
+              <div class="r-stat"><div class="r-val" id="p2t-rc" style="font-size:20px">0</div><div class="r-lbl">Chars</div></div>
+            </div>
+          </div>
+          <button class="btn-dl" id="p2t-dl" onclick="dlP2T()" style="display:none">⬇️ Download .txt</button>
+        </div>
+
+        <!-- TEXT → PDF section -->
+        <div id="sec-text2pdf" style="display:none;margin-top:18px">
+          <div class="card" style="margin-bottom:12px">
+            <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:10px">✍️ Apna Text Likhein</div>
+            <textarea id="t2p-inp" placeholder="Yahan text likhen ya paste karein…"
+              style="width:100%;min-height:200px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;padding:14px;resize:vertical;outline:none;line-height:1.8"
+              oninput="t2pCount()"></textarea>
+            <div id="t2p-count" style="font-size:11px;color:var(--muted);margin-top:4px;text-align:right">0 words · 0 chars</div>
+            <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:4px">File Name</div>
+                <input type="text" class="text-input" id="t2p-fname" value="document" style="width:130px" placeholder="document">
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Font Size</div>
+                <select id="t2p-fs" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:7px 10px;font-family:'Inter';font-size:12px;outline:none">
+                  <option value="10">10pt</option><option value="12" selected>12pt</option><option value="14">14pt</option>
+                </select>
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Page</div>
+                <select id="t2p-ps" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:7px 10px;font-family:'Inter';font-size:12px;outline:none">
+                  <option value="a4">A4</option><option value="letter">Letter</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXCEL → PDF section -->
+        <div id="sec-excel2pdf" style="display:none;margin-top:18px">
+          <div class="card">
+            <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:10px">📊 Excel File Upload karein</div>
+            <div class="drop-zone" style="padding:28px 16px" onclick="document.getElementById('xl2p-inp').click()"
+              ondragover="dOver(event,this)" ondragleave="dLeave(this)"
+              ondrop="event.preventDefault();event.currentTarget.classList.remove('over');xl2pLoad({target:{files:event.dataTransfer.files}})">
+              <input type="file" id="xl2p-inp" accept=".xlsx,.xls,.csv" style="display:none" onchange="xl2pLoad(event)">
+              <span class="drop-icon" style="font-size:36px">📊</span>
+              <h3 style="font-size:15px">.xlsx / .xls / .csv</h3>
+              <button class="btn btn-primary" style="margin-top:8px" onclick="event.stopPropagation();document.getElementById('xl2p-inp').click()">Browse</button>
+            </div>
+            <div id="xl2p-sheets" style="display:none;margin-top:10px">
+              <div style="font-size:11px;color:var(--muted);margin-bottom:5px">Sheets:</div>
+              <div class="chips" id="xl2p-tabs"></div>
+            </div>
+            <div class="xl-wrap" id="xl2p-prev" style="display:none;margin-top:10px"><table id="xl2p-table"></table></div>
+            <div id="xl2p-info" style="font-size:11px;color:var(--muted);margin-top:5px"></div>
+            <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Theme</div>
+                <select id="xl2p-theme" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:7px 10px;font-family:'Inter';font-size:12px;outline:none">
+                  <option value="light">Light</option><option value="dark">Dark</option><option value="blue">Blue</option><option value="green">Green</option>
+                </select>
+              </div>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--muted);margin-top:18px">
+                <input type="checkbox" id="xl2p-bold" checked style="accent-color:var(--accent)"> Bold Header
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--muted);margin-top:18px">
+                <input type="checkbox" id="xl2p-all" style="accent-color:var(--accent)"> All Sheets
+              </label>
+            </div>
+            <div class="prog-wrap" id="xl2p-pw" style="margin-top:10px"><div class="prog-bar"><div class="prog-fill" id="xl2p-pf"></div></div><div class="prog-label" id="xl2p-pl">Converting…</div></div>
+            <div id="xl2p-result" style="display:none;margin-top:10px">
+              <div style="display:flex;gap:16px">
+                <div class="r-stat"><div class="r-val" id="xl2p-rr" style="font-size:20px">0</div><div class="r-lbl">Rows</div></div>
+                <div class="r-stat"><div class="r-val" id="xl2p-rc" style="font-size:20px">0</div><div class="r-lbl">Cols</div></div>
+              </div>
+              <button class="btn-dl" id="xl2p-dl" onclick="dlXL2P()" style="margin-top:10px">⬇️ Download PDF</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -870,6 +947,22 @@ function pickOpt(el) {
   const g = el.dataset.group;
   document.querySelectorAll(`[data-group="${g}"]`).forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');
+  // Show/hide new convert sections
+  if(g === 'conv') {
+    const val = el.dataset.val;
+    const showP2T = val === 'pdf2text';
+    const showT2P = val === 'text2pdf';
+    const showXL  = val === 'excel2pdf';
+    const showStd = !showP2T && !showT2P && !showXL;
+    document.getElementById('sec-pdf2text').style.display  = showP2T ? 'block' : 'none';
+    document.getElementById('sec-text2pdf').style.display  = showT2P ? 'block' : 'none';
+    document.getElementById('sec-excel2pdf').style.display = showXL  ? 'block' : 'none';
+    // Hide standard result/prog when new mode selected
+    if(!showStd) {
+      document.getElementById('conv-res').classList.remove('show');
+      document.getElementById('conv-pw').style.display = 'none';
+    }
+  }
 }
 
 function getOpt(group) {
@@ -972,9 +1065,14 @@ function setStatus(type, idx, cls, text) {
 // CONVERT — REAL
 // ════════════════════════════════════════
 async function runConvert() {
+  const fmt = getOptG('conv');
+  // New format handlers
+  if(fmt === 'pdf2text') { await runP2T(); return; }
+  if(fmt === 'text2pdf') { await runT2P(); return; }
+  if(fmt === 'excel2pdf') { await runXL2P(); return; }
+
   const files = lists.conv.filter(Boolean);
   if(!files.length){toast('⚠️ Please add files first','warn');return;}
-  const fmt = getOptG('conv');
   const quality = parseInt($('conv-q').value)/100;
   const btn = document.querySelector('#panel-convert .btn-action');
   btn.disabled=true;
@@ -1505,6 +1603,259 @@ function dlFiles() {
 }
 
 // ════════════════════════════════════════
+// PDF → TEXT
+// ════════════════════════════════════════
+let p2tFile = null;
+
+async function runP2T() {
+  // Try conv file list first, then p2t-inp
+  const convFiles = lists.conv ? lists.conv.filter(f=>f&&f.name.toLowerCase().endsWith('.pdf')) : [];
+  const file = convFiles[0] || p2tFile;
+  if (!file) { toast('⚠️ Pehle PDF file add karein Convert tab mein', 'warn'); return; }
+  const btn = document.querySelector('#panel-convert .btn-action');
+  if(btn) btn.disabled = true;
+  setProg('conv', 10, 'PDF load ho rahi hai…');
+  try {
+    if (typeof pdfjsLib === 'undefined') throw new Error('pdf.js load nahi hua');
+    const ab = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+    let fullText = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      setProg('conv', Math.round((i / pdf.numPages) * 90), 'Page ' + i + ' / ' + pdf.numPages + ' extract ho rahi hai…');
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const pageText = content.items.map(s => s.str).join(' ');
+      fullText += '--- Page ' + i + ' ---\n' + pageText + '\n\n';
+    }
+    fullText = fullText.trim();
+    $('p2t-out').value = fullText;
+    const words = fullText.split(/\s+/).filter(Boolean).length;
+    $('p2t-rp').textContent = pdf.numPages;
+    $('p2t-rw').textContent = words.toLocaleString();
+    $('p2t-rc').textContent = fullText.length.toLocaleString();
+    $('p2t-dl').style.display = 'inline-flex';
+    p2tFile = file;
+    setProg('conv', 100, 'Done!');
+    setTimeout(() => hideProg('conv'), 1000);
+    toast('✅ ' + pdf.numPages + ' pages extract ho gayi!');
+  } catch (err) {
+    hideProg('conv');
+    toast('❌ Error: ' + err.message, 'err');
+  }
+  if(btn) btn.disabled = false;
+}
+
+function dlP2T() {
+  const txt = $('p2t-out').value;
+  if (!txt) return;
+  const name = (p2tFile ? p2tFile.name.replace('.pdf', '') : 'extracted') + '_text.txt';
+  dlBlob(new Blob([txt], { type: 'text/plain' }), name);
+  toast('⬇️ Downloading: ' + name);
+}
+
+// ════════════════════════════════════════
+// TEXT → PDF
+// ════════════════════════════════════════
+function t2pCount() {
+  const txt = $('t2p-inp').value;
+  const words = txt.trim() ? txt.trim().split(/\s+/).length : 0;
+  $('t2p-count').textContent = words.toLocaleString() + ' words · ' + txt.length.toLocaleString() + ' chars';
+}
+
+async function runT2P() {
+  const txt = $('t2p-inp').value.trim();
+  if (!txt) { toast('⚠️ Pehle text likhein', 'warn'); return; }
+  const btn = document.querySelector('#panel-convert .btn-action');
+  if(btn) btn.disabled = true;
+  try {
+    const { jsPDF } = window.jspdf;
+    const pageSize = $('t2p-ps').value === 'letter' ? 'letter' : 'a4';
+    const doc = new jsPDF({ unit: 'pt', format: pageSize });
+    const fs = parseInt($('t2p-fs').value) || 12;
+    const margin = 56;
+    const pw = doc.internal.pageSize.getWidth() - margin * 2;
+    const ph = doc.internal.pageSize.getHeight();
+    const lh = fs * 1.5;
+    const fname = ($('t2p-fname').value.trim() || 'document');
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(fs);
+
+    const lines = doc.splitTextToSize(txt, pw);
+    let y = margin;
+    let pageNum = 1;
+
+    const addHF = () => {
+      doc.setFontSize(8); doc.setTextColor(150,150,150);
+      doc.text(fname+'.pdf', margin, 20);
+      doc.text('Page '+pageNum, doc.internal.pageSize.getWidth()-margin, 20, {align:'right'});
+      doc.text('FileMagic Pro', doc.internal.pageSize.getWidth()/2, ph-16, {align:'center'});
+      doc.setFontSize(fs); doc.setTextColor(0,0,0);
+    };
+    addHF();
+
+    for (const line of lines) {
+      if (y + lh > ph - 36) {
+        doc.addPage(); pageNum++; y = margin; addHF();
+      }
+      doc.text(line, margin, y);
+      y += lh;
+    }
+
+    const totalPages = doc.internal.getNumberOfPages();
+    const words = txt.split(/\s+/).filter(Boolean).length;
+    $('t2p-rp').textContent = totalPages;
+    $('t2p-rw').textContent = words.toLocaleString();
+    doc.save(fname + '.pdf');
+    toast('✅ PDF download ho rahi hai!');
+  } catch (err) {
+    toast('❌ Error: ' + err.message, 'err');
+  }
+  if(btn) btn.disabled = false;
+}
+
+// ════════════════════════════════════════
+// EXCEL → PDF
+// ════════════════════════════════════════
+let xl2pWb = null, xl2pCurSheet = '', xl2pBlob = null;
+
+function xl2pLoad(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  if (!checkSize(f)) return;
+  if (typeof XLSX === 'undefined') { toast('❌ XLSX library load nahi hua', 'err'); return; }
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      xl2pWb = XLSX.read(ev.target.result, { type: 'array' });
+      xl2pCurSheet = xl2pWb.SheetNames[0];
+      // Sheet tabs
+      const tabs = $('xl2p-tabs');
+      tabs.innerHTML = '';
+      xl2pWb.SheetNames.forEach((name, i) => {
+        const c = document.createElement('div');
+        c.className = 'chip' + (i === 0 ? ' on' : '');
+        c.textContent = name;
+        c.onclick = () => {
+          document.querySelectorAll('#xl2p-tabs .chip').forEach(x => x.classList.remove('on'));
+          c.classList.add('on');
+          xl2pCurSheet = name;
+          xl2pRenderPreview(name);
+        };
+        tabs.appendChild(c);
+      });
+      $('xl2p-sheets').style.display = xl2pWb.SheetNames.length > 1 ? 'block' : 'none';
+      xl2pRenderPreview(xl2pCurSheet);
+      if($('xl2p-result')) $('xl2p-result').style.display = 'none';
+      toast('✅ File load ho gayi — ' + xl2pWb.SheetNames.length + ' sheet(s)');
+    } catch (err) { toast('❌ ' + err.message, 'err'); }
+  };
+  reader.readAsArrayBuffer(f);
+  e.target.value = '';
+}
+function xl2pRenderPreview(sheetName) {
+  const ws = xl2pWb.Sheets[sheetName];
+  const data = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+  const table = $('xl2p-table');
+  const preview = data.slice(0, 30);
+  table.innerHTML = preview.map((row, ri) =>
+    '<tr>' + row.map(cell =>
+      ri === 0
+        ? `<th style="background:rgba(0,200,255,.1);color:var(--accent);padding:6px 10px;border:1px solid var(--border);font-size:11px;white-space:nowrap">${cell}</th>`
+        : `<td style="padding:5px 10px;border:1px solid var(--border);font-size:11px;white-space:nowrap;color:var(--text)">${cell}</td>`
+    ).join('') + '</tr>'
+  ).join('');
+  $('xl2p-prev').style.display = 'block';
+  $('xl2p-info').textContent = data.length + ' rows × ' + (data[0] ? data[0].length : 0) + ' cols — (preview: 30 rows)';
+}
+
+async function runXL2P() {
+  if (!xl2pWb) { toast('⚠️ Pehle Excel file upload karein', 'warn'); return; }
+  const btn = document.querySelector('#panel-convert .btn-action');
+  if(btn) btn.disabled = true;
+  setProg('conv', 10, 'Excel data prepare ho raha hai…');
+  try {
+    const { jsPDF } = window.jspdf;
+    const theme = $('xl2p-theme').value;
+    const bold = $('xl2p-bold').checked;
+    const allSheets = $('xl2p-all').checked;
+    const sheets = allSheets ? xl2pWb.SheetNames : [xl2pCurSheet];
+
+    const TC = {
+      light: { head: [26,86,219], headT: [255,255,255], odd: [255,255,255], even: [243,244,246], txt: [17,24,39], line: [209,213,219] },
+      dark:  { head: [10,15,30],  headT: [0,200,255],  odd: [20,28,46],    even: [15,21,32],    txt: [226,234,255], line: [31,45,69] },
+      blue:  { head: [30,58,95],  headT: [96,165,250], odd: [15,31,53],    even: [21,40,64],    txt: [191,219,254], line: [30,58,95] },
+      green: { head: [6,78,59],   headT: [110,231,183],odd: [2,44,34],     even: [6,95,70],     txt: [167,243,208], line: [6,95,70] }
+    };
+    const tc = TC[theme] || TC.light;
+
+    let totalRows = 0, totalCols = 0;
+
+    const firstSheet = xl2pWb.Sheets[sheets[0]];
+    const firstData = XLSX.utils.sheet_to_json(firstSheet, { header: 1, defval: '' });
+    const cols = firstData[0] ? firstData[0].length : 1;
+    const doc = new jsPDF({ orientation: cols > 7 ? 'landscape' : 'portrait', unit: 'mm', format: 'a4' });
+
+    for (let si = 0; si < sheets.length; si++) {
+      const name = sheets[si];
+      const ws = xl2pWb.Sheets[name];
+      const data = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+      setProg('conv', 20 + Math.round((si / sheets.length) * 70), 'Sheet: ' + name + ' convert ho rahi hai…');
+
+      if (si > 0) doc.addPage();
+
+      const pW = doc.internal.pageSize.getWidth();
+      doc.setFillColor(...tc.head); doc.rect(0, 0, pW, 14, 'F');
+      doc.setFontSize(10); doc.setTextColor(...tc.headT);
+      doc.text('FileMagic Pro — ' + name, 8, 10);
+      doc.setFontSize(7); doc.setTextColor(150, 150, 150);
+      doc.text(new Date().toLocaleDateString(), pW - 28, 10);
+
+      const head = bold && data.length > 0 ? [data[0].map(String)] : undefined;
+      const body = (bold ? data.slice(1) : data).slice(0, 5000).map(r => r.map(String));
+
+      doc.autoTable({
+        startY: 17,
+        head, body,
+        styles: { fontSize: 8, cellPadding: 2, textColor: tc.txt, lineColor: tc.line, lineWidth: 0.2 },
+        headStyles: { fillColor: tc.head, textColor: tc.headT, fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: tc.even },
+        bodyStyles: { fillColor: tc.odd },
+        margin: { left: 6, right: 6 }
+      });
+
+      totalRows += data.length;
+      totalCols = Math.max(totalCols, data[0] ? data[0].length : 0);
+    }
+
+    const pages = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pages; i++) {
+      doc.setPage(i);
+      doc.setFontSize(7); doc.setTextColor(150, 150, 150);
+      doc.text('FileMagic Pro | Page ' + i + ' of ' + pages, doc.internal.pageSize.getWidth() / 2, doc.internal.pageSize.getHeight() - 4, { align: 'center' });
+    }
+
+    xl2pBlob = doc.output('blob');
+    $('xl2p-rr').textContent = totalRows.toLocaleString();
+    $('xl2p-rc').textContent = totalCols;
+    $('xl2p-result').style.display = 'block';
+    setProg('conv', 100, 'Done!');
+    setTimeout(() => hideProg('conv'), 1000);
+    toast('✅ PDF ready hai — download karein!');
+  } catch (err) {
+    hideProg('conv');
+    toast('❌ Error: ' + err.message, 'err');
+  }
+  if(btn) btn.disabled = false;
+}
+
+function dlXL2P() {
+  if (!xl2pBlob) return;
+  dlBlob(xl2pBlob, (xl2pCurSheet || 'excel') + '_filemagic.pdf');
+  toast('⬇️ Downloading PDF…');
+}
+
+// ════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════
 renderSearch('');
@@ -1515,13 +1866,3 @@ if(typeof pdfjsLib!=='undefined') {
 </script>
 </body>
 </html>
-<footer>
-<hr>
-
-<a href="about.html">About Us</a> |
-<a href="privacy.html">Privacy Policy</a> |
-<a href="contact.html">Contact Us</a> |
-<a href="terms.html">Terms & Conditions</a> |
-<a href="disclaimer.html">Disclaimer</a>
-
-</footer>
