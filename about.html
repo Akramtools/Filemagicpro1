@@ -1,16 +1,142 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>About Us - FileMagicPro1</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — FileMagic Pro</title>
+<meta name="description" content="Learn about FileMagic Pro — a free browser-based file converter and compressor.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root {
+  --bg: #050810; --surface: #0c1120; --card: #111827;
+  --border: #1f2d45; --accent: #00c8ff; --accent2: #ff5e3a;
+  --accent3: #7c3aed; --green: #00e87a; --text: #e2eaff; --muted: #4d6080;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; }
+body::before {
+  content:''; position:fixed; inset:0;
+  background: radial-gradient(ellipse 60% 40% at 15% 10%, rgba(0,200,255,.07) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 85%, rgba(124,58,237,.08) 0%, transparent 60%);
+  pointer-events:none; z-index:0;
+}
+nav {
+  position:sticky; top:0; z-index:200;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; height:62px;
+  background:rgba(5,8,16,.95); backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.logo { font-family:'Bebas Neue'; font-size:26px; letter-spacing:2px;
+  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-decoration:none; }
+.logo span { background:linear-gradient(135deg,var(--accent2),#ffc107);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.nav-links { display:flex; gap:6px; }
+.nav-links a { color:var(--muted); text-decoration:none; font-size:13px; font-weight:500;
+  padding:6px 12px; border-radius:7px; transition:all .2s; }
+.nav-links a:hover, .nav-links a.active { color:var(--accent); background:rgba(0,200,255,.08); }
+.page { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:60px 24px 100px; }
+.page-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(0,200,255,.08); border:1px solid rgba(0,200,255,.2);
+  border-radius:100px; padding:5px 16px; font-size:12px; color:var(--accent);
+  font-weight:600; letter-spacing:1px; margin-bottom:20px;
+}
+h1 { font-family:'Bebas Neue'; font-size:clamp(44px,8vw,80px);
+  background:linear-gradient(90deg,var(--accent),var(--accent3));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  line-height:1; margin-bottom:16px; }
+.subtitle { font-size:17px; color:var(--muted); margin-bottom:48px; line-height:1.7; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:32px; margin-bottom:20px; transition:border-color .3s; }
+.card:hover { border-color:rgba(0,200,255,.25); }
+.card-icon { font-size:36px; margin-bottom:14px; }
+.card h2 { font-size:20px; font-weight:700; color:var(--accent); margin-bottom:12px; }
+.card p { font-size:14px; color:var(--muted); line-height:1.9; }
+.stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px; }
+.stat-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:24px; text-align:center; }
+.stat-num { font-family:'Bebas Neue'; font-size:42px; color:var(--accent); }
+.stat-label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
+footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:28px 40px;
+  display:flex; align-items:center; justify-content:space-between; color:var(--muted); font-size:12px; flex-wrap:wrap; gap:12px; }
+.f-logo { font-family:'Bebas Neue'; font-size:20px;
+  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+footer a { color:var(--muted); text-decoration:none; transition:color .2s; }
+footer a:hover { color:var(--accent); }
+@media(max-width:600px){ nav{padding:0 16px;} .stats-row{grid-template-columns:1fr 1fr;} footer{padding:20px 16px;} }
+</style>
 </head>
 <body>
-<h1>About Us</h1>
 
-<p>FileMagicPro1 is a free online file conversion and compression platform designed to help users quickly manage and optimize their files.</p>
+<nav>
+  <a href="index.html" class="logo">File<span>Magic</span> Pro</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html" class="active">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </div>
+</nav>
 
-<p>Our mission is to provide simple, fast, and secure file tools accessible from any device.</p>
+<div class="page">
+  <div class="page-badge">🚀 About Us</div>
+  <h1>About FileMagic Pro</h1>
+  <p class="subtitle">A free, browser-based file conversion platform designed to make file management simple, fast, and secure for everyone.</p>
 
-<p>We continuously improve our services to deliver a better experience for users worldwide.</p>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num">300MB</div>
+      <div class="stat-label">Max File Size</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">15+</div>
+      <div class="stat-label">Formats</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Free Forever</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">🎯</div>
+    <h2>Our Mission</h2>
+    <p>FileMagic Pro is built to provide simple, fast, and secure file tools accessible from any device — without needing to install anything. We believe powerful file conversion should be free and available to everyone.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">🔒</div>
+    <h2>100% Private & Secure</h2>
+    <p>All file processing happens directly in your browser. Your files never leave your device and are never uploaded to any server. We take your privacy seriously — what you convert stays with you.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">⚡</div>
+    <h2>What We Offer</h2>
+    <p>Convert images to PDF, compress JPG/PNG/WEBP files, merge multiple PDFs, enhance images with live preview, convert Excel files to PDF/CSV/JSON, and much more — all for free, all in real time.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">🌍</div>
+    <h2>Always Improving</h2>
+    <p>We continuously improve our services to deliver a better experience for users worldwide. Your feedback helps us build better tools. Thank you for using FileMagic Pro.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">FileMagic Pro</div>
+  <div>© 2024 FileMagic Pro · 100% Browser-based · No server uploads</div>
+  <div style="display:flex;gap:14px">
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </div>
+</footer>
 
 </body>
 </html>
