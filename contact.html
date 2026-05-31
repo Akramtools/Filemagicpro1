@@ -1,15 +1,142 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Contact Us - FileMagicPro1</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — FileMagic Pro</title>
+<meta name="description" content="Contact FileMagic Pro for support, feedback, or business inquiries.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root {
+  --bg: #050810; --surface: #0c1120; --card: #111827;
+  --border: #1f2d45; --accent: #00c8ff; --accent2: #ff5e3a;
+  --accent3: #7c3aed; --green: #00e87a; --text: #e2eaff; --muted: #4d6080;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; }
+body::before {
+  content:''; position:fixed; inset:0;
+  background: radial-gradient(ellipse 60% 40% at 15% 10%, rgba(0,200,255,.07) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 85%, rgba(124,58,237,.08) 0%, transparent 60%);
+  pointer-events:none; z-index:0;
+}
+nav {
+  position:sticky; top:0; z-index:200;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; height:62px;
+  background:rgba(5,8,16,.95); backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.logo { font-family:'Bebas Neue'; font-size:26px; letter-spacing:2px;
+  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-decoration:none; }
+.logo span { background:linear-gradient(135deg,var(--accent2),#ffc107);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.nav-links { display:flex; gap:6px; }
+.nav-links a { color:var(--muted); text-decoration:none; font-size:13px; font-weight:500;
+  padding:6px 12px; border-radius:7px; transition:all .2s; }
+.nav-links a:hover, .nav-links a.active { color:var(--accent); background:rgba(0,200,255,.08); }
+.page { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:60px 24px 100px; }
+.page-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(0,200,255,.08); border:1px solid rgba(0,200,255,.2);
+  border-radius:100px; padding:5px 16px; font-size:12px; color:var(--accent);
+  font-weight:600; letter-spacing:1px; margin-bottom:20px;
+}
+h1 { font-family:'Bebas Neue'; font-size:clamp(44px,8vw,80px);
+  background:linear-gradient(90deg,var(--accent),var(--accent3));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  line-height:1; margin-bottom:16px; }
+.subtitle { font-size:17px; color:var(--muted); margin-bottom:48px; line-height:1.7; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:32px; margin-bottom:20px; transition:border-color .3s; }
+.card:hover { border-color:rgba(0,200,255,.25); }
+.card-icon { font-size:36px; margin-bottom:14px; }
+.card h2 { font-size:20px; font-weight:700; color:var(--accent); margin-bottom:12px; }
+.card p { font-size:14px; color:var(--muted); line-height:1.9; }
+.contact-item { display:flex; align-items:center; gap:16px; padding:20px;
+  background:var(--surface); border:1px solid var(--border); border-radius:14px; margin-bottom:14px; transition:all .3s; }
+.contact-item:hover { border-color:var(--accent); transform:translateX(4px); }
+.contact-icon { font-size:28px; flex-shrink:0; }
+.contact-label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+.contact-value { font-size:15px; font-weight:600; color:var(--text); }
+.contact-value a { color:var(--accent); text-decoration:none; }
+.contact-value a:hover { text-decoration:underline; }
+footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:28px 40px;
+  display:flex; align-items:center; justify-content:space-between; color:var(--muted); font-size:12px; flex-wrap:wrap; gap:12px; }
+.f-logo { font-family:'Bebas Neue'; font-size:20px;
+  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+footer a { color:var(--muted); text-decoration:none; transition:color .2s; }
+footer a:hover { color:var(--accent); }
+@media(max-width:600px){ nav{padding:0 16px;} footer{padding:20px 16px;} }
+</style>
 </head>
 <body>
 
-<h1>Contact Us</h1>
+<nav>
+  <a href="index.html" class="logo">File<span>Magic</span> Pro</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="active">Contact</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </div>
+</nav>
 
-<p>Email:akram.ansari959595@gmail.com</p>
+<div class="page">
+  <div class="page-badge">📬 Get In Touch</div>
+  <h1>Contact Us</h1>
+  <p class="subtitle">Have a question, feedback, or business inquiry? We'd love to hear from you. Reach out and we'll respond as soon as possible.</p>
 
-<p>For support, feedback, or business inquiries, please contact us through email.</p>
+  <div class="contact-item">
+    <div class="contact-icon">📧</div>
+    <div>
+      <div class="contact-label">Email</div>
+      <div class="contact-value"><a href="mailto:akram.ansari959595@gmail.com">akram.ansari959595@gmail.com</a></div>
+    </div>
+  </div>
+
+  <div class="contact-item">
+    <div class="contact-icon">⏱️</div>
+    <div>
+      <div class="contact-label">Response Time</div>
+      <div class="contact-value">Within 24–48 hours</div>
+    </div>
+  </div>
+
+  <div class="contact-item">
+    <div class="contact-icon">🌍</div>
+    <div>
+      <div class="contact-label">Availability</div>
+      <div class="contact-value">7 days a week</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <div class="card-icon">💬</div>
+    <h2>What Can You Contact Us About?</h2>
+    <p>
+      🐛 <strong style="color:var(--text)">Bug Reports</strong> — Found an issue? Let us know.<br><br>
+      💡 <strong style="color:var(--text)">Feature Requests</strong> — Want a new tool or format? We're listening.<br><br>
+      🤝 <strong style="color:var(--text)">Business Inquiries</strong> — Partnerships, collaborations, or advertising.<br><br>
+      ❓ <strong style="color:var(--text)">General Support</strong> — Any other questions about using FileMagic Pro.
+    </p>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">FileMagic Pro</div>
+  <div>© 2024 FileMagic Pro · 100% Browser-based · No server uploads</div>
+  <div style="display:flex;gap:14px">
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </div>
+</footer>
 
 </body>
 </html>
