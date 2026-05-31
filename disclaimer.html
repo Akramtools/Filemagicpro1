@@ -1,17 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Disclaimer - FileMagicPro1</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disclaimer — FileMagic Pro</title>
+<meta name="description" content="FileMagic Pro Disclaimer — understand the limitations of our service.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root {
+  --bg: #050810; --surface: #0c1120; --card: #111827;
+  --border: #1f2d45; --accent: #00c8ff; --accent2: #ff5e3a;
+  --accent3: #7c3aed; --green: #00e87a; --text: #e2eaff; --muted: #4d6080;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; }
+body::before {
+  content:''; position:fixed; inset:0;
+  background: radial-gradient(ellipse 60% 40% at 15% 10%, rgba(0,200,255,.07) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 85%, rgba(124,58,237,.08) 0%, transparent 60%);
+  pointer-events:none; z-index:0;
+}
+nav {
+  position:sticky; top:0; z-index:200;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; height:62px;
+  background:rgba(5,8,16,.95); backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.logo { font-family:'Bebas Neue'; font-size:26px; letter-spacing:2px;
+  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-decoration:none; }
+.logo span { background:linear-gradient(135deg,var(--accent2),#ffc107);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.nav-links { display:flex; gap:6px; }
+.nav-links a { color:var(--muted); text-decoration:none; font-size:13px; font-weight:500;
+  padding:6px 12px; border-radius:7px; transition:all .2s; }
+.nav-links a:hover, .nav-links a.active { color:var(--accent); background:rgba(0,200,255,.08); }
+.page { position:relative; z-index:1; max-width:860px; margin:0 auto; padding:60px 24px 100px; }
+.page-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(0,200,255,.08); border:1px solid rgba(0,200,255,.2);
+  border-radius:100px; padding:5px 16px; font-size:12px; color:var(--accent);
+  font-weight:600; letter-spacing:1px; margin-bottom:20px;
+}
+h1 { font-family:'Bebas Neue'; font-size:clamp(44px,8vw,80px);
+  background:linear-gradient(90deg,var(--accent),var(--accent3));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  line-height:1; margin-bottom:16px; }
+.subtitle { font-size:17px; color:var(--muted); margin-bottom:48px; line-height:1.7; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:32px; margin-bottom:20px; transition:border-color .3s; }
+.card:hover { border-color:rgba(0,200,255,.25); }
+.card-icon { font-size:36px; margin-bottom:14px; }
+.card h2 { font-size:20px; font-weight:700; color:var(--accent); margin-bottom:12px; }
+.card p { font-size:14px; color:var(--muted); line-height:1.9; }
+.warn-box { background:rgba(255,94,58,.06); border:1px solid rgba(255,94,58,.2);
+  border-radius:12px; padding:18px 22px; margin-bottom:20px; display:flex; gap:12px; align-items:flex-start; }
+.warn-box .icon { font-size:22px; flex-shrink:0; margin-top:2px; }
+.warn-box p { font-size:14px; color:var(--text); line-height:1.8; }
+.last-updated { font-size:12px; color:var(--muted); margin-bottom:32px; }
+footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:28px 40px;
+  display:flex; align-items:center; justify-content:space-between; color:var(--muted); font-size:12px; flex-wrap:wrap; gap:12px; }
+.f-logo { font-family:'Bebas Neue'; font-size:20px;
+  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+footer a { color:var(--muted); text-decoration:none; transition:color .2s; }
+footer a:hover { color:var(--accent); }
+@media(max-width:600px){ nav{padding:0 16px;} footer{padding:20px 16px;} }
+</style>
 </head>
 <body>
 
-<h1>Disclaimer</h1>
+<nav>
+  <a href="index.html" class="logo">File<span>Magic</span> Pro</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="disclaimer.html" class="active">Disclaimer</a>
+  </div>
+</nav>
 
-<p>All tools and services are provided on an "as is" basis.</p>
+<div class="page">
+  <div class="page-badge">⚠️ Disclaimer</div>
+  <h1>Disclaimer</h1>
+  <p class="last-updated">Last updated: May 2024</p>
 
-<p>We do not guarantee uninterrupted availability or error-free operation.</p>
+  <div class="warn-box">
+    <div class="icon">⚠️</div>
+    <p><strong>Important:</strong> FileMagic Pro tools are provided on an "as is" basis. While we strive for accuracy and reliability, we make no guarantees about uninterrupted or error-free operation.</p>
+  </div>
 
-<p>Users are responsible for maintaining backups of important files.</p>
+  <div class="card">
+    <div class="card-icon">🛡️</div>
+    <h2>No Warranty</h2>
+    <p>FileMagic Pro and all its tools are provided without any warranty, express or implied. We do not guarantee that the service will be available at all times, error-free, or free from viruses or other harmful components.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">💾</div>
+    <h2>User Responsibility</h2>
+    <p>Users are solely responsible for maintaining backups of their important files before using any conversion, compression, or processing tool. FileMagic Pro is not liable for any data loss that may occur during file processing.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">⚖️</div>
+    <h2>Limitation of Liability</h2>
+    <p>To the fullest extent permitted by law, FileMagic Pro shall not be liable for any direct, indirect, incidental, special, or consequential damages arising from the use or inability to use our services — including but not limited to data loss, file corruption, or service interruption.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">🔗</div>
+    <h2>Third-Party Links & Tools</h2>
+    <p>Our Tools Directory may contain links to third-party websites. We have no control over the content or practices of those sites and are not responsible for their terms, privacy policies, or services. Use them at your own discretion.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">🔄</div>
+    <h2>Changes to This Disclaimer</h2>
+    <p>We reserve the right to update this disclaimer at any time. Continued use of FileMagic Pro following any changes implies your acceptance. For questions, reach us at <a href="mailto:akram.ansari959595@gmail.com" style="color:var(--accent)">akram.ansari959595@gmail.com</a>.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">FileMagic Pro</div>
+  <div>© 2024 FileMagic Pro · 100% Browser-based · No server uploads</div>
+  <div style="display:flex;gap:14px">
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </div>
+</footer>
 
 </body>
 </html>
