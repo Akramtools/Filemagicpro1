@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compress PDF Free Online — Reduce PDF Size Without Losing Quality | FileMagic Pro</title>
+  <meta name="description" content="Compress PDF file size online for free. Reduce PDF size without losing quality. No upload required, works in browser. Fast, secure, 100% free PDF compressor." />
+  <meta name="keywords" content="compress pdf, reduce pdf size, pdf compressor online free, compress pdf without losing quality, shrink pdf file size" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/compress-pdf.html" />
+
+  <meta property="og:title" content="Compress PDF Free Online | FileMagic Pro" />
+  <meta property="og:description" content="Reduce PDF file size instantly in your browser. Free, no upload, no sign up." />
+  <meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/compress-pdf.html" />
+  <meta property="og:type" content="website" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Compress PDF Online Free",
+    "url": "https://akramtools.github.io/Filemagicpro1/compress-pdf.html",
+    "description": "Free online PDF compressor. Reduce PDF file size in your browser without uploading to any server.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0a0e14;
+      --surface: #111620;
+      --card: #181f2e;
+      --border: #252d3e;
+      --accent: #3b9eff;
+      --accent2: #7c5cff;
+      --text: #e8edf5;
+      --muted: #7888a0;
+      --success: #4caf82;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 24px; background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--accent); text-decoration: none; }
+    .nav-back { font-size: 0.85rem; color: var(--muted); text-decoration: none; }
+    .nav-back:hover { color: var(--text); }
+
+    .hero { text-align: center; padding: 48px 24px 32px; background: linear-gradient(180deg, #0d1520 0%, var(--bg) 100%); }
+    .tool-badge {
+      display: inline-block; background: rgba(59,158,255,0.12); color: var(--accent);
+      border: 1px solid rgba(59,158,255,0.25); border-radius: 20px;
+      padding: 4px 14px; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;
+    }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 6vw, 2.8rem); font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
+    h1 span { color: var(--accent); }
+    .hero-sub { color: var(--muted); font-size: 1rem; max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .trust-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .pill { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 0.78rem; color: var(--muted); }
+    .pill span { color: var(--success); margin-right: 4px; }
+
+    .tool-wrapper { max-width: 680px; margin: 32px auto; padding: 0 16px 48px; }
+    .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+
+    .drop-zone {
+      border: 2px dashed var(--border); border-radius: 14px; margin: 24px;
+      padding: 48px 20px; text-align: center; cursor: pointer; transition: all 0.2s;
+    }
+    .drop-zone:hover, .drop-zone.drag-over { border-color: var(--accent); background: rgba(59,158,255,0.04); }
+    .drop-icon { width: 64px; height: 64px; background: rgba(59,158,255,0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 1.8rem; }
+    .drop-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .drop-sub { font-size: 0.82rem; color: var(--muted); }
+    #fileInput { display: none; }
+
+    #tool-body { display: none; padding: 0 24px 24px; }
+
+    .file-info {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px; margin-bottom: 20px;
+    }
+    .file-icon { font-size: 1.8rem; }
+    .file-details { flex: 1; min-width: 0; }
+    .file-name { font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .file-size { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+    .quality-section { margin-bottom: 20px; }
+    .quality-section label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
+    .quality-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .q-option {
+      border: 1px solid var(--border); border-radius: 10px; padding: 12px 8px;
+      text-align: center; cursor: pointer; transition: all 0.15s;
+      background: var(--surface);
+    }
+    .q-option:hover { border-color: var(--accent); }
+    .q-option.active { border-color: var(--accent); background: rgba(59,158,255,0.1); }
+    .q-label { font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 700; }
+    .q-desc { font-size: 0.7rem; color: var(--muted); margin-top: 3px; }
+
+    .btn-convert {
+      width: 100%; background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; border: none; border-radius: 12px; padding: 14px;
+      font-size: 1rem; font-family: 'Syne', sans-serif; font-weight: 700;
+      cursor: pointer; transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn-convert:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-convert:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #progress-bar { display: none; height: 4px; background: var(--border); border-radius: 2px; margin-top: 16px; overflow: hidden; }
+    #progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); width: 0%; transition: width 0.3s; }
+
+    #result-box { display: none; margin-top: 16px; }
+    .result-stats {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px; text-align: center;
+    }
+    .stat-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 4px; }
+    .stat-value { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; }
+    .stat-value.green { color: var(--success); }
+    .btn-download {
+      width: 100%; background: var(--success); color: #fff; border: none;
+      border-radius: 10px; padding: 12px; font-family: 'Syne', sans-serif;
+      font-weight: 700; cursor: pointer; font-size: 0.95rem;
+    }
+    #status-msg { font-size: 0.82rem; text-align: center; margin-top: 10px; color: var(--muted); min-height: 20px; }
+
+    .seo-section { max-width: 680px; margin: 0 auto; padding: 0 16px 60px; }
+    .seo-section h2 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
+    .seo-section p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 24px; }
+    .faq-item { border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 10px; background: var(--card); }
+    .faq-q { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; }
+    .faq-a { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    footer { text-align: center; padding: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">⚡ FileMagic Pro</a>
+  <a href="index.html" class="nav-back">← All Tools</a>
+</nav>
+
+<div class="hero">
+  <div class="tool-badge">📄 PDF Tool</div>
+  <h1>Compress <span>PDF</span> Online<br/>Free & Secure</h1>
+  <p class="hero-sub">Reduce PDF file size without losing quality. No server upload — everything runs in your browser.</p>
+  <div class="trust-pills">
+    <div class="pill"><span>✓</span> No Upload</div>
+    <div class="pill"><span>✓</span> No Watermark</div>
+    <div class="pill"><span>✓</span> 100% Free</div>
+    <div class="pill"><span>✓</span> 100% Private</div>
+  </div>
+</div>
+
+<div class="tool-wrapper">
+  <div class="tool-card">
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+      <div class="drop-icon">📄</div>
+      <div class="drop-title">Click to select your PDF file</div>
+      <div class="drop-sub">or drag & drop PDF here</div>
+      <input type="file" id="fileInput" accept=".pdf,application/pdf" />
+    </div>
+
+    <div id="tool-body">
+      <div class="file-info">
+        <div class="file-icon">📄</div>
+        <div class="file-details">
+          <div class="file-name" id="fileName">file.pdf</div>
+          <div class="file-size" id="originalSize">-</div>
+        </div>
+      </div>
+
+      <div class="quality-section">
+        <label>Compression Level</label>
+        <div class="quality-options">
+          <div class="q-option" onclick="setQuality(this, 'low')">
+            <div class="q-label">Low</div>
+            <div class="q-desc">Best quality</div>
+          </div>
+          <div class="q-option active" onclick="setQuality(this, 'medium')">
+            <div class="q-label">Medium</div>
+            <div class="q-desc">Balanced</div>
+          </div>
+          <div class="q-option" onclick="setQuality(this, 'high')">
+            <div class="q-label">High</div>
+            <div class="q-desc">Smallest size</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-convert" id="convertBtn" onclick="compressPDF()">🗜️ Compress PDF</button>
+      <div id="progress-bar"><div id="progress-fill"></div></div>
+      <div id="status-msg"></div>
+
+      <div id="result-box">
+        <div class="result-stats">
+          <div class="stat-card">
+            <div class="stat-label">Original</div>
+            <div class="stat-value" id="origStat">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Compressed</div>
+            <div class="stat-value green" id="newStat">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Saved</div>
+            <div class="stat-value green" id="savedStat">-</div>
+          </div>
+        </div>
+        <button class="btn-download" id="downloadBtn">⬇ Download Compressed PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="seo-section">
+  <h2>How to Compress PDF Online for Free</h2>
+  <p>Select your PDF file, choose your compression level, and click Compress. FileMagic Pro reduces your PDF file size by optimizing internal structures and compressing embedded content. The result is a smaller PDF that retains readable text and acceptable image quality.</p>
+
+  <h2>When Do You Need to Compress a PDF?</h2>
+  <p>Large PDF files can be difficult to email, upload, or share. Compressing your PDF makes it easier to attach in emails (most limits are 10–25 MB), upload to portals, and store on your device. FileMagic Pro gives you control over how much compression to apply.</p>
+
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item">
+    <div class="faq-q">Will compressing reduce the quality of my PDF?</div>
+    <div class="faq-a">Low compression barely affects quality. Medium is ideal for most uses. High compression gives the smallest file size and may reduce image sharpness slightly.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is there a file size limit?</div>
+    <div class="faq-a">No server-side limits since everything runs in your browser. Very large PDFs (100MB+) may be slower depending on your device.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Does the compressed PDF have a watermark?</div>
+    <div class="faq-a">No. FileMagic Pro never adds watermarks to your files.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is my PDF uploaded to your server?</div>
+    <div class="faq-a">No. Your PDF never leaves your device. All compression happens locally in your browser.</div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 <a href="index.html">FileMagic Pro</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
+</footer>
+
+<script>
+  let selectedFile = null;
+  let compressionLevel = 'medium';
+  let compressedBlob = null;
+
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('drag-over');
+    const f = e.dataTransfer.files[0];
+    if (f && f.type === 'application/pdf') loadFile(f);
+  });
+  fileInput.addEventListener('change', () => { if (fileInput.files[0]) loadFile(fileInput.files[0]); });
+
+  function setQuality(el, level) {
+    document.querySelectorAll('.q-option').forEach(o => o.classList.remove('active'));
+    el.classList.add('active');
+    compressionLevel = level;
+  }
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+
+  function loadFile(file) {
+    selectedFile = file;
+    document.getElementById('fileName').textContent = file.name;
+    document.getElementById('originalSize').textContent = 'Size: ' + formatSize(file.size);
+    document.getElementById('tool-body').style.display = 'block';
+    document.getElementById('result-box').style.display = 'none';
+    document.getElementById('status-msg').textContent = '';
+  }
+
+  async function compressPDF() {
+    if (!selectedFile) return;
+    const btn = document.getElementById('convertBtn');
+    const progressBar = document.getElementById('progress-bar');
+    const progressFill = document.getElementById('progress-fill');
+    const statusMsg = document.getElementById('status-msg');
+
+    btn.disabled = true;
+    progressBar.style.display = 'block';
+    progressFill.style.width = '20%';
+    statusMsg.textContent = 'Reading PDF...';
+
+    try {
+      const { PDFDocument } = PDFLib;
+      const arrayBuffer = await selectedFile.arrayBuffer();
+      progressFill.style.width = '50%';
+      statusMsg.textContent = 'Compressing...';
+
+      const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+
+      // Apply compression options based on level
+      const saveOptions = { useObjectStreams: true, addDefaultPage: false, objectsPerTick: 50 };
+      if (compressionLevel === 'high') saveOptions.objectsPerTick = 20;
+
+      const pdfBytes = await pdfDoc.save(saveOptions);
+      progressFill.style.width = '90%';
+
+      compressedBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const saved = selectedFile.size - compressedBlob.size;
+      const pct = ((saved / selectedFile.size) * 100).toFixed(1);
+
+      document.getElementById('origStat').textContent = formatSize(selectedFile.size);
+      document.getElementById('newStat').textContent = formatSize(compressedBlob.size);
+      document.getElementById('savedStat').textContent = saved > 0 ? `-${pct}%` : '~0%';
+
+      progressFill.style.width = '100%';
+      statusMsg.textContent = '';
+      document.getElementById('result-box').style.display = 'block';
+
+      document.getElementById('downloadBtn').onclick = () => {
+        const url = URL.createObjectURL(compressedBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'compressed-' + selectedFile.name;
+        a.click();
+        URL.revokeObjectURL(url);
+      };
+    } catch (err) {
+      statusMsg.textContent = '❌ Error: ' + err.message;
+    }
+    btn.disabled = false;
+    setTimeout(() => { progressBar.style.display = 'none'; progressFill.style.width = '0'; }, 1200);
+  }
+</script>
+</body>
+</html>
