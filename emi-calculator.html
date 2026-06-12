@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMI Calculator Online - Loan EMI Calculator Free | FileMagic Pro</title>
+<meta name="description" content="Free online EMI calculator for home loan, car loan, and personal loan. Calculate monthly EMI, total interest, and total payment instantly with amortization breakdown.">
+<link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/emi-calculator.html">
+<meta name="robots" content="index, follow">
+
+<meta property="og:title" content="EMI Calculator Online | FileMagic Pro">
+<meta property="og:description" content="Calculate your loan EMI, total interest, and total payment for free.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/emi-calculator.html">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "EMI Calculator",
+  "url": "https://akramtools.github.io/Filemagicpro1/emi-calculator.html",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Free online EMI calculator for home loan, car loan, and personal loan with monthly EMI, total interest, and total payment breakdown."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is EMI calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "EMI is calculated using the formula EMI = P x R x (1+R)^N / ((1+R)^N - 1), where P is the loan amount, R is the monthly interest rate, and N is the number of monthly installments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is included in the EMI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Each EMI payment includes a portion of the principal loan amount and a portion of the interest charged by the lender."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this calculator work for home, car, and personal loans?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this EMI calculator works for any type of loan including home loans, car loans, personal loans, and education loans."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this EMI calculator free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this EMI calculator is completely free with no signup, limits, or hidden charges."
+      }
+    }
+  ]
+}
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3XYNGTK7JT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3XYNGTK7JT');
+</script>
+
+<style>
+  :root {
+    --primary: #ea580c;
+    --primary-dark: #c2410c;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --green: #16a34a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header .logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  header nav a {
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 16px;
+    font-size: 0.9rem;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+  }
+  .tool-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .field { margin-bottom: 18px; }
+  label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+  label .val { color: var(--primary); font-weight: 700; }
+  input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    font-family: inherit;
+  }
+  input[type="range"] {
+    width: 100%;
+    accent-color: var(--primary);
+  }
+  button.calc-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button.calc-btn:hover { background: var(--primary-dark); }
+  .result {
+    margin-top: 24px;
+    display: none;
+  }
+  .result.show { display: block; }
+  .result-main {
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .result-main .big {
+    font-size: 2.2rem;
+    font-weight: 800;
+  }
+  .result-main .label {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-top: 4px;
+  }
+  .breakdown {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .breakdown div {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .breakdown .num {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .breakdown .lbl {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .bar-chart {
+    display: flex;
+    height: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .bar-chart .principal { background: var(--primary); }
+  .bar-chart .interest { background: #fed7aa; }
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .legend .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot.p { background: var(--primary); }
+  .dot.i { background: #fed7aa; }
+  .info-section { margin-top: 50px; }
+  .info-section h2 { font-size: 1.3rem; margin-bottom: 12px; margin-top: 30px; }
+  .info-section p { color: var(--muted); margin-bottom: 10px; font-size: 0.95rem; }
+  .faq-item { border-bottom: 1px solid var(--border); padding: 14px 0; }
+  .faq-item h3 { font-size: 1rem; margin-bottom: 6px; }
+  .faq-item p { color: var(--muted); font-size: 0.9rem; }
+  .related-tools {
+    margin-top: 40px;
+    padding: 20px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .related-tools h2 { font-size: 1.1rem; margin-bottom: 12px; }
+  .related-tools ul { list-style: none; }
+  .related-tools li { margin-bottom: 8px; }
+  .related-tools a { color: var(--primary); text-decoration: none; font-size: 0.9rem; }
+  .related-tools a:hover { text-decoration: underline; }
+  footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--primary); text-decoration: none; margin: 0 8px; }
+  @media (max-width: 480px) {
+    h1 { font-size: 1.4rem; }
+    .container { padding: 20px 14px 40px; }
+    header nav a { margin-left: 10px; font-size: 0.8rem; }
+    .result-main .big { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">FileMagic Pro</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h1>EMI Calculator</h1>
+  <p class="subtitle">Calculate your loan EMI, total interest, and total payment — instantly and free.</p>
+
+  <div class="tool-card">
+    <div class="field">
+      <label>Loan Amount <span class="val" id="amountVal">₹10,00,000</span></label>
+      <input type="number" id="amount" value="1000000" min="1000" step="1000">
+      <input type="range" id="amountRange" value="1000000" min="10000" max="10000000" step="10000">
+    </div>
+
+    <div class="field">
+      <label>Interest Rate (per annum) <span class="val" id="rateVal">8.5%</span></label>
+      <input type="number" id="rate" value="8.5" min="0.1" max="30" step="0.1">
+      <input type="range" id="rateRange" value="8.5" min="1" max="20" step="0.1">
+    </div>
+
+    <div class="field">
+      <label>Loan Tenure (years) <span class="val" id="tenureVal">5 years</span></label>
+      <input type="number" id="tenure" value="5" min="1" max="30" step="1">
+      <input type="range" id="tenureRange" value="5" min="1" max="30" step="1">
+    </div>
+
+    <button class="calc-btn" onclick="calculateEMI()">Calculate EMI</button>
+
+    <div class="result" id="result">
+      <div class="result-main">
+        <div class="big" id="emiAmount">₹0</div>
+        <div class="label">Monthly EMI</div>
+      </div>
+
+      <div class="breakdown">
+        <div><div class="num" id="totalInterest">₹0</div><div class="lbl">Total Interest</div></div>
+        <div><div class="num" id="totalPayment">₹0</div><div class="lbl">Total Payment</div></div>
+      </div>
+
+      <div class="bar-chart">
+        <div class="principal" id="principalBar" style="width:50%"></div>
+        <div class="interest" id="interestBar" style="width:50%"></div>
+      </div>
+      <div class="legend">
+        <span><span class="dot p"></span> Principal</span>
+        <span><span class="dot i"></span> Interest</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h2>How to Use the EMI Calculator</h2>
+    <p>1. Enter your loan amount (the amount you want to borrow).</p>
+    <p>2. Enter the annual interest rate offered by your lender.</p>
+    <p>3. Enter the loan tenure in years.</p>
+    <p>4. Click "Calculate EMI" to instantly see your monthly EMI, total interest payable, and total payment over the loan period.</p>
+
+    <h2>EMI Formula</h2>
+    <p>EMI = P × R × (1+R)^N / ((1+R)^N − 1), where P is the principal loan amount, R is the monthly interest rate (annual rate ÷ 12 ÷ 100), and N is the number of monthly installments (years × 12).</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How is EMI calculated?</h3>
+      <p>EMI is calculated using the formula EMI = P x R x (1+R)^N / ((1+R)^N - 1), where P is the loan amount, R is the monthly interest rate, and N is the number of monthly installments.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is included in the EMI?</h3>
+      <p>Each EMI payment includes a portion of the principal loan amount and a portion of the interest charged by the lender.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does this calculator work for home, car, and personal loans?</h3>
+      <p>Yes, this EMI calculator works for any type of loan including home loans, car loans, personal loans, and education loans.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is this EMI calculator free to use?</h3>
+      <p>Yes, this EMI calculator is completely free with no signup, limits, or hidden charges.</p>
+    </div>
+  </div>
+
+  <div class="related-tools">
+    <h2>More Free Tools</h2>
+    <ul>
+      <li><a href="age-calculator.html">Age Calculator</a></li>
+      <li><a href="qr-code-generator.html">QR Code Generator</a></li>
+      <li><a href="compress-pdf.html">Compress PDF</a></li>
+      <li><a href="index.html">View All Tools</a></li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+  </div>
+  <p style="margin-top:10px;">&copy; 2026 FileMagic Pro. All rights reserved.</p>
+</footer>
+
+<script>
+  const amount = document.getElementById('amount');
+  const amountRange = document.getElementById('amountRange');
+  const rate = document.getElementById('rate');
+  const rateRange = document.getElementById('rateRange');
+  const tenure = document.getElementById('tenure');
+  const tenureRange = document.getElementById('tenureRange');
+
+  function formatINR(num) {
+    return '₹' + Math.round(num).toLocaleString('en-IN');
+  }
+
+  function syncFromInput() {
+    amountRange.value = amount.value;
+    rateRange.value = rate.value;
+    tenureRange.value = tenure.value;
+    updateLabels();
+  }
+  function syncFromRange() {
+    amount.value = amountRange.value;
+    rate.value = rateRange.value;
+    tenure.value = tenureRange.value;
+    updateLabels();
+  }
+  function updateLabels() {
+    document.getElementById('amountVal').textContent = formatINR(amount.value);
+    document.getElementById('rateVal').textContent = rate.value + '%';
+    document.getElementById('tenureVal').textContent = tenure.value + (tenure.value == 1 ? ' year' : ' years');
+  }
+
+  [amount, rate, tenure].forEach(el => el.addEventListener('input', syncFromInput));
+  [amountRange, rateRange, tenureRange].forEach(el => el.addEventListener('input', syncFromRange));
+
+  updateLabels();
+
+  function calculateEMI() {
+    const P = parseFloat(amount.value);
+    const annualRate = parseFloat(rate.value);
+    const years = parseFloat(tenure.value);
+
+    if (!P || P <= 0 || !annualRate || annualRate <= 0 || !years || years <= 0) {
+      alert('Please enter valid loan amount, interest rate, and tenure.');
+      return;
+    }
+
+    const R = annualRate / 12 / 100;
+    const N = years * 12;
+
+    const emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+    const totalPayment = emi * N;
+    const totalInterest = totalPayment - P;
+
+    document.getElementById('emiAmount').textContent = formatINR(emi) + ' / month';
+    document.getElementById('totalInterest').textContent = formatINR(totalInterest);
+    document.getElementById('totalPayment').textContent = formatINR(totalPayment);
+
+    const principalPct = (P / totalPayment) * 100;
+    const interestPct = 100 - principalPct;
+    document.getElementById('principalBar').style.width = principalPct + '%';
+    document.getElementById('interestBar').style.width = interestPct + '%';
+
+    document.getElementById('result').classList.add('show');
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'emi_calculated');
+    }
+  }
+
+  // Auto-calculate on load with default values
+  calculateEMI();
+</script>
+
+</body>
+</html>

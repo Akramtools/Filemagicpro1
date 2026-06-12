@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free QR Code Generator Online - Create QR Codes Instantly | FileMagic Pro</title>
+<meta name="description" content="Generate free QR codes online instantly. Create QR codes for URLs, text, WiFi, and more. Download as PNG. 100% free, no signup, works in your browser.">
+<link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/qr-code-generator.html">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Free QR Code Generator Online | FileMagic Pro">
+<meta property="og:description" content="Create and download QR codes for free. Fast, simple, browser-based QR code generator.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/qr-code-generator.html">
+
+<!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "QR Code Generator",
+  "url": "https://akramtools.github.io/Filemagicpro1/qr-code-generator.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Free online QR code generator. Create QR codes for URLs, text, and WiFi instantly and download as PNG."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is this QR code generator free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this QR code generator is completely free with no limits, signup, or watermarks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do QR codes generated here expire?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The QR codes you generate are static and never expire. They work forever once downloaded."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this QR code for commercial purposes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, QR codes generated with this tool are free to use for personal and commercial purposes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What can I create a QR code for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can create QR codes for website URLs, plain text, contact information, WiFi credentials, and more."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3XYNGTK7JT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3XYNGTK7JT');
+</script>
+
+<style>
+  :root {
+    --primary: #4f46e5;
+    --primary-dark: #4338ca;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header .logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  header nav a {
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 16px;
+    font-size: 0.9rem;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+  }
+  .tool-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+  textarea, select, input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 16px;
+    font-family: inherit;
+  }
+  textarea { resize: vertical; min-height: 90px; }
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+  .wifi-fields { display: none; }
+  .wifi-fields.show { display: block; }
+  .options-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .options-row > div { flex: 1; min-width: 120px; }
+  .options-row label { margin-bottom: 6px; }
+  .options-row select, .options-row input { margin-bottom: 0; }
+  button.generate-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button.generate-btn:hover { background: var(--primary-dark); }
+  .result {
+    margin-top: 24px;
+    text-align: center;
+    display: none;
+  }
+  .result.show { display: block; }
+  .result canvas, .result img {
+    max-width: 260px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    background: white;
+  }
+  .download-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: #16a34a;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .info-section {
+    margin-top: 50px;
+  }
+  .info-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    margin-top: 30px;
+  }
+  .info-section p { color: var(--muted); margin-bottom: 10px; font-size: 0.95rem; }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+  }
+  .faq-item h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+  .faq-item p { color: var(--muted); font-size: 0.9rem; }
+  .related-tools {
+    margin-top: 40px;
+    padding: 20px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .related-tools h2 { font-size: 1.1rem; margin-bottom: 12px; }
+  .related-tools ul { list-style: none; }
+  .related-tools li { margin-bottom: 8px; }
+  .related-tools a { color: var(--primary); text-decoration: none; font-size: 0.9rem; }
+  .related-tools a:hover { text-decoration: underline; }
+  footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--primary); text-decoration: none; margin: 0 8px; }
+  @media (max-width: 480px) {
+    h1 { font-size: 1.4rem; }
+    .container { padding: 20px 14px 40px; }
+    header nav a { margin-left: 10px; font-size: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">FileMagic Pro</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h1>Free QR Code Generator</h1>
+  <p class="subtitle">Create QR codes for links, text, and WiFi — instantly, free, no signup required.</p>
+
+  <div class="tool-card">
+    <div class="tabs">
+      <button class="tab-btn active" data-type="url">Website URL</button>
+      <button class="tab-btn" data-type="text">Plain Text</button>
+      <button class="tab-btn" data-type="wifi">WiFi</button>
+    </div>
+
+    <div id="urlTextField">
+      <label for="qrInput" id="qrInputLabel">Enter website URL</label>
+      <textarea id="qrInput" placeholder="https://example.com"></textarea>
+    </div>
+
+    <div class="wifi-fields" id="wifiFields">
+      <label for="wifiSsid">WiFi Network Name (SSID)</label>
+      <input type="text" id="wifiSsid" placeholder="My Home WiFi">
+      <label for="wifiPassword">WiFi Password</label>
+      <input type="text" id="wifiPassword" placeholder="Password">
+      <label for="wifiSecurity">Security Type</label>
+      <select id="wifiSecurity">
+        <option value="WPA">WPA / WPA2</option>
+        <option value="WEP">WEP</option>
+        <option value="nopass">None (Open Network)</option>
+      </select>
+    </div>
+
+    <div class="options-row">
+      <div>
+        <label for="qrSize">Size</label>
+        <select id="qrSize">
+          <option value="200">Small (200x200)</option>
+          <option value="300" selected>Medium (300x300)</option>
+          <option value="500">Large (500x500)</option>
+        </select>
+      </div>
+      <div>
+        <label for="qrColor">QR Color</label>
+        <input type="text" id="qrColor" value="#000000" style="height:46px; padding:0 0 0 12px;">
+      </div>
+    </div>
+
+    <button class="generate-btn" onclick="generateQR()">Generate QR Code</button>
+
+    <div class="result" id="result">
+      <div id="qrCanvasWrap"></div>
+      <a id="downloadBtn" class="download-btn" download="qrcode.png">Download PNG</a>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h2>How to Use the QR Code Generator</h2>
+    <p>1. Choose the type of QR code you want — website link, plain text, or WiFi login.</p>
+    <p>2. Enter the content you want to encode in the field above.</p>
+    <p>3. Pick a size and color, then click "Generate QR Code".</p>
+    <p>4. Download the QR code as a PNG image and use it anywhere — print, share, or embed.</p>
+
+    <h2>Why Use This QR Code Generator?</h2>
+    <p>This tool runs entirely in your browser, so your data is never uploaded to a server. It's completely free, has no daily limits, and the QR codes you generate never expire or require a paid plan to keep working.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is this QR code generator free?</h3>
+      <p>Yes, this QR code generator is completely free with no limits, signup, or watermarks.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Do QR codes generated here expire?</h3>
+      <p>No. The QR codes you generate are static and never expire. They work forever once downloaded.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I use this QR code for commercial purposes?</h3>
+      <p>Yes, QR codes generated with this tool are free to use for personal and commercial purposes.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What can I create a QR code for?</h3>
+      <p>You can create QR codes for website URLs, plain text, contact information, WiFi credentials, and more.</p>
+    </div>
+  </div>
+
+  <div class="related-tools">
+    <h2>More Free Tools</h2>
+    <ul>
+      <li><a href="compress-pdf.html">Compress PDF</a></li>
+      <li><a href="jpg-to-pdf.html">JPG to PDF Converter</a></li>
+      <li><a href="age-calculator.html">Age Calculator</a></li>
+      <li><a href="emi-calculator.html">EMI Calculator</a></li>
+      <li><a href="index.html">View All Tools</a></li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+  </div>
+  <p style="margin-top:10px;">&copy; 2026 FileMagic Pro. All rights reserved.</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  let currentType = 'url';
+  const tabs = document.querySelectorAll('.tab-btn');
+  const urlTextField = document.getElementById('urlTextField');
+  const wifiFields = document.getElementById('wifiFields');
+  const qrInputLabel = document.getElementById('qrInputLabel');
+  const qrInput = document.getElementById('qrInput');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentType = tab.dataset.type;
+
+      if (currentType === 'wifi') {
+        urlTextField.style.display = 'none';
+        wifiFields.classList.add('show');
+      } else {
+        urlTextField.style.display = 'block';
+        wifiFields.classList.remove('show');
+        if (currentType === 'url') {
+          qrInputLabel.textContent = 'Enter website URL';
+          qrInput.placeholder = 'https://example.com';
+        } else {
+          qrInputLabel.textContent = 'Enter text';
+          qrInput.placeholder = 'Type any text here...';
+        }
+      }
+    });
+  });
+
+  function generateQR() {
+    let content = '';
+
+    if (currentType === 'wifi') {
+      const ssid = document.getElementById('wifiSsid').value.trim();
+      const pass = document.getElementById('wifiPassword').value.trim();
+      const sec = document.getElementById('wifiSecurity').value;
+      if (!ssid) { alert('Please enter the WiFi network name.'); return; }
+      content = `WIFI:T:${sec};S:${ssid};P:${pass};;`;
+    } else {
+      content = qrInput.value.trim();
+      if (!content) { alert('Please enter some content first.'); return; }
+    }
+
+    const size = parseInt(document.getElementById('qrSize').value);
+    const color = document.getElementById('qrColor').value || '#000000';
+
+    const wrap = document.getElementById('qrCanvasWrap');
+    wrap.innerHTML = '';
+
+    new QRCode(wrap, {
+      text: content,
+      width: size,
+      height: size,
+      colorDark: color,
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    document.getElementById('result').classList.add('show');
+
+    setTimeout(() => {
+      const canvas = wrap.querySelector('canvas');
+      if (canvas) {
+        const dataUrl = canvas.toDataURL('image/png');
+        document.getElementById('downloadBtn').href = dataUrl;
+      }
+    }, 200);
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'qr_code_generated', { 'qr_type': currentType });
+    }
+  }
+</script>
+
+</body>
+</html>
