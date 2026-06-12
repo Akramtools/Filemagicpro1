@@ -152,11 +152,11 @@
 <div class="hero">
   <div class="tool-badge">🖼️ Image Tool</div>
   <h1>Compress <span>Image</span><br/>Free & Instant</h1>
-  <p class="hero-sub">Reduce JPG and PNG file size without visible quality loss. Works in your browser — nothing uploaded.</p>
+  <p class="hero-sub">Reduce JPG, PNG & WebP file size — from a few KB to 300MB. Set a target size or adjust quality manually. Works smoothly on phone & desktop.</p>
   <div class="trust-pills">
+    <div class="pill"><span>✓</span> Up to 300MB</div>
+    <div class="pill"><span>✓</span> Target Size Mode</div>
     <div class="pill"><span>✓</span> No Upload</div>
-    <div class="pill"><span>✓</span> JPG & PNG</div>
-    <div class="pill"><span>✓</span> Live Preview</div>
     <div class="pill"><span>✓</span> 100% Free</div>
   </div>
 </div>
@@ -189,10 +189,44 @@
       </div>
 
       <div class="quality-row">
+        <label>Output Format</label>
+        <div class="slider-wrap">
+          <select id="formatSelect" onchange="onSettingChange()" style="flex:1; background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:10px; font-size:0.9rem;">
+            <option value="auto">Auto (same as input)</option>
+            <option value="image/jpeg">JPG</option>
+            <option value="image/webp">WebP (best compression)</option>
+            <option value="image/png">PNG</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="quality-row">
+        <label>Compression Mode</label>
+        <div class="slider-wrap">
+          <select id="modeSelect" onchange="onModeChange()" style="flex:1; background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:10px; font-size:0.9rem;">
+            <option value="quality">Manual Quality</option>
+            <option value="target">Target File Size</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="quality-row" id="qualityRow">
         <label>Quality: <span id="qualityDisplay">80%</span></label>
         <div class="slider-wrap">
           <input type="range" id="qualitySlider" min="10" max="100" value="80" oninput="updateSlider(this)" />
           <span class="quality-value" id="qualityVal">80%</span>
+        </div>
+      </div>
+
+      <div class="quality-row" id="targetRow" style="display:none;">
+        <label>Target Size</label>
+        <div class="slider-wrap">
+          <input type="number" id="targetSizeInput" min="1" value="100" style="flex:1; background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:10px; font-size:0.9rem;" />
+          <select id="targetUnit" style="background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:10px; font-size:0.9rem;">
+            <option value="1024">KB</option>
+            <option value="1048576">MB</option>
+          </select>
+          <button class="btn-convert" style="width:auto; margin:0; padding:10px 18px;" onclick="compress()">Go</button>
         </div>
       </div>
 
@@ -219,15 +253,23 @@
   <h2>Frequently Asked Questions</h2>
   <div class="faq-item">
     <div class="faq-q">What formats are supported?</div>
-    <div class="faq-a">JPG, JPEG, PNG, and WebP images are supported for compression.</div>
+    <div class="faq-a">JPG, JPEG, PNG, and WebP images are supported, both as input and output. You can convert between formats while compressing.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What's the maximum file size?</div>
+    <div class="faq-a">You can compress images from a few KB up to 300MB. Very large images are automatically resized to a safe maximum dimension so the tool stays smooth on phones and low-memory devices.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What is "Target File Size" mode?</div>
+    <div class="faq-a">Instead of guessing a quality percentage, enter your desired output size (e.g. 100 KB) and the tool automatically finds the best quality and dimensions to get as close as possible to that size.</div>
   </div>
   <div class="faq-item">
     <div class="faq-q">What quality setting should I use?</div>
-    <div class="faq-a">80% is ideal for web use — great visual quality with significantly smaller file size. For maximum compression, use 50–60%.</div>
+    <div class="faq-a">80% is ideal for web use — great visual quality with significantly smaller file size. For maximum compression, use 50–60% or switch to WebP format.</div>
   </div>
   <div class="faq-item">
     <div class="faq-q">Is my image uploaded anywhere?</div>
-    <div class="faq-a">No. Compression happens entirely in your browser using the Canvas API. Your images never leave your device.</div>
+    <div class="faq-a">No. Compression happens entirely in your browser using the Canvas API. Your images never leave your device, even for very large files.</div>
   </div>
   <div class="faq-item">
     <div class="faq-q">Will the compressed image have a watermark?</div>
@@ -244,9 +286,12 @@
   let compressedDataUrl = null;
   let compressedBlob = null;
   let debounceTimer = null;
+  let sourceBitmap = null;
 
   const dropZone = document.getElementById('dropZone');
   const fileInput = document.getElementById('fileInput');
+  const statusEl = document.getElementById('status-msg');
+  const MAX_DIM = 4096; // cap very large images so canvas/memory stays safe on mobile
 
   dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
   dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
@@ -263,6 +308,8 @@
     return (b/1048576).toFixed(2) + ' MB';
   }
 
+  function setStatus(msg) { statusEl.textContent = msg; }
+
   function updateSlider(el) {
     const v = el.value;
     el.style.setProperty('--pct', v + '%');
@@ -274,53 +321,157 @@
     }
   }
 
-  function loadFile(file) {
+  function onModeChange() {
+    const mode = document.getElementById('modeSelect').value;
+    document.getElementById('qualityRow').style.display = mode === 'quality' ? 'block' : 'none';
+    document.getElementById('targetRow').style.display = mode === 'target' ? 'block' : 'none';
+    if (mode === 'quality' && selectedFile) compress();
+  }
+
+  function onSettingChange() {
+    if (selectedFile) compress();
+  }
+
+  async function loadFile(file) {
+    // 300MB hard limit
+    if (file.size > 300 * 1024 * 1024) {
+      alert('File too large. Maximum supported size is 300MB.');
+      return;
+    }
     selectedFile = file;
     document.getElementById('tool-body').style.display = 'block';
     document.getElementById('result-section').style.display = 'none';
+    setStatus('Loading image…');
 
     const url = URL.createObjectURL(file);
     document.getElementById('origPreview').src = url;
     document.getElementById('origSizeLabel').textContent = formatSize(file.size);
+
+    try {
+      // createImageBitmap is far more memory-efficient than <img> for big files,
+      // and decodes off the main thread on most browsers
+      if (sourceBitmap) sourceBitmap.close();
+      sourceBitmap = await createImageBitmap(file);
+    } catch (err) {
+      setStatus('Could not read this image. Try a different file.');
+      return;
+    }
+    setStatus('');
     compress();
   }
 
-  function compress() {
-    if (!selectedFile) return;
-    const quality = parseInt(document.getElementById('qualitySlider').value) / 100;
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
+  function getOutputMime() {
+    const sel = document.getElementById('formatSelect').value;
+    if (sel !== 'auto') return sel;
+    return selectedFile.type === 'image/png' ? 'image/png' : 'image/jpeg';
+  }
 
-      const mimeType = selectedFile.type === 'image/png' ? 'image/jpeg' : selectedFile.type;
-      canvas.toBlob(blob => {
-        if (!blob) return;
-        compressedBlob = blob;
-        compressedDataUrl = URL.createObjectURL(blob);
-        document.getElementById('compPreview').src = compressedDataUrl;
-        document.getElementById('compSizeLabel').textContent = formatSize(blob.size);
+  function getCanvasFromBitmap() {
+    let w = sourceBitmap.width, h = sourceBitmap.height;
+    if (w > MAX_DIM || h > MAX_DIM) {
+      const scale = MAX_DIM / Math.max(w, h);
+      w = Math.round(w * scale);
+      h = Math.round(h * scale);
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(sourceBitmap, 0, 0, w, h);
+    return canvas;
+  }
 
-        const saved = selectedFile.size - blob.size;
-        const pct = ((saved / selectedFile.size) * 100).toFixed(1);
-        document.getElementById('origStat').textContent = formatSize(selectedFile.size);
-        document.getElementById('newStat').textContent = formatSize(blob.size);
-        document.getElementById('savedStat').textContent = saved > 0 ? `-${pct}%` : '~0%';
-        document.getElementById('result-section').style.display = 'block';
+  function canvasToBlob(canvas, mime, quality) {
+    return new Promise(resolve => canvas.toBlob(resolve, mime, quality));
+  }
 
-        document.getElementById('downloadBtn').onclick = () => {
-          const a = document.createElement('a');
-          a.href = compressedDataUrl;
-          const ext = mimeType === 'image/png' ? '.png' : '.jpg';
-          a.download = 'compressed-' + selectedFile.name.replace(/\.[^.]+$/, '') + ext;
-          a.click();
-        };
-      }, mimeType, quality);
+  async function compress() {
+    if (!selectedFile || !sourceBitmap) return;
+    const mode = document.getElementById('modeSelect').value;
+    const btn = document.getElementById('downloadBtn');
+
+    setStatus('Compressing…');
+    await new Promise(r => setTimeout(r, 10)); // let UI breathe before heavy work
+
+    const canvas = getCanvasFromBitmap();
+    let mimeType = getOutputMime();
+    let blob;
+
+    if (mode === 'quality') {
+      const quality = parseInt(document.getElementById('qualitySlider').value) / 100;
+      blob = await canvasToBlob(canvas, mimeType, quality);
+    } else {
+      // Target size mode: binary search quality to hit target (for jpeg/webp)
+      const targetVal = parseFloat(document.getElementById('targetSizeInput').value) || 100;
+      const unit = parseFloat(document.getElementById('targetUnit').value);
+      const targetBytes = targetVal * unit;
+
+      if (mimeType === 'image/png') {
+        // PNG quality isn't adjustable; fall back to JPEG for target-size accuracy
+        mimeType = 'image/jpeg';
+      }
+
+      let lo = 0.05, hi = 1.0, best = null;
+      for (let i = 0; i < 8; i++) {
+        const mid = (lo + hi) / 2;
+        const candidate = await canvasToBlob(canvas, mimeType, mid);
+        if (!candidate) break;
+        if (candidate.size > targetBytes) {
+          hi = mid;
+        } else {
+          best = candidate;
+          lo = mid;
+        }
+        setStatus(`Compressing… optimizing quality (step ${i+1}/8)`);
+        await new Promise(r => setTimeout(r, 0));
+      }
+      blob = best || await canvasToBlob(canvas, mimeType, 0.05);
+
+      // If even lowest quality is still above target, try downscaling dimensions
+      if (blob.size > targetBytes) {
+        let scale = 0.9;
+        let scaledCanvas = canvas;
+        for (let i = 0; i < 6 && blob.size > targetBytes; i++) {
+          const w = Math.max(1, Math.round(scaledCanvas.width * scale));
+          const h = Math.max(1, Math.round(scaledCanvas.height * scale));
+          const c2 = document.createElement('canvas');
+          c2.width = w; c2.height = h;
+          c2.getContext('2d').drawImage(canvas, 0, 0, w, h);
+          scaledCanvas = c2;
+          const candidate = await canvasToBlob(scaledCanvas, mimeType, 0.6);
+          if (candidate) blob = candidate;
+          setStatus(`Compressing… resizing to fit target (step ${i+1}/6)`);
+          await new Promise(r => setTimeout(r, 0));
+        }
+      }
+    }
+
+    if (!blob) {
+      setStatus('Compression failed. Try a different format or image.');
+      return;
+    }
+
+    compressedBlob = blob;
+    if (compressedDataUrl) URL.revokeObjectURL(compressedDataUrl);
+    compressedDataUrl = URL.createObjectURL(blob);
+    document.getElementById('compPreview').src = compressedDataUrl;
+    document.getElementById('compSizeLabel').textContent = formatSize(blob.size);
+
+    const saved = selectedFile.size - blob.size;
+    const pct = ((saved / selectedFile.size) * 100).toFixed(1);
+    document.getElementById('origStat').textContent = formatSize(selectedFile.size);
+    document.getElementById('newStat').textContent = formatSize(blob.size);
+    document.getElementById('savedStat').textContent = saved > 0 ? `-${pct}%` : '~0%';
+    document.getElementById('result-section').style.display = 'block';
+    setStatus('Done ✓');
+
+    document.getElementById('downloadBtn').onclick = () => {
+      const a = document.createElement('a');
+      a.href = compressedDataUrl;
+      const ext = mimeType === 'image/png' ? '.png' : (mimeType === 'image/webp' ? '.webp' : '.jpg');
+      a.download = 'compressed-' + selectedFile.name.replace(/\.[^.]+$/, '') + ext;
+      a.click();
     };
-    img.src = URL.createObjectURL(selectedFile);
   }
 </script>
 </body>
