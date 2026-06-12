@@ -880,7 +880,7 @@ async function doBgRemoveAI(){
       }
     };
 
-    var blob=await mod.removeBackground(_bgrFile,config);
+    var blob=await mod.removeBackground(URL.createObjectURL(_bgrFile),config);
 
     document.getElementById('pb-bgremove').style.width='100%';
     document.getElementById('bgr-status').textContent='Done!';
