@@ -612,7 +612,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:24px
   <div class="p-head"><span class="p-title">🎭 Background Remover</span><button class="p-close" onclick="close_tool('bgremove')">✕</button></div>
   <div class="p-body">
     <div style="background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#a78bfa;">
-      🤖 <strong>AI-Powered</strong> — Uses Remove.bg for accurate background removal. Free API: 50 images/month.
+      🤖 <strong>AI-Powered</strong> — Runs fully in your browser. 100% Free, no API key, no limits.
     </div>
     <div class="dropzone" id="dz-bgremove" onclick="document.getElementById('fi-bgremove').click()">
       <div class="dz-icon">🎭</div>
@@ -622,24 +622,6 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:24px
     </div>
     <input type="file" id="fi-bgremove" class="file-input" accept="image/*">
     <div class="finfo" id="fn-bgremove"></div>
-
-    <div class="opt-row">
-      <span class="opt-label">API Key</span>
-      <input type="text" id="bgr-apikey" placeholder="Get free key: remove.bg/api" style="width:180px;font-size:11px">
-    </div>
-    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">
-      👉 Free key: <a href="https://www.remove.bg/api" target="_blank" style="color:var(--accent)">remove.bg/api</a> → Sign up → Copy API key
-    </div>
-
-    <div class="opt-row">
-      <span class="opt-label">Output BG</span>
-      <select id="bgr-type">
-        <option value="transparent">Transparent (PNG)</option>
-        <option value="white">White</option>
-        <option value="blue">Light Blue</option>
-        <option value="black">Black</option>
-      </select>
-    </div>
 
     <button class="btn-action" onclick="doBgRemoveAI()">🤖 Remove Background (AI)</button>
     <div class="prog" id="prg-bgremove"><div class="prog-bg"><div class="prog-bar" id="pb-bgremove"></div></div><div class="prog-txt" id="bgr-status">Processing with AI...</div></div>
@@ -855,78 +837,89 @@ function waShare(toolName){
   window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
 }
 
-// ===== BACKGROUND REMOVER =====
-// ===== BACKGROUND REMOVER - AI (Remove.bg API) =====
+// ===== BACKGROUND REMOVER - AI (Free, runs in browser, no API key) =====
 var _bgrFile=null;
+var _bgrResultUrl=null;
+
 function loadBgRemoveImg(file){
   _bgrFile=file;
-  var fn=$('fn-bgremove');
-  if(fn){fn.textContent='✅ '+file.name+' ('+(file.size/1024/1024).toFixed(2)+'MB)';fn.style.display='block';}
-  // Show original preview
-  readDU(file).then(function(du){
-    var oi=$('bgr-orig-img');
-    if(oi){oi.src=du;}
-    $('bgremove-preview').style.display='block';
-  });
+  var fn=document.getElementById('fn-bgremove');
+  if(fn){fn.textContent='✅ '+file.name+' ('+(file.size/1024/1024).toFixed(2)+'MB)';}
+
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var oi=document.getElementById('bgr-orig-img');
+    if(oi){oi.src=e.target.result;}
+    document.getElementById('bgremove-preview').style.display='block';
+  };
+  reader.readAsDataURL(file);
 }
-function doBgRemoveAI(){
+
+async function doBgRemoveAI(){
   if(!_bgrFile){toast('Please select an image first');return;}
-  var apiKey=$('bgr-apikey').value.trim();
-  if(!apiKey){
-    toast('❌ Please enter your Remove.bg API key first!');
-    window.open('https://www.remove.bg/api','_blank');
-    return;
-  }
-  $('prg-bgremove').style.display='block';
-  $('bgr-status').textContent='Sending to AI...';
-  $('pb-bgremove').style.width='30%';
-  $('res-bgremove').style.display='none';
 
-  var formData=new FormData();
-  formData.append('image_file',_bgrFile);
-  formData.append('size','auto');
+  document.getElementById('prg-bgremove').style.display='block';
+  document.getElementById('res-bgremove').style.display='none';
+  document.getElementById('bgr-status').textContent='Loading AI model... (first time 30-60 sec)';
+  document.getElementById('pb-bgremove').style.width='20%';
 
-  var bgType=$('bgr-type').value;
-  if(bgType!=='transparent'){
-    var bgColors={'white':'ffffff','blue':'dce9f5','black':'000000'};
-    formData.append('bg_color',bgColors[bgType]||'ffffff');
-  }
+  try{
 
-  $('bgr-status').textContent='AI removing background...';
-  $('pb-bgremove').style.width='60%';
+    var mod=await import('https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.7/+esm');
 
-  fetch('https://api.remove.bg/v1.0/removebg',{
-    method:'POST',
-    headers:{'X-Api-Key':apiKey},
-    body:formData
-  })
-  .then(function(res){
-    if(res.status===402){throw new Error('API limit reached. Get a new key at remove.bg/api');}
-    if(res.status===403){throw new Error('Invalid API key. Check your key at remove.bg/api');}
-    if(!res.ok){throw new Error('API Error: '+res.status);}
-    return res.blob();
-  })
-  .then(function(blob){
-    $('pb-bgremove').style.width='100%';
-    $('bgr-status').textContent='Done!';
-    setTimeout(function(){$('prg-bgremove').style.display='none';},600);
+    document.getElementById('bgr-status').textContent='AI removing background...';
+    document.getElementById('pb-bgremove').style.width='60%';
 
+    var config={
+      model:'isnet_quint8',
+      progress:function(key,current,total){
+        if(total>0){
+          var pct=60+Math.round((current/total)*35);
+          document.getElementById('pb-bgremove').style.width=pct+'%';
+        }
+      }
+    };
+
+    var blob=await mod.removeBackground(_bgrFile,config);
+
+    document.getElementById('pb-bgremove').style.width='100%';
+    document.getElementById('bgr-status').textContent='Done!';
+
+    if(_bgrResultUrl){URL.revokeObjectURL(_bgrResultUrl);}
     var url=URL.createObjectURL(blob);
-    var ri=$('bgr-result-img');
+    _bgrResultUrl=url;
+
+    var ri=document.getElementById('bgr-result-img');
     if(ri){ri.src=url;}
-    $('bgremove-preview').style.display='block';
-    $('res-bgremove').style.display='block';
-    $('dl-bgremove').onclick=function(){dlBlob(blob,'bg_removed.png');};
+    document.getElementById('bgremove-preview').style.display='block';
+    document.getElementById('res-bgremove').style.display='block';
 
-    // Save API key for convenience
-    try{localStorage.setItem('fmp-bgr-key',apiKey);}catch(e){}
-  })
-  .catch(function(err){
-    $('prg-bgremove').style.display='none';
-    toast('❌ '+err.message);
-  });
+    document.getElementById('dl-bgremove').onclick=function(){
+      var a=document.createElement('a');
+      a.href=url;
+      a.download='bg_removed.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
+
+    setTimeout(function(){document.getElementById('prg-bgremove').style.display='none';},600);
+
+  }catch(err){
+    console.error('Background removal error:',err);
+    document.getElementById('prg-bgremove').style.display='none';
+
+    var msg='Background removal failed';
+    if(err && err.message){
+      if(err.message.toLowerCase().indexOf('fetch')>-1 || err.message.toLowerCase().indexOf('network')>-1){
+        msg='Model load nahi hua. Internet check karo aur dobara try karo';
+      }else{
+        msg='Failed: '+err.message;
+      }
+    }
+    toast('❌ '+msg);
+  }
 }
-
 
 // ===== OCR (Image to Text) =====
 function loadOcrImg(file){
