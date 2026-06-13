@@ -930,19 +930,28 @@ function loadOcrImg(file){
   $('pb-img2text').style.width='10%';
   if(!window.Tesseract){
     var s=document.createElement('script');
-    s.src='https://unpkg.com/tesseract.js@2.1.5/dist/tesseract.min.js';
+    s.src='https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js';
     s.onload=function(){runOcr(file);};
-    s.onerror=function(){toast('❌ OCR library load failed. Check internet.');$('prg-img2text').style.display='none';};
+    s.onerror=function(){
+      var s2=document.createElement('script');
+      s2.src='https://unpkg.com/tesseract.js@4.1.1/dist/tesseract.min.js';
+      s2.onload=function(){runOcr(file);};
+      s2.onerror=function(){toast('❌ OCR library load failed. Check internet.');$('prg-img2text').style.display='none';};
+      document.head.appendChild(s2);
+    };
     document.head.appendChild(s);
   } else {
     runOcr(file);
   }
 }
 function runOcr(file){
+function runOcr(file){
   $('ocr-status').textContent='Starting OCR...';
   $('pb-img2text').style.width='20%';
-  Tesseract.recognize(file,{
-    lang:'eng',
+  Tesseract.recognize(file,'eng+hin+urd+ara',{
+    workerPath:'https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/worker.min.js',
+    corePath:'https://cdn.jsdelivr.net/npm/tesseract.js-core@4.0.4/tesseract-core.wasm.js',
+    langPath:'https://tessdata.projectnaptha.com/4.0.0',
     logger: function(m){
       if(m.status==='recognizing text'){
         var pct=Math.round(m.progress*100);
@@ -951,9 +960,12 @@ function runOcr(file){
       } else if(m.status==='loading tesseract core'){
         $('ocr-status').textContent='Loading engine...';
         $('pb-img2text').style.width='30%';
+      } else if(m.status==='loading language traineddata'){
+        $('ocr-status').textContent='Loading language data...';
+        $('pb-img2text').style.width='40%';
       } else if(m.status==='initializing api'){
         $('ocr-status').textContent='Initializing...';
-        $('pb-img2text').style.width='40%';
+        $('pb-img2text').style.width='50%';
       }
     }
   }).then(function(result){
