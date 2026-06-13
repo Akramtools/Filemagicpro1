@@ -945,7 +945,6 @@ function loadOcrImg(file){
   }
 }
 function runOcr(file){
-function runOcr(file){
   $('ocr-status').textContent='Starting OCR...';
   $('pb-img2text').style.width='20%';
   Tesseract.recognize(file,'eng+hin+urd+ara',{
