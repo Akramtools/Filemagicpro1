@@ -261,7 +261,7 @@
   <h2>Frequently Asked Questions</h2>
   <div class="faq-item">
     <div class="faq-q">Does it support both .doc and .docx files?</div>
-    <div class="faq-a">Yes! Both older .doc format and newer .docx format are fully supported.</div>
+    <div class="faq-a">DOCX files (Word 2007 and newer) are fully supported. Older .doc files should first be saved as .docx using Word or Google Docs for best results.</div>
   </div>
   <div class="faq-item">
     <div class="faq-q">Will my Word formatting appear in the PDF?</div>
@@ -308,12 +308,25 @@
     return (b/1048576).toFixed(2) + ' MB';
   }
 
+  function isOldDoc(name) {
+    const n = name.toLowerCase();
+    return n.endsWith('.doc') && !n.endsWith('.docx');
+  }
+
   async function loadFile(file) {
     selectedFile = file;
     document.getElementById('fileName').textContent = file.name;
     document.getElementById('fileMeta').textContent = formatSize(file.size);
     document.getElementById('tool-body').style.display = 'block';
     document.getElementById('success-box').style.display = 'none';
+    document.getElementById('doc-preview').style.display = 'none';
+
+    if (isOldDoc(file.name)) {
+      document.getElementById('status-msg').textContent =
+        '⚠️ Old .doc format detected. Please open this file in Word or Google Docs and use "Save As" / "Download" → Word (.docx), then upload again.';
+      return;
+    }
+
     document.getElementById('status-msg').textContent = 'Reading document...';
 
     try {
@@ -334,6 +347,12 @@
     const progressBar = document.getElementById('progress-bar');
     const progressFill = document.getElementById('progress-fill');
     const statusMsg = document.getElementById('status-msg');
+
+    if (isOldDoc(selectedFile.name)) {
+      statusMsg.textContent =
+        '❌ Old .doc files are not supported in the browser. Please save your file as .docx (Word: Save As → Word Document .docx | Google Docs: File → Download → Microsoft Word .docx) and upload again.';
+      return;
+    }
 
     btn.disabled = true;
     progressBar.style.display = 'block';
