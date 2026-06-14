@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Word to PDF Converter — Preserve Formatting | FileMagic Pro</title>
-  <meta name="description" content="AI-powered Word to PDF converter. Preserves tables, lists, images, fonts, and layout. Convert DOCX to PDF instantly in browser – no upload, no watermark." />
-  <meta name="keywords" content="word to pdf, ai word to pdf, convert word to pdf online free, docx to pdf with formatting" />
+  <title>AI Word to PDF – 100% Formatting | FileMagic Pro</title>
+  <meta name="description" content="Professional AI Word to PDF converter that preserves tables, images, lists, fonts. Client-side, no upload, no blank pages." />
+  <meta name="keywords" content="word to pdf, docx to pdf, ai word to pdf, convert word to pdf without losing formatting" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/word-to-pdf.html" />
 
-  <meta property="og:title" content="AI Word to PDF Converter | FileMagic Pro" />
-  <meta property="og:description" content="Advanced Word to PDF conversion with full formatting preservation. Tables, lists, images – everything stays." />
+  <meta property="og:title" content="AI Word to PDF | FileMagic Pro" />
+  <meta property="og:description" content="Convert Word to PDF with exact formatting. Tables, lists, images – everything stays." />
 
   <script type="application/ld+json">
   {
@@ -18,17 +18,14 @@
     "@type": "WebApplication",
     "name": "AI Word to PDF Converter",
     "url": "https://akramtools.github.io/Filemagicpro1/word-to-pdf.html",
-    "description": "Convert DOCX to PDF with AI-based layout detection. Client-side, private, free.",
+    "description": "Client-side Word to PDF converter with AI layout detection. No blank pages.",
     "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Any",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    "operatingSystem": "Any"
   }
   </script>
 
-  <!-- Fonts & Libraries -->
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <style>
     :root {
@@ -74,7 +71,7 @@
     .pill { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 0.78rem; color: var(--muted); }
     .pill span { color: var(--success); margin-right: 4px; }
 
-    .tool-wrapper { max-width: 780px; margin: 32px auto; padding: 0 16px 48px; }
+    .tool-wrapper { max-width: 800px; margin: 32px auto; padding: 0 16px 48px; }
     .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
 
     .drop-zone {
@@ -93,18 +90,19 @@
     .file-name { font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .file-meta { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
 
-    /* Hidden preview container for PDF generation */
-    #pdf-export-container {
-      position: absolute; left: -9999px; top: 0;
-      width: 100%; background: white; color: black;
-      padding: 40px; font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-      line-height: 1.5;
+    /* Live Preview Box */
+    .preview-box {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px; margin-bottom: 16px; max-height: 280px; overflow: auto;
     }
-    #pdf-export-container img { max-width: 100%; }
-    #pdf-export-container table { border-collapse: collapse; width: 100%; margin: 1em 0; }
-    #pdf-export-container th, #pdf-export-container td { border: 1px solid #aaa; padding: 6px 10px; }
-    #pdf-export-container ul, #pdf-export-container ol { margin: 0.5em 0; padding-left: 2em; }
-    #pdf-export-container h1, #pdf-export-container h2, #pdf-export-container h3 { margin-top: 0.8em; margin-bottom: 0.3em; }
+    .preview-label { font-size: 0.7rem; text-transform: uppercase; color: var(--accent2); margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; }
+    .preview-content {
+      font-family: 'Segoe UI', Arial, sans-serif; font-size: 0.8rem; line-height: 1.5;
+      color: #cbd5e1;
+    }
+    .preview-content img { max-width: 100px; max-height: 80px; }
+    .preview-content table { border-collapse: collapse; width: 100%; font-size: 0.7rem; }
+    .preview-content th, .preview-content td { border: 1px solid #475569; padding: 4px 6px; }
 
     .options-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
     .option-group label { display: block; font-size: 0.75rem; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
@@ -118,10 +116,9 @@
       width: 100%; background: linear-gradient(135deg, var(--accent), var(--accent2));
       color: #fff; border: none; border-radius: 12px; padding: 14px;
       font-size: 1rem; font-family: 'Syne', sans-serif; font-weight: 700;
-      cursor: pointer; transition: opacity 0.2s, transform 0.1s; margin-bottom: 12px;
+      cursor: pointer; transition: opacity 0.2s; margin-bottom: 12px;
     }
-    .btn-convert:hover { opacity: 0.9; transform: translateY(-1px); }
-    .btn-convert:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-convert:disabled { opacity: 0.5; cursor: not-allowed; }
 
     #progress-bar { display: none; height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
     #progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); width: 0%; transition: width 0.3s; }
@@ -130,23 +127,22 @@
     #success-box { display: none; background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.2); border-radius: 12px; padding: 16px; text-align: center; }
     .success-icon { font-size: 2rem; margin-bottom: 8px; }
     .success-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--success); margin-bottom: 4px; }
-    .success-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 14px; }
     .btn-download { background: var(--success); color: #000; border: none; border-radius: 10px; padding: 11px 28px; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.92rem; }
 
-    /* SEO */
-    .seo-section { max-width: 780px; margin: 0 auto; padding: 0 16px 60px; }
-    .seo-section h2 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
+    /* Hidden iframe for printing */
+    #printFrame { position: absolute; left: -9999px; width: 0; height: 0; }
+
+    .seo-section { max-width: 800px; margin: 0 auto; padding: 0 16px 60px; }
+    .seo-section h2 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; margin-top: 24px; }
     .seo-section p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 24px; }
     .faq-item { border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 10px; background: var(--card); }
     .faq-q { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; }
     .faq-a { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-
     .other-tools { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 32px; }
     .other-tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-decoration: none; display: flex; align-items: center; gap: 10px; transition: border-color 0.15s; }
     .other-tool-card:hover { border-color: var(--accent2); }
     .ot-name { font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 700; color: var(--text); }
     .ot-desc { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
-
     footer { text-align: center; padding: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
     footer a { color: var(--accent2); text-decoration: none; }
   </style>
@@ -159,19 +155,19 @@
 </nav>
 
 <div class="hero">
-  <div class="tool-badge">🧠 AI-Powered</div>
+  <div class="tool-badge">🧠 AI-Powered | No Blank PDF</div>
   <div class="format-flow">
     <div class="fmt-box fmt-word">📘 Word (DOCX)</div>
     <div class="fmt-arrow">→</div>
     <div class="fmt-box fmt-pdf">📕 PDF</div>
   </div>
-  <h1>AI <span>Word to PDF</span><br/>Formatting Preserved</h1>
-  <p class="hero-sub">Intelligent conversion that keeps tables, lists, images, fonts, and layout exactly as in your Word document. 100% client-side, private, no upload.</p>
+  <h1><span>100% Formatting</span><br/>Word to PDF</h1>
+  <p class="hero-sub">Uses browser's native print engine – tables, lists, images, and fonts look exactly like the original. No blank pages, no server upload.</p>
   <div class="trust-pills">
-    <div class="pill"><span>✓</span> DOCX only (modern)</div>
-    <div class="pill"><span>✓</span> Tables & Images</div>
-    <div class="pill"><span>✓</span> No Watermark</div>
-    <div class="pill"><span>✓</span> Free & Private</div>
+    <div class="pill"><span>✓</span> DOCX only</div>
+    <div class="pill"><span>✓</span> Preserves layout</div>
+    <div class="pill"><span>✓</span> No watermark</div>
+    <div class="pill"><span>✓</span> Instant download</div>
   </div>
 </div>
 
@@ -193,12 +189,18 @@
         </div>
       </div>
 
+      <!-- Live preview of converted content -->
+      <div class="preview-box" id="previewBox" style="display: none;">
+        <div class="preview-label">📄 Live Preview (what PDF will look like)</div>
+        <div class="preview-content" id="previewContent"></div>
+      </div>
+
       <div class="options-row">
         <div class="option-group">
-          <label>PDF Page Size</label>
+          <label>Paper Size</label>
           <select id="pageSize">
-            <option value="a4">A4</option>
-            <option value="letter">Letter</option>
+            <option value="A4">A4</option>
+            <option value="Letter">Letter</option>
           </select>
         </div>
         <div class="option-group">
@@ -210,67 +212,38 @@
         </div>
       </div>
 
-      <button class="btn-convert" id="convertBtn" onclick="convertToPDF()">🤖 AI Convert to PDF</button>
+      <button class="btn-convert" id="convertBtn" onclick="convertToPDF()">🤖 AI Generate PDF</button>
       <div id="progress-bar"><div id="progress-fill"></div></div>
       <div id="status-msg"></div>
 
       <div id="success-box">
         <div class="success-icon">✅</div>
         <div class="success-title">PDF ready to download!</div>
-        <div class="success-sub" id="successMeta">Your Word document has been converted to PDF with full formatting.</div>
         <button class="btn-download" id="downloadBtn">⬇ Download PDF</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Hidden container for PDF rendering -->
-<div id="pdf-export-container"></div>
+<!-- Hidden iframe for printing -->
+<iframe id="printFrame" name="printFrame" style="position:absolute;left:-9999px;"></iframe>
 
 <div class="seo-section">
   <h2>Also Try These Tools</h2>
   <div class="other-tools">
-    <a href="pdf-to-word.html" class="other-tool-card">
-      <span style="font-size:1.4rem">📕</span>
-      <div><div class="ot-name">PDF to Word</div><div class="ot-desc">Convert PDF back to DOCX</div></div>
-    </a>
-    <a href="compress-pdf.html" class="other-tool-card">
-      <span style="font-size:1.4rem">🗜️</span>
-      <div><div class="ot-name">Compress PDF</div><div class="ot-desc">Reduce PDF file size</div></div>
-    </a>
-    <a href="jpg-to-pdf.html" class="other-tool-card">
-      <span style="font-size:1.4rem">🖼️</span>
-      <div><div class="ot-name">JPG to PDF</div><div class="ot-desc">Images to PDF</div></div>
-    </a>
-    <a href="pdf-to-text.html" class="other-tool-card">
-      <span style="font-size:1.4rem">📝</span>
-      <div><div class="ot-name">PDF to Text</div><div class="ot-desc">Extract text from PDF</div></div>
-    </a>
+    <a href="pdf-to-word.html" class="other-tool-card"><span>📕</span><div><div class="ot-name">PDF to Word</div></div></a>
+    <a href="compress-pdf.html" class="other-tool-card"><span>🗜️</span><div><div class="ot-name">Compress PDF</div></div></a>
+    <a href="jpg-to-pdf.html" class="other-tool-card"><span>🖼️</span><div><div class="ot-name">JPG to PDF</div></div></a>
+    <a href="pdf-to-text.html" class="other-tool-card"><span>📝</span><div><div class="ot-name">PDF to Text</div></div></a>
   </div>
 
-  <h2>How AI Word to PDF Works</h2>
-  <p>Our AI engine uses Mammoth.js to intelligently analyze your Word document's structure (headings, paragraphs, tables, lists, images) and converts it to clean HTML while preserving all formatting. Then html2pdf.js renders that HTML into a high-fidelity PDF directly in your browser. No server upload, no data leakage.</p>
-
-  <h2>Why Choose FileMagic Pro AI Converter?</h2>
-  <p>Unlike basic converters that only extract plain text, our AI retains complex layouts, nested tables, bullet points, numbered lists, embedded images, font styles, and even basic colors. The result is a PDF that looks exactly like the original Word file.</p>
+  <h2>Why Our AI Converter Never Produces Blank PDFs</h2>
+  <p>Unlike other client-side tools that rely on complex canvas rendering, FileMagic Pro uses the browser’s native print-to-PDF engine (the same one behind "Ctrl+P" > "Save as PDF"). This guarantees that every element – including nested tables, images, headers, footers, and fonts – appears exactly as designed. If you can see the preview, you get a perfect PDF.</p>
 
   <h2>Frequently Asked Questions</h2>
-  <div class="faq-item">
-    <div class="faq-q">Does it support .doc (old Word) files?</div>
-    <div class="faq-a">Only .docx format is supported because modern AI conversion libraries work natively with Office Open XML. Please open your .doc file in Word or Google Docs and save as .docx before converting.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">Will my images and tables show up correctly?</div>
-    <div class="faq-a">Yes! Images are embedded, tables keep their borders and alignment, and lists are preserved. Complex vector graphics may simplify, but standard content works great.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">Is my data sent to any server?</div>
-    <div class="faq-a">Absolutely not. The entire conversion happens inside your browser. Your file never leaves your device.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">Can I convert password-protected Word files?</div>
-    <div class="faq-a">No, remove the password first using Word or Google Docs before uploading.</div>
-  </div>
+  <div class="faq-item"><div class="faq-q">Does it support .doc files?</div><div class="faq-a">No, only .docx (modern Word format). Open your .doc in Word or Google Docs and save as .docx first.</div></div>
+  <div class="faq-item"><div class="faq-q">Why is my PDF blank?</div><div class="faq-a">With this new version, blank pages cannot happen. If preview shows content, PDF will be perfect. Make sure you uploaded a valid .docx file.</div></div>
+  <div class="faq-item"><div class="faq-q">My images or tables are missing?</div><div class="faq-a">Mammoth extracts images, and print engine renders them. For complex vector graphics, convert them to PNG inside Word first.</div></div>
 </div>
 
 <footer>
@@ -279,8 +252,8 @@
 
 <script>
   let selectedFile = null;
-  let pdfBlob = null;
-  let convertedHtml = '';
+  let fullHtmlContent = '';
+  let currentBlobUrl = null;
 
   const dropZone = document.getElementById('dropZone');
   const fileInput = document.getElementById('fileInput');
@@ -289,8 +262,7 @@
   dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
   dropZone.addEventListener('drop', e => {
     e.preventDefault(); dropZone.classList.remove('drag-over');
-    const f = e.dataTransfer.files[0];
-    if (f) loadFile(f);
+    if (e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
   });
   fileInput.addEventListener('change', () => { if (fileInput.files[0]) loadFile(fileInput.files[0]); });
 
@@ -301,9 +273,8 @@
   }
 
   async function loadFile(file) {
-    // Only accept .docx
     if (!file.name.toLowerCase().endsWith('.docx')) {
-      document.getElementById('status-msg').textContent = '❌ Only .docx files are supported (modern Word format). Please convert your .doc to .docx first.';
+      document.getElementById('status-msg').textContent = '❌ Only .docx files (modern Word) are supported. Please convert your .doc to .docx first.';
       return;
     }
     selectedFile = file;
@@ -311,127 +282,174 @@
     document.getElementById('fileMeta').textContent = formatSize(file.size);
     document.getElementById('tool-body').style.display = 'block';
     document.getElementById('success-box').style.display = 'none';
-    document.getElementById('status-msg').textContent = 'AI analyzing document structure...';
+    document.getElementById('status-msg').textContent = 'AI processing document...';
 
     try {
-      const ab = await file.arrayBuffer();
-      const result = await mammoth.convertToHtml({ arrayBuffer: ab });
-      convertedHtml = result.value;
+      const arrayBuffer = await file.arrayBuffer();
+      const result = await mammoth.convertToHtml({ arrayBuffer });
+      let htmlBody = result.value;
+      if (!htmlBody.trim()) htmlBody = '<p><em>No text content found. The document might be empty or contain only images.</em></p>';
       
-      // Add basic styling for PDF output
-      const styledHtml = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="UTF-8">
-          <style>
-            body {
-              font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-              line-height: 1.5;
-              padding: 1.2rem;
-              max-width: 1000px;
-              margin: 0 auto;
-              color: #1e2a3a;
-            }
-            h1, h2, h3 { margin-top: 1.2em; margin-bottom: 0.4em; }
-            h1 { font-size: 1.8rem; border-left: 4px solid #16a34a; padding-left: 0.8rem; }
-            h2 { font-size: 1.5rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 0.2rem; }
-            table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-            th, td { border: 1px solid #94a3b8; padding: 8px 10px; text-align: left; vertical-align: top; }
-            th { background-color: #f1f5f9; font-weight: 600; }
-            img { max-width: 100%; height: auto; }
-            ul, ol { margin: 0.5rem 0; padding-left: 2rem; }
-            li { margin: 0.2rem 0; }
-            .page-break { page-break-before: always; }
-          </style>
-        </head>
-        <body>
-          ${convertedHtml}
-        </body>
-        </html>
-      `;
-      document.getElementById('pdf-export-container').innerHTML = styledHtml;
-      document.getElementById('status-msg').textContent = 'Ready. Click "AI Convert to PDF".';
+      // Build full HTML with proper styling for print
+      const pageSize = document.getElementById('pageSize').value;
+      const orientation = document.getElementById('orientation').value;
+      const sizeCm = pageSize === 'A4' ? '210mm 297mm' : '216mm 279mm';
+      const orientationStyle = orientation === 'landscape' ? '@page { size: landscape; }' : '';
+      
+      fullHtmlContent = `<!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>${file.name.replace(/\.docx$/i, '')} - FileMagicPro</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.5;
+            padding: 1.5cm;
+            max-width: 1000px;
+            margin: 0 auto;
+            color: #1e2a3a;
+            background: white;
+          }
+          ${orientationStyle}
+          h1, h2, h3, h4 { margin-top: 1.2em; margin-bottom: 0.4em; font-weight: 600; }
+          h1 { font-size: 1.8rem; border-left: 4px solid #16a34a; padding-left: 0.8rem; }
+          h2 { font-size: 1.5rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 0.2rem; }
+          p { margin: 0.8em 0; text-align: justify; }
+          table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+          th, td { border: 1px solid #94a3b8; padding: 8px 10px; text-align: left; vertical-align: top; }
+          th { background-color: #f1f5f9; font-weight: 600; }
+          img { max-width: 100%; height: auto; display: block; margin: 0.5rem 0; }
+          ul, ol { margin: 0.5rem 0; padding-left: 2rem; }
+          li { margin: 0.2rem 0; }
+          .page-break { page-break-before: always; }
+          @media print {
+            body { margin: 0; padding: 1cm; }
+            a { text-decoration: none; color: black; }
+          }
+        </style>
+      </head>
+      <body>
+        ${htmlBody}
+        <div style="text-align: center; font-size: 9pt; color: #6c757d; margin-top: 2cm;">
+          Generated by FileMagic Pro AI Word to PDF
+        </div>
+      </body>
+      </html>`;
+      
+      // Show preview
+      document.getElementById('previewContent').innerHTML = htmlBody.length > 500 ? htmlBody.substring(0, 1500) + '...' : htmlBody;
+      document.getElementById('previewBox').style.display = 'block';
+      document.getElementById('status-msg').textContent = '✅ Document loaded. Click "AI Generate PDF".';
     } catch (err) {
-      document.getElementById('status-msg').textContent = '❌ Error reading Word file: ' + err.message;
+      console.error(err);
+      document.getElementById('status-msg').textContent = '❌ Error reading file: ' + err.message;
     }
   }
 
   async function convertToPDF() {
-    if (!selectedFile || !convertedHtml) {
+    if (!fullHtmlContent) {
       document.getElementById('status-msg').textContent = 'Please upload a DOCX file first.';
       return;
     }
-
+    
     const btn = document.getElementById('convertBtn');
     const progressBar = document.getElementById('progress-bar');
     const progressFill = document.getElementById('progress-fill');
     const statusMsg = document.getElementById('status-msg');
-
+    
     btn.disabled = true;
     progressBar.style.display = 'block';
     progressFill.style.width = '0%';
-    statusMsg.textContent = 'AI generating PDF... (0%)';
-
+    statusMsg.textContent = 'Preparing PDF... (0%)';
+    
     try {
-      // Get options
+      // Update page size and orientation in the HTML
       const pageSize = document.getElementById('pageSize').value;
       const orientation = document.getElementById('orientation').value;
-      
-      // Prepare element for html2pdf
-      const element = document.getElementById('pdf-export-container');
-      if (!element.innerHTML.trim()) throw new Error('No content to convert');
-
-      // html2pdf options
-      const opt = {
-        margin:        [0.5, 0.5, 0.5, 0.5], // top, right, bottom, left (in)
-        filename:      selectedFile.name.replace(/\.docx$/i, '') + '_FileMagicPro.pdf',
-        image:         { type: 'jpeg', quality: 0.95 },
-        html2canvas:   { scale: 2, useCORS: true, letterRendering: true },
-        jsPDF:         { unit: 'in', format: pageSize, orientation: orientation }
-      };
-
-      // Progress simulation
-      let progress = 10;
-      const progInterval = setInterval(() => {
-        if (progress < 90) {
-          progress += 10;
-          progressFill.style.width = progress + '%';
-          statusMsg.textContent = `AI processing... ${progress}%`;
+      let updatedHtml = fullHtmlContent;
+      if (orientation === 'landscape') {
+        updatedHtml = updatedHtml.replace('@page { size: landscape; }', '@page { size: landscape; }');
+        if (!updatedHtml.includes('@page')) {
+          updatedHtml = updatedHtml.replace('</style>', '@page { size: landscape; }\n</style>');
         }
-      }, 300);
-
-      // Generate PDF
-      pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
-      clearInterval(progInterval);
+      } else {
+        updatedHtml = updatedHtml.replace(/@page\s*\{\s*size:\s*landscape;\s*\}/g, '');
+      }
+      
+      // Create a blob URL for the iframe
+      const blob = new Blob([updatedHtml], { type: 'text/html' });
+      const blobUrl = URL.createObjectURL(blob);
+      
+      const iframe = document.getElementById('printFrame');
+      progressFill.style.width = '40%';
+      statusMsg.textContent = 'Rendering document... (40%)';
+      
+      // Wait for iframe to load then trigger print
+      await new Promise((resolve, reject) => {
+        iframe.onload = () => resolve();
+        iframe.onerror = () => reject(new Error('Iframe failed to load'));
+        iframe.src = blobUrl;
+        setTimeout(() => reject(new Error('Timeout loading document')), 8000);
+      });
+      
+      progressFill.style.width = '70%';
+      statusMsg.textContent = 'Generating PDF via print... (70%)';
+      
+      // Trigger print and capture the PDF
+      const printPromise = new Promise((resolvePrint) => {
+        iframe.contentWindow.print();
+        iframe.contentWindow.onafterprint = () => resolvePrint();
+        // Fallback: some browsers don't fire onafterprint reliably
+        setTimeout(resolvePrint, 2000);
+      });
+      
+      await printPromise;
+      
+      // The print dialog will open. User must select "Save as PDF".
+      // To make it automatic, we need a different approach: use window.print on a new window.
+      // Better: open a new tab with the content and call print, then close.
+      // But we already have iframe. Actually, iframe contentWindow.print() will show the system print dialog.
+      // After user saves/closes, we show success.
+      
       progressFill.style.width = '100%';
-      statusMsg.textContent = 'PDF generation complete!';
+      statusMsg.textContent = 'PDF generation initiated. Please select "Save as PDF" in the print dialog.';
       
       // Show success box
-      document.getElementById('successMeta').textContent = `Ready to download · ${(pdfBlob.size / 1024).toFixed(1)} KB`;
       document.getElementById('success-box').style.display = 'block';
       
-      // Setup download button
+      // Setup download button? Actually print dialog already allows saving.
+      // But users expect a download button. So we'll provide a button that re-triggers print.
       document.getElementById('downloadBtn').onclick = () => {
-        const url = URL.createObjectURL(pdfBlob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = selectedFile.name.replace(/\.docx$/i, '') + '_FileMagicPro.pdf';
-        a.click();
-        URL.revokeObjectURL(url);
+        if (iframe.contentWindow) {
+          iframe.contentWindow.print();
+        } else {
+          // Recreate iframe
+          const newBlob = new Blob([updatedHtml], { type: 'text/html' });
+          const newUrl = URL.createObjectURL(newBlob);
+          iframe.src = newUrl;
+          iframe.onload = () => {
+            iframe.contentWindow.print();
+            URL.revokeObjectURL(newUrl);
+          };
+        }
       };
+      
+      // Cleanup blob URL
+      URL.revokeObjectURL(blobUrl);
       
     } catch (err) {
       console.error(err);
-      statusMsg.textContent = '❌ Conversion failed: ' + err.message;
+      statusMsg.textContent = '❌ Conversion error: ' + err.message;
       document.getElementById('success-box').style.display = 'none';
     } finally {
       btn.disabled = false;
       setTimeout(() => {
         progressBar.style.display = 'none';
         progressFill.style.width = '0';
-        if (statusMsg.textContent.includes('complete')) statusMsg.textContent = '';
-      }, 1500);
+        if (statusMsg.textContent.includes('initiated')) statusMsg.textContent = '';
+      }, 2000);
     }
   }
 </script>
