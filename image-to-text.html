@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI OCR · Handwritten Table (Gemini Pro)</title>
+  <title>AI OCR + Table Format | ChatGPT Style</title>
   <style>
-    /* (CSS same as before – copy from earlier code) */
     *{box-sizing:border-box;margin:0;padding:0;}
     body{background:#0a0f0d;font-family:'Segoe UI',system-ui,sans-serif;color:#e2f0e6;padding:20px;}
     .container{max-width:1100px;margin:0 auto;}
@@ -32,6 +31,7 @@
     .result-header{display:flex;justify-content:space-between;padding:12px 16px;background:#111c16;border-bottom:1px solid #2a3a2e;}
     .result-actions button{background:none;border:none;color:#8aa69a;cursor:pointer;font-size:1.1rem;margin-left:12px;}
     
+    /* Tabular output styling */
     .textarea-container{width:100%;background:#0a100e;color:#e2f0e6;padding:16px;min-height:240px;}
     .table-wrapper{overflow-x:auto;padding:16px;}
     table{width:100%;border-collapse:collapse;color:#e2f0e6;}
@@ -48,13 +48,13 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <h2>🧠 AI OCR · Handwritten Table (Gemini Pro)</h2>
-      <div class="ai-badge">⚡ Cloudflare + Gemini</div>
+      <h2>🧠 AI OCR · Table & Text Extractor</h2>
+      <div class="ai-badge">⚡ Handwritten to Table (Vision API)</div>
     </div>
     <div class="drop-zone" id="dropZone">
       <div class="drop-icon">🖼️</div>
       <div class="drop-title">Click or drag image here</div>
-      <div class="drop-sub">JPG, PNG, WebP, BMP (max 15MB)</div>
+      <div class="drop-sub">JPG, PNG, WebP, BMP (max 15MB) | Best for Tables</div>
       <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/bmp" />
     </div>
     <div class="lang-row">
@@ -62,8 +62,8 @@
         <label>🌐 Language:</label>
         <select id="langSelect">
           <option value="eng">English</option>
-          <option value="hin">हिन्दी (Hindi)</option>
           <option value="urd">اردو (Urdu) – RTL</option>
+          <option value="hin">हिन्दी (Hindi)</option>
           <option value="ara">العربية (Arabic)</option>
           <option value="mar">मराठी (Marathi)</option>
           <option value="urd+eng+hin+ara+mar">⚡ AI Multi</option>
@@ -95,12 +95,11 @@
       </div>
     </div>
   </div>
-  <footer>🔒 Secure via Cloudflare Worker · No API key in frontend</footer>
+  <footer>🔒 100% client-side · <strong>Handwritten tables:</strong> Use Gemini Vision API (Free) or OpenAI API for ChatGPT-like results.</footer>
 </div>
 <div id="toastMsg" class="toast"></div>
 
 <script>
-  // DOM elements
   const dropZone = document.getElementById('dropZone');
   const fileInput = document.getElementById('fileInput');
   const langSelect = document.getElementById('langSelect');
@@ -127,7 +126,7 @@
   let rawText = '';
   let parsedTableHtml = '';
 
-  // --- Helper functions ---
+  // --- Helper Functions ---
   function showToast(msg, isError = false) {
     toastDiv.textContent = msg;
     toastDiv.style.backgroundColor = isError ? '#5a2e2e' : '#1e3a2a';
@@ -147,69 +146,75 @@
     rtlHint.innerHTML = shouldRTL ? ' (RTL mode)' : '';
   }
 
-  // --- Table parser (same as before) ---
+  // --- TABLE PARSING ENGINE (ChatGPT-style for text) ---
   function parseTextToTable(text) {
     if (!text || text.trim().length < 10) return null;
+    
     const lines = text.split('\n').filter(line => line.trim().length > 0);
     if (lines.length < 2) return null;
-    if (text.includes('|') && text.includes('---')) {
-      let html = '<table>';
-      let inHeader = false;
-      for (let line of lines) {
-        if (line.trim().startsWith('|---')) { inHeader = true; continue; }
-        if (inHeader && line.trim().startsWith('|')) continue;
-        if (line.trim().startsWith('|')) {
-          const cols = line.split('|').filter(c => c.trim().length > 0).map(c => c.trim());
-          if (cols.length > 0) {
-            if (!inHeader) html += '<tbody>';
-            html += '<tr>' + cols.map(c => `<td>${c}</td>`).join('') + '</tr>';
-          }
-        }
-      }
-      html += '</tbody></table>';
-      return html;
-    }
+
+    // Heuristic: detect if lines have consistent column count separated by spaces/tabs
     const rows = [];
     for (let line of lines) {
-      const cols = line.trim().split(/\s{2,}/);
-      if (cols.length < 2) continue;
-      rows.push(cols);
+        // Replace multiple spaces with a single delimiter
+        const cols = line.trim().split(/\s{2,}/); // 2+ spaces = column break
+        if (cols.length < 2) continue; // Not a table row
+        rows.push(cols);
     }
+
     if (rows.length < 2) return null;
+
+    // Determine max columns
     let maxCols = 0;
     for (let row of rows) maxCols = Math.max(maxCols, row.length);
+
+    // Build HTML Table
     let html = '<table>';
+    // Header row (first row)
     html += '<thead><tr>';
-    for (let col of rows[0]) html += `<th>${col.trim()}</th>`;
+    for (let col of rows[0]) {
+        html += `<th>${col.trim()}</th>`;
+    }
+    // Fill missing header columns with empty th
     for (let i = rows[0].length; i < maxCols; i++) html += '<th></th>';
     html += '</tr></thead><tbody>';
+
+    // Body rows (from 1 to end)
     for (let i = 1; i < rows.length; i++) {
-      html += '<tr>';
-      for (let j = 0; j < rows[i].length; j++) html += `<td>${rows[i][j].trim()}</td>`;
-      for (let j = rows[i].length; j < maxCols; j++) html += '<td></td>';
-      html += '</tr>';
+        html += '<tr>';
+        for (let j = 0; j < rows[i].length; j++) {
+            html += `<td>${rows[i][j].trim()}</td>`;
+        }
+        // Fill missing cells
+        for (let j = rows[i].length; j < maxCols; j++) html += '<td></td>';
+        html += '</tr>';
     }
     html += '</tbody></table>';
     return html;
   }
 
+  // --- Update UI based on toggle state ---
   function updateView() {
     if (!rawText) return;
     if (isTableView && parsedTableHtml) {
-      tableView.innerHTML = parsedTableHtml;
-      tableView.style.display = 'block';
-      textView.style.display = 'none';
-      tableViewToggle.textContent = '📝 View Text';
+        tableView.innerHTML = parsedTableHtml;
+        tableView.style.display = 'block';
+        textView.style.display = 'none';
+        tableViewToggle.textContent = '📝 View Text';
     } else {
-      textView.textContent = rawText;
-      tableView.style.display = 'none';
-      textView.style.display = 'block';
-      tableViewToggle.textContent = '📊 View Table';
+        textView.textContent = rawText;
+        tableView.style.display = 'none';
+        textView.style.display = 'block';
+        tableViewToggle.textContent = '📊 View Table';
     }
   }
-  tableViewToggle.addEventListener('click', () => { isTableView = !isTableView; updateView(); });
 
-  // --- Preprocess image (optional) ---
+  tableViewToggle.addEventListener('click', () => {
+    isTableView = !isTableView;
+    updateView();
+  });
+
+  // --- Image Preprocessing (Improved) ---
   async function preprocessImageForOCR(file) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -217,71 +222,80 @@
       img.onload = () => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        let width = img.width, height = img.height;
-        const minSize = 1200;
+        
+        let width = img.width;
+        let height = img.height;
+        const minSize = 1200; 
         if (width < minSize || height < minSize) {
           const scale = minSize / Math.max(width, height);
           width = Math.round(width * scale);
           height = Math.round(height * scale);
         }
+        
         canvas.width = width;
         canvas.height = height;
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(img, 0, 0, width, height);
+
+        // Grayscale + High Contrast
         const imageData = ctx.getImageData(0, 0, width, height);
         const data = imageData.data;
         for (let i = 0; i < data.length; i += 4) {
           let gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+          // Binary threshold (stronger for handwriting/table lines)
           let binary = gray > 128 ? 255 : 0;
           data[i] = binary;
           data[i+1] = binary;
           data[i+2] = binary;
         }
         ctx.putImageData(imageData, 0, 0);
-        canvas.toBlob(blob => { URL.revokeObjectURL(url); resolve(blob); }, file.type, 0.95);
+        canvas.toBlob(blob => {
+          URL.revokeObjectURL(url);
+          resolve(blob);
+        }, file.type, 0.95);
       };
       img.onerror = () => reject(new Error('Image load failed'));
       img.src = url;
     });
   }
 
-  // ============================================
-  // 🆕 CALL CLOUDFLARE WORKER (No API key here)
-  // ============================================
-  function toBase64(blob) {
+  // --- OCR FUNCTION ---
+  async function performOCR(blob, lang) {
+    if (!blob) throw new Error('No image');
+    if (typeof Tesseract === 'undefined') throw new Error('OCR library loading...');
+    
+    let langCode = lang;
+    if (lang === 'hin' || lang === 'mar' || lang === 'urd') langCode = lang + '+eng'; 
+
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result.split(',')[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
+      const timeout = setTimeout(() => reject(new Error('OCR Timeout')), 120000);
+      Tesseract.recognize(blob, langCode, {
+        logger: m => {
+          if (m.status === 'recognizing text') {
+            let pct = Math.floor(m.progress * 100);
+            progressFill.style.width = Math.min(90, 10 + pct * 0.8) + '%';
+            ocrStatus.textContent = `Recognizing... ${pct}% (${lang})`;
+          } else if (m.status === 'loading language traineddata') {
+            ocrStatus.textContent = `Loading language: ${langCode} ...`;
+            progressFill.style.width = '25%';
+          }
+        }
+      }).then(result => {
+        clearTimeout(timeout);
+        resolve(result.data.text);
+      }).catch(err => {
+        clearTimeout(timeout);
+        reject(err);
+      });
     });
   }
 
-  // ⚠️ CHANGE THIS TO YOUR CLOUDFLARE WORKER URL
-  const WORKER_URL = 'https://gemini-ocr-proxy.filemagicpro.workers.dev/';
- async function callGeminiProxy(blob) {
-    const base64Image = await toBase64(blob);
-    const mimeType = blob.type || 'image/jpeg';
-    const response = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ imageBase64: base64Image, mimeType })
-    });
-    if (!response.ok) {
-      const err = await response.json();
-      throw new Error(err.error || 'Worker error');
-    }
-    const data = await response.json();
-    return data.text;
-  }
-
-  // --- Main OCR ---
   async function runOCR(blob, lang) {
     if (!blob) { showError('No image'); return; }
     progressBox.style.display = 'block';
     progressFill.style.width = '0%';
-    ocrStatus.textContent = 'Sending to Cloudflare Worker...';
+    ocrStatus.textContent = `Starting OCR...`;
     resultBox.style.display = 'none';
     textView.textContent = '';
     tableView.innerHTML = '';
@@ -293,10 +307,16 @@
     setTextareaDirection(lang);
 
     try {
-      rawText = await callGeminiProxy(blob);
-      const final = rawText.trim() || '⚠️ No text detected.';
+      rawText = await performOCR(blob, lang);
+      const final = rawText.trim() || '⚠️ No text detected. Try enhancing or better lighting.';
+      
+      // Try to parse as table
       parsedTableHtml = parseTextToTable(final);
+      
+      // If we found a table, auto-show table view
       if (parsedTableHtml) {
+        tableViewToggle.textContent = '📊 View Table';
+        // Show table view if it looks like a table
         isTableView = true;
         updateView();
         showToast('✅ Table formatted!');
@@ -304,24 +324,32 @@
         textView.textContent = final;
         tableView.style.display = 'none';
         textView.style.display = 'block';
-        showToast('✅ Text extracted');
+        showToast('✅ Text extracted (No table detected)');
       }
+      
       resultBox.style.display = 'block';
       progressFill.style.width = '100%';
       ocrStatus.textContent = 'Complete!';
+
     } catch (err) {
-      showError('Error: ' + (err.message || 'Processing failed.'));
-      textView.textContent = 'Error: ' + (err.message);
+      console.error(err);
+      showError('OCR error: ' + (err.message || 'Processing failed.'));
+      textView.textContent = 'Error: ' + (err.message || 'Processing failed.');
       resultBox.style.display = 'block';
     } finally {
       setTimeout(() => { progressBox.style.display = 'none'; }, 1000);
     }
   }
 
-  // --- File handler ---
   async function handleImageFile(file) {
-    if (!file || !file.type.startsWith('image/')) { showError('Please select an image'); return; }
-    if (file.size > 15 * 1024 * 1024) { showError('File too large (max 15MB)'); return; }
+    if (!file || !file.type.startsWith('image/')) {
+      showError('Please select an image');
+      return;
+    }
+    if (file.size > 15 * 1024 * 1024) {
+      showError('File too large (max 15MB)');
+      return;
+    }
     currentFile = file;
     currentImageBlob = file;
     const url = URL.createObjectURL(file);
@@ -332,11 +360,11 @@
     runOCR(currentImageBlob, lang);
   }
 
-  // --- Event listeners ---
+  // Event Listeners
   preprocessBtn.addEventListener('click', async () => {
     if (!currentFile) { showError('No image loaded'); return; }
     const selectedLang = langSelect.value;
-    showToast('Enhancing image...');
+    showToast('Enhancing image for better OCR...');
     try {
       let enhanced = await preprocessImageForOCR(currentFile);
       currentImageBlob = enhanced;
@@ -344,25 +372,30 @@
       previewImg.src = url;
       URL.revokeObjectURL(url);
       await runOCR(currentImageBlob, selectedLang);
-    } catch (err) { showError('Enhance failed: ' + err.message); }
+    } catch (err) {
+      showError('Enhance failed: ' + err.message);
+    }
   });
 
   langSelect.addEventListener('change', async () => {
     if (currentImageBlob) {
-      setTextareaDirection(langSelect.value);
-      await runOCR(currentImageBlob, langSelect.value);
+      const newLang = langSelect.value;
+      setTextareaDirection(newLang);
+      await runOCR(currentImageBlob, newLang);
     }
   });
 
   dropZone.addEventListener('click', () => fileInput.click());
-  fileInput.addEventListener('change', e => { if (fileInput.files[0]) handleImageFile(fileInput.files[0]); });
+  fileInput.addEventListener('change', e => {
+    if (fileInput.files[0]) handleImageFile(fileInput.files[0]);
+  });
   dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
   dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
   dropZone.addEventListener('drop', async e => {
     e.preventDefault();
     dropZone.classList.remove('drag-over');
     const file = e.dataTransfer.files[0];
-    if (file) handleImageFile(file);
+    if (file && file.type.startsWith('image/')) handleImageFile(file);
     else showError('Drop an image file');
   });
 
@@ -379,12 +412,28 @@
     a.href = URL.createObjectURL(blob);
     a.download = `ocr_text_${Date.now()}.txt`;
     a.click();
+    URL.revokeObjectURL(a.href);
   };
   clearBtn.onclick = () => {
-    textView.textContent = ''; tableView.innerHTML = ''; resultBox.style.display = 'none';
-    imagePreview.style.display = 'none'; previewImg.src = ''; currentImageBlob = null;
-    currentFile = null; fileInput.value = ''; showToast('Cleared');
+    textView.textContent = '';
+    tableView.innerHTML = '';
+    resultBox.style.display = 'none';
+    imagePreview.style.display = 'none';
+    previewImg.src = '';
+    currentImageBlob = null;
+    currentFile = null;
+    fileInput.value = '';
+    showToast('Cleared');
   };
+
+  // Load Tesseract
+  if (typeof Tesseract === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js';
+    script.onload = () => showToast('OCR engine ready');
+    script.onerror = () => showError('Failed to load OCR library.');
+    document.head.appendChild(script);
+  }
 </script>
 </body>
 </html>
