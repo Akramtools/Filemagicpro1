@@ -859,65 +859,54 @@ function loadBgRemoveImg(file){
   reader.readAsDataURL(file);
 }
 
-async function doBgRemoveAI(){
+  async function doBgRemoveAI(){
   if(!_bgrFile){toast('Please select an image first');return;}
 
-  document.getElementById('prg-bgremove').style.display='block';
-  document.getElementById('res-bgremove').style.display='none';
-  document.getElementById('bgr-status').textContent='Loading AI model... (first time 30-60 sec)';
-  document.getElementById('pb-bgremove').style.width='20%';
+  var CLIPDROP_KEY = '40d1273bc55304d7ef28072a05c8ca60d2f30a9fbde7af11eaa56efbb181bd27e5141d01f8cce99968d28c547389af53';
+
+  $('prg-bgremove').style.display='block';
+  $('res-bgremove').style.display='none';
+  $('bgr-status').textContent='Sending to AI...';
+  $('pb-bgremove').style.width='30%';
 
   try{
+    var formData=new FormData();
+    formData.append('image_file', _bgrFile);
 
-    var mod=await import('https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.7/+esm');
+    $('bgr-status').textContent='AI removing background...';
+    $('pb-bgremove').style.width='60%';
 
-    document.getElementById('bgr-status').textContent='AI removing background...';
-    document.getElementById('pb-bgremove').style.width='60%';
+    var res=await fetch('https://clipdrop-api.co/remove-background/v1',{
+      method:'POST',
+      headers:{'x-api-key': CLIPDROP_KEY},
+      body:formData
+    });
 
-    var config={
-      model:'isnet_quint8',
-      progress:function(key,current,total){
-        if(total>0){
-          var pct=60+Math.round((current/total)*35);
-          document.getElementById('pb-bgremove').style.width=pct+'%';
-        }
-      }
-    };
+    if(!res.ok){throw new Error('API Error: '+res.status);}
 
-    var blob=await mod.removeBackground(URL.createObjectURL(_bgrFile),config);
+    var blob=await res.blob();
 
-    document.getElementById('pb-bgremove').style.width='100%';
-    document.getElementById('bgr-status').textContent='Done!';
+    $('pb-bgremove').style.width='100%';
+    $('bgr-status').textContent='Done!';
+    setTimeout(function(){$('prg-bgremove').style.display='none';},600);
 
     if(_bgrResultUrl){URL.revokeObjectURL(_bgrResultUrl);}
     var url=URL.createObjectURL(blob);
     _bgrResultUrl=url;
 
-    var ri=document.getElementById('bgr-result-img');
+    var ri=$('bgr-result-img');
     if(ri){ri.src=url;}
-    document.getElementById('bgremove-preview').style.display='block';
-    document.getElementById('res-bgremove').style.display='block';
+    $('bgremove-preview').style.display='block';
+    $('res-bgremove').style.display='block';
 
-    document.getElementById('dl-bgremove').onclick=function(){
-      var a=document.createElement('a');
-      a.href=url;
-      a.download='bg_removed.png';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    };
-
-    setTimeout(function(){document.getElementById('prg-bgremove').style.display='none';},600);
+    $('dl-bgremove').onclick=function(){dlBlob(blob,'bg_removed.png');};
 
   }catch(err){
-    console.error('Background removal error:',err);
-    document.getElementById('prg-bgremove').style.display='none';
-
-    var msg='Background removal failed';
-    if(err && err.message){
-      if(err.message.toLowerCase().indexOf('fetch')>-1 || err.message.toLowerCase().indexOf('network')>-1){
-        msg='Model load nahi hua. Internet check karo aur dobara try karo';
-      }else{
+    console.error(err);
+    $('prg-bgremove').style.display='none';
+    toast('❌ Failed: '+err.message);
+  }
+      }
         msg='Failed: '+err.message;
       }
     }
