@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI OCR + Table Format | ChatGPT Style</title>
+  <!-- Tesseract pehle load karo HEAD mein -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
     body{background:#0a0f0d;font-family:'Segoe UI',system-ui,sans-serif;color:#e2f0e6;padding:20px;}
@@ -30,18 +32,19 @@
     .result-box{margin:0 24px 24px 24px;background:#0c1410;border:1px solid #2a3a2e;border-radius:20px;display:none;}
     .result-header{display:flex;justify-content:space-between;padding:12px 16px;background:#111c16;border-bottom:1px solid #2a3a2e;}
     .result-actions button{background:none;border:none;color:#8aa69a;cursor:pointer;font-size:1.1rem;margin-left:12px;}
-    
-    /* Tabular output styling */
     .textarea-container{width:100%;background:#0a100e;color:#e2f0e6;padding:16px;min-height:240px;}
     .table-wrapper{overflow-x:auto;padding:16px;}
     table{width:100%;border-collapse:collapse;color:#e2f0e6;}
     th,td{padding:8px 12px;border:1px solid #2a3a2e;text-align:left;}
     th{background:#1e2a22;}
     .table-toggle{background:#1e2a22;border:1px solid #4ade80;border-radius:32px;padding:4px 12px;color:#b9ffb0;cursor:pointer;font-size:0.8rem;}
-    
     .error-message{margin:0 24px 20px 24px;padding:12px;background:#5a2e2e;border-radius:12px;color:#ffc0c0;display:none;}
     .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1e2a22;padding:10px 20px;border-radius:40px;border:1px solid #4ade80;z-index:1000;opacity:0;transition:opacity 0.3s;pointer-events:none;}
     footer{text-align:center;padding:24px;color:#5a7864;font-size:0.8rem;}
+    .ocr-ready-badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:0.75rem;margin:0 24px 12px 24px;}
+    .ocr-ready-badge.loading{background:#3a3a1e;color:#ffff9e;}
+    .ocr-ready-badge.ready{background:#1e3a22;color:#9eff9e;}
+    .ocr-ready-badge.error{background:#3a1e1e;color:#ff9e9e;}
   </style>
 </head>
 <body>
@@ -49,14 +52,19 @@
   <div class="card">
     <div class="card-header">
       <h2>🧠 AI OCR · Table & Text Extractor</h2>
-      <div class="ai-badge">⚡ Handwritten to Table (Vision API)</div>
+      <div class="ai-badge">⚡ Handwritten to Table</div>
     </div>
+
+    <!-- OCR Engine Status -->
+    <div id="ocrReadyBadge" class="ocr-ready-badge loading">⏳ OCR Engine Loading...</div>
+
     <div class="drop-zone" id="dropZone">
       <div class="drop-icon">🖼️</div>
       <div class="drop-title">Click or drag image here</div>
       <div class="drop-sub">JPG, PNG, WebP, BMP (max 15MB) | Best for Tables</div>
-      <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/bmp" />
+      <input type="file" id="fileInput" class="file-input" accept="image/jpeg,image/png,image/webp,image/bmp" />
     </div>
+
     <div class="lang-row">
       <div class="lang-selector">
         <label>🌐 Language:</label>
@@ -71,35 +79,40 @@
       </div>
       <button class="btn-preprocess" id="preprocessBtn">✨ Enhance & Try Table Format</button>
     </div>
+
     <div class="progress-box" id="progressBox">
       <div class="progress-bar"><div class="progress-fill" id="ocrProgressFill"></div></div>
       <div class="status-text" id="ocrStatus">Ready</div>
     </div>
+
     <div class="image-preview" id="imagePreview">
       <img id="previewImg" alt="preview">
     </div>
+
     <div class="error-message" id="errorMsg"></div>
+
     <div class="result-box" id="resultBox">
       <div class="result-header">
         <span>📄 Extracted Text <span id="rtlHint"></span></span>
         <div style="display:flex;align-items:center;gap:8px;">
           <button class="table-toggle" id="tableViewToggle">📊 View Table</button>
-          <button id="copyBtn">📋</button>
-          <button id="downloadBtn">💾</button>
-          <button id="clearBtn">🗑️</button>
+          <button id="copyBtn" title="Copy">📋</button>
+          <button id="downloadBtn" title="Download">💾</button>
+          <button id="clearBtn" title="Clear">🗑️</button>
         </div>
       </div>
       <div id="resultContent" class="textarea-container">
         <div id="textView" style="white-space:pre-wrap;font-family:'Courier New',monospace;"></div>
-        <div id="tableView" style="display:none;"></div>
+        <div id="tableView" style="display:none;overflow-x:auto;"></div>
       </div>
     </div>
   </div>
-  <footer>🔒 100% client-side · <strong>Handwritten tables:</strong> Use Gemini Vision API (Free) or OpenAI API for ChatGPT-like results.</footer>
+  <footer>🔒 100% Client-Side OCR · Tesseract.js</footer>
 </div>
 <div id="toastMsg" class="toast"></div>
 
 <script>
+  // --- DOM Refs ---
   const dropZone = document.getElementById('dropZone');
   const fileInput = document.getElementById('fileInput');
   const langSelect = document.getElementById('langSelect');
@@ -119,93 +132,109 @@
   const errorMsgDiv = document.getElementById('errorMsg');
   const toastDiv = document.getElementById('toastMsg');
   const rtlHint = document.getElementById('rtlHint');
+  const ocrReadyBadge = document.getElementById('ocrReadyBadge');
 
-  let currentImageBlob = null;
   let currentFile = null;
+  let currentImageBlob = null;
   let isTableView = false;
   let rawText = '';
   let parsedTableHtml = '';
+  let tesseractReady = false;
 
-  // --- Helper Functions ---
+  // --- Toast ---
   function showToast(msg, isError = false) {
     toastDiv.textContent = msg;
     toastDiv.style.backgroundColor = isError ? '#5a2e2e' : '#1e3a2a';
     toastDiv.style.opacity = '1';
     setTimeout(() => toastDiv.style.opacity = '0', 2500);
   }
+
+  // --- Error ---
   function showError(msg) {
     errorMsgDiv.textContent = '❌ ' + msg;
     errorMsgDiv.style.display = 'block';
-    setTimeout(() => errorMsgDiv.style.display = 'none', 5000);
+    setTimeout(() => errorMsgDiv.style.display = 'none', 6000);
     showToast(msg, true);
   }
+
+  // --- RTL ---
   function setTextareaDirection(lang) {
-    const shouldRTL = lang === 'urd' || lang === 'ara' || (lang.includes('urd') && lang.includes('ara'));
-    textView.style.direction = shouldRTL ? 'rtl' : 'ltr';
-    textView.style.textAlign = shouldRTL ? 'right' : 'left';
-    rtlHint.innerHTML = shouldRTL ? ' (RTL mode)' : '';
+    const rtl = lang === 'urd' || lang === 'ara' || (lang.includes('urd') && lang.includes('ara'));
+    textView.style.direction = rtl ? 'rtl' : 'ltr';
+    textView.style.textAlign = rtl ? 'right' : 'left';
+    rtlHint.textContent = rtl ? ' (RTL mode)' : '';
   }
 
-  // --- TABLE PARSING ENGINE (ChatGPT-style for text) ---
+  // --- Wait for Tesseract ---
+  function waitForTesseract(timeout = 15000) {
+    return new Promise((resolve, reject) => {
+      if (typeof Tesseract !== 'undefined') { resolve(); return; }
+      const start = Date.now();
+      const interval = setInterval(() => {
+        if (typeof Tesseract !== 'undefined') {
+          clearInterval(interval);
+          resolve();
+        } else if (Date.now() - start > timeout) {
+          clearInterval(interval);
+          reject(new Error('OCR engine failed to load. Check your internet connection.'));
+        }
+      }, 200);
+    });
+  }
+
+  // --- Check Tesseract on load ---
+  (async () => {
+    try {
+      await waitForTesseract(20000);
+      tesseractReady = true;
+      ocrReadyBadge.textContent = '✅ OCR Engine Ready';
+      ocrReadyBadge.className = 'ocr-ready-badge ready';
+    } catch (e) {
+      ocrReadyBadge.textContent = '❌ OCR Engine Failed to Load';
+      ocrReadyBadge.className = 'ocr-ready-badge error';
+    }
+  })();
+
+  // --- Table Parser ---
   function parseTextToTable(text) {
     if (!text || text.trim().length < 10) return null;
-    
-    const lines = text.split('\n').filter(line => line.trim().length > 0);
+    const lines = text.split('\n').filter(l => l.trim().length > 0);
     if (lines.length < 2) return null;
 
-    // Heuristic: detect if lines have consistent column count separated by spaces/tabs
-    const rows = [];
-    for (let line of lines) {
-        // Replace multiple spaces with a single delimiter
-        const cols = line.trim().split(/\s{2,}/); // 2+ spaces = column break
-        if (cols.length < 2) continue; // Not a table row
-        rows.push(cols);
-    }
-
+    const rows = lines.map(line => line.trim().split(/\s{2,}/)).filter(cols => cols.length >= 2);
     if (rows.length < 2) return null;
 
-    // Determine max columns
     let maxCols = 0;
-    for (let row of rows) maxCols = Math.max(maxCols, row.length);
+    rows.forEach(r => maxCols = Math.max(maxCols, r.length));
 
-    // Build HTML Table
-    let html = '<table>';
-    // Header row (first row)
-    html += '<thead><tr>';
-    for (let col of rows[0]) {
-        html += `<th>${col.trim()}</th>`;
-    }
-    // Fill missing header columns with empty th
+    let html = '<table><thead><tr>';
+    rows[0].forEach(col => html += `<th>${col.trim()}</th>`);
     for (let i = rows[0].length; i < maxCols; i++) html += '<th></th>';
     html += '</tr></thead><tbody>';
 
-    // Body rows (from 1 to end)
     for (let i = 1; i < rows.length; i++) {
-        html += '<tr>';
-        for (let j = 0; j < rows[i].length; j++) {
-            html += `<td>${rows[i][j].trim()}</td>`;
-        }
-        // Fill missing cells
-        for (let j = rows[i].length; j < maxCols; j++) html += '<td></td>';
-        html += '</tr>';
+      html += '<tr>';
+      rows[i].forEach(cell => html += `<td>${cell.trim()}</td>`);
+      for (let j = rows[i].length; j < maxCols; j++) html += '<td></td>';
+      html += '</tr>';
     }
     html += '</tbody></table>';
     return html;
   }
 
-  // --- Update UI based on toggle state ---
+  // --- Update View ---
   function updateView() {
     if (!rawText) return;
     if (isTableView && parsedTableHtml) {
-        tableView.innerHTML = parsedTableHtml;
-        tableView.style.display = 'block';
-        textView.style.display = 'none';
-        tableViewToggle.textContent = '📝 View Text';
+      tableView.innerHTML = parsedTableHtml;
+      tableView.style.display = 'block';
+      textView.style.display = 'none';
+      tableViewToggle.textContent = '📝 View Text';
     } else {
-        textView.textContent = rawText;
-        tableView.style.display = 'none';
-        textView.style.display = 'block';
-        tableViewToggle.textContent = '📊 View Table';
+      textView.textContent = rawText;
+      tableView.style.display = 'none';
+      textView.style.display = 'block';
+      tableViewToggle.textContent = '📊 View Table';
     }
   }
 
@@ -214,88 +243,76 @@
     updateView();
   });
 
-  // --- Image Preprocessing (Improved) ---
+  // --- Image Preprocessing ---
   async function preprocessImageForOCR(file) {
     return new Promise((resolve, reject) => {
       const img = new Image();
       const url = URL.createObjectURL(file);
       img.onload = () => {
+        URL.revokeObjectURL(url); // revoke after load, not before
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        
-        let width = img.width;
-        let height = img.height;
-        const minSize = 1200; 
+        let width = img.width, height = img.height;
+        const minSize = 1200;
         if (width < minSize || height < minSize) {
           const scale = minSize / Math.max(width, height);
           width = Math.round(width * scale);
           height = Math.round(height * scale);
         }
-        
         canvas.width = width;
         canvas.height = height;
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Grayscale + High Contrast
         const imageData = ctx.getImageData(0, 0, width, height);
-        const data = imageData.data;
-        for (let i = 0; i < data.length; i += 4) {
-          let gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
-          // Binary threshold (stronger for handwriting/table lines)
-          let binary = gray > 128 ? 255 : 0;
-          data[i] = binary;
-          data[i+1] = binary;
-          data[i+2] = binary;
+        const d = imageData.data;
+        for (let i = 0; i < d.length; i += 4) {
+          let gray = 0.299 * d[i] + 0.587 * d[i+1] + 0.114 * d[i+2];
+          let bin = gray > 128 ? 255 : 0;
+          d[i] = d[i+1] = d[i+2] = bin;
         }
         ctx.putImageData(imageData, 0, 0);
-        canvas.toBlob(blob => {
-          URL.revokeObjectURL(url);
-          resolve(blob);
-        }, file.type, 0.95);
+        canvas.toBlob(blob => resolve(blob), 'image/png', 0.95);
       };
-      img.onerror = () => reject(new Error('Image load failed'));
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image load failed')); };
       img.src = url;
     });
   }
 
-  // --- OCR FUNCTION ---
-  async function performOCR(blob, lang) {
-    if (!blob) throw new Error('No image');
-    if (typeof Tesseract === 'undefined') throw new Error('OCR library loading...');
-    
-    let langCode = lang;
-    if (lang === 'hin' || lang === 'mar' || lang === 'urd') langCode = lang + '+eng'; 
-
-    return new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => reject(new Error('OCR Timeout')), 120000);
-      Tesseract.recognize(blob, langCode, {
-        logger: m => {
-          if (m.status === 'recognizing text') {
-            let pct = Math.floor(m.progress * 100);
-            progressFill.style.width = Math.min(90, 10 + pct * 0.8) + '%';
-            ocrStatus.textContent = `Recognizing... ${pct}% (${lang})`;
-          } else if (m.status === 'loading language traineddata') {
-            ocrStatus.textContent = `Loading language: ${langCode} ...`;
-            progressFill.style.width = '25%';
-          }
-        }
-      }).then(result => {
-        clearTimeout(timeout);
-        resolve(result.data.text);
-      }).catch(err => {
-        clearTimeout(timeout);
-        reject(err);
-      });
-    });
+  // --- Show Preview (fixed: keep URL alive) ---
+  function showPreview(file) {
+    // Revoke old URL if any
+    if (previewImg._objectUrl) {
+      URL.revokeObjectURL(previewImg._objectUrl);
+    }
+    const url = URL.createObjectURL(file);
+    previewImg._objectUrl = url;
+    previewImg.src = url;
+    imagePreview.style.display = 'block';
   }
 
+  // --- Main OCR ---
   async function runOCR(blob, lang) {
-    if (!blob) { showError('No image'); return; }
+    if (!blob) { showError('No image selected'); return; }
+
+    // Wait for Tesseract if not ready
+    if (!tesseractReady) {
+      ocrStatus.textContent = 'Waiting for OCR engine...';
+      progressBox.style.display = 'block';
+      try {
+        await waitForTesseract(20000);
+        tesseractReady = true;
+      } catch (e) {
+        showError('OCR engine not loaded. Refresh and try again.');
+        progressBox.style.display = 'none';
+        return;
+      }
+    }
+
     progressBox.style.display = 'block';
-    progressFill.style.width = '0%';
-    ocrStatus.textContent = `Starting OCR...`;
+    progressFill.style.width = '5%';
+    ocrStatus.textContent = 'Starting OCR...';
     resultBox.style.display = 'none';
     textView.textContent = '';
     tableView.innerHTML = '';
@@ -307,133 +324,133 @@
     setTextareaDirection(lang);
 
     try {
-      rawText = await performOCR(blob, lang);
-      const final = rawText.trim() || '⚠️ No text detected. Try enhancing or better lighting.';
-      
-      // Try to parse as table
-      parsedTableHtml = parseTextToTable(final);
-      
-      // If we found a table, auto-show table view
+      let langCode = lang;
+      if (lang === 'hin' || lang === 'mar' || lang === 'urd') langCode = lang + '+eng';
+
+      const result = await Tesseract.recognize(blob, langCode, {
+        logger: m => {
+          if (m.status === 'recognizing text') {
+            const pct = Math.floor(m.progress * 100);
+            progressFill.style.width = Math.min(90, 10 + pct * 0.8) + '%';
+            ocrStatus.textContent = `Recognizing... ${pct}%`;
+          } else if (m.status === 'loading language traineddata') {
+            ocrStatus.textContent = `Loading language data...`;
+            progressFill.style.width = '20%';
+          } else if (m.status === 'initialized api') {
+            ocrStatus.textContent = 'OCR initialized...';
+            progressFill.style.width = '10%';
+          }
+        }
+      });
+
+      rawText = result.data.text.trim() || '⚠️ No text detected. Try Enhance button or better lighting.';
+      parsedTableHtml = parseTextToTable(rawText);
+
       if (parsedTableHtml) {
-        tableViewToggle.textContent = '📊 View Table';
-        // Show table view if it looks like a table
         isTableView = true;
-        updateView();
         showToast('✅ Table formatted!');
       } else {
-        textView.textContent = final;
-        tableView.style.display = 'none';
-        textView.style.display = 'block';
-        showToast('✅ Text extracted (No table detected)');
+        showToast('✅ Text extracted');
       }
-      
+
+      updateView();
       resultBox.style.display = 'block';
       progressFill.style.width = '100%';
-      ocrStatus.textContent = 'Complete!';
+      ocrStatus.textContent = '✅ Complete!';
 
     } catch (err) {
-      console.error(err);
-      showError('OCR error: ' + (err.message || 'Processing failed.'));
-      textView.textContent = 'Error: ' + (err.message || 'Processing failed.');
+      console.error('OCR Error:', err);
+      const msg = err.message || 'Processing failed';
+      showError('OCR error: ' + msg);
+      textView.textContent = 'Error: ' + msg;
       resultBox.style.display = 'block';
     } finally {
-      setTimeout(() => { progressBox.style.display = 'none'; }, 1000);
+      setTimeout(() => { progressBox.style.display = 'none'; }, 1500);
     }
   }
 
+  // --- Handle File ---
   async function handleImageFile(file) {
-    if (!file || !file.type.startsWith('image/')) {
-      showError('Please select an image');
-      return;
-    }
-    if (file.size > 15 * 1024 * 1024) {
-      showError('File too large (max 15MB)');
-      return;
-    }
+    if (!file || !file.type.startsWith('image/')) { showError('Please select an image file'); return; }
+    if (file.size > 15 * 1024 * 1024) { showError('File too large (max 15MB)'); return; }
     currentFile = file;
     currentImageBlob = file;
-    const url = URL.createObjectURL(file);
-    previewImg.src = url;
-    imagePreview.style.display = 'block';
-    URL.revokeObjectURL(url);
-    let lang = langSelect.value;
-    runOCR(currentImageBlob, lang);
+    showPreview(file);
+    runOCR(currentImageBlob, langSelect.value);
   }
 
-  // Event Listeners
+  // --- Enhance Button ---
   preprocessBtn.addEventListener('click', async () => {
-    if (!currentFile) { showError('No image loaded'); return; }
-    const selectedLang = langSelect.value;
-    showToast('Enhancing image for better OCR...');
+    if (!currentFile) { showError('No image loaded. Please select an image first.'); return; }
+    showToast('Enhancing image...');
     try {
-      let enhanced = await preprocessImageForOCR(currentFile);
+      const enhanced = await preprocessImageForOCR(currentFile);
       currentImageBlob = enhanced;
+      // Show enhanced preview
+      if (previewImg._objectUrl) URL.revokeObjectURL(previewImg._objectUrl);
       const url = URL.createObjectURL(enhanced);
+      previewImg._objectUrl = url;
       previewImg.src = url;
-      URL.revokeObjectURL(url);
-      await runOCR(currentImageBlob, selectedLang);
+      imagePreview.style.display = 'block';
+      await runOCR(currentImageBlob, langSelect.value);
     } catch (err) {
       showError('Enhance failed: ' + err.message);
     }
   });
 
-  langSelect.addEventListener('change', async () => {
-    if (currentImageBlob) {
-      const newLang = langSelect.value;
-      setTextareaDirection(newLang);
-      await runOCR(currentImageBlob, newLang);
-    }
+  // --- Language Change ---
+  langSelect.addEventListener('change', () => {
+    if (currentImageBlob) runOCR(currentImageBlob, langSelect.value);
   });
 
+  // --- Drop Zone ---
   dropZone.addEventListener('click', () => fileInput.click());
   fileInput.addEventListener('change', e => {
     if (fileInput.files[0]) handleImageFile(fileInput.files[0]);
   });
   dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
   dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-  dropZone.addEventListener('drop', async e => {
+  dropZone.addEventListener('drop', e => {
     e.preventDefault();
     dropZone.classList.remove('drag-over');
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) handleImageFile(file);
-    else showError('Drop an image file');
+    else showError('Please drop an image file');
   });
 
+  // --- Action Buttons ---
   copyBtn.onclick = () => {
-    const txt = isTableView ? rawText : textView.textContent;
-    if (!txt.trim()) { showToast('No text', true); return; }
-    navigator.clipboard.writeText(txt).then(() => showToast('Copied'));
+    const txt = rawText;
+    if (!txt || !txt.trim()) { showToast('Nothing to copy', true); return; }
+    navigator.clipboard.writeText(txt).then(() => showToast('✅ Copied!')).catch(() => showToast('Copy failed', true));
   };
+
   downloadBtn.onclick = () => {
-    const txt = isTableView ? rawText : textView.textContent;
-    if (!txt.trim()) { showToast('No text', true); return; }
-    const blob = new Blob([txt], { type: 'text/plain' });
+    if (!rawText || !rawText.trim()) { showToast('Nothing to download', true); return; }
+    const blob = new Blob([rawText], { type: 'text/plain;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `ocr_text_${Date.now()}.txt`;
+    a.download = `ocr_result_${Date.now()}.txt`;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(a.href);
   };
+
   clearBtn.onclick = () => {
+    rawText = '';
+    parsedTableHtml = '';
     textView.textContent = '';
     tableView.innerHTML = '';
     resultBox.style.display = 'none';
     imagePreview.style.display = 'none';
+    if (previewImg._objectUrl) { URL.revokeObjectURL(previewImg._objectUrl); previewImg._objectUrl = null; }
     previewImg.src = '';
     currentImageBlob = null;
     currentFile = null;
     fileInput.value = '';
     showToast('Cleared');
   };
-
-  // Load Tesseract
-  if (typeof Tesseract === 'undefined') {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js';
-    script.onload = () => showToast('OCR engine ready');
-    script.onerror = () => showError('Failed to load OCR library.');
-    document.head.appendChild(script);
-  }
 </script>
 </body>
 </html>
