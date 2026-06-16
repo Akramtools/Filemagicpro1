@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to Text (OCR) | FileMagic Pro</title>
+  <meta name="description" content="Extract text from images free — English, Hindi, Urdu, Arabic, Marathi. No signup, no upload, 100% browser-based OCR tool.">
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0f0d;--card:#111a14;--border:#1e3024;
+      --accent:#4ade80;--accent2:#b9ffb0;--text:#dff0e4;
+      --muted:#6a9a78;--err:#ff9090;--err-bg:#3a1818;
+    }
+    body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;padding:16px;min-height:100vh;}
+    a{color:var(--accent);text-decoration:none;}
+    .wrap{max-width:720px;margin:0 auto;}
+
+    /* back link */
+    .back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:0.8rem;margin-bottom:16px;}
+
+    /* header */
+    .header{text-align:center;padding:20px 0 16px;}
+    .header h1{font-size:1.7rem;font-weight:700;background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:4px;}
+    .header p{color:var(--muted);font-size:0.82rem;}
+
+    /* engine badge */
+    .engine-badge{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;}
+    .badge{padding:5px 12px;border-radius:999px;font-size:0.74rem;border:1px solid var(--border);background:var(--card);}
+    .badge.green{border-color:var(--accent);color:var(--accent2);background:#1a3a22;}
+    .badge.yellow{border-color:#facc15;color:#fef08a;background:#2a2a0a;}
+
+    /* lang pills */
+    .lang-pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:14px;}
+    .pill{padding:6px 13px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:0.76rem;cursor:pointer;transition:all 0.15s;user-select:none;}
+    .pill.active{background:#1a3a22;border-color:var(--accent);color:var(--accent2);}
+
+    /* drop zone */
+    .drop-zone{border:2px dashed var(--border);border-radius:20px;padding:36px 20px;text-align:center;cursor:pointer;background:#0c1410;transition:all 0.2s;margin-bottom:12px;position:relative;}
+    .drop-zone.drag-over{border-color:var(--accent);background:#152018;}
+    .drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .drop-icon{font-size:2.4rem;margin-bottom:8px;}
+    .drop-title{font-size:1rem;font-weight:600;margin-bottom:3px;}
+    .drop-sub{font-size:0.76rem;color:var(--muted);}
+
+    /* preview */
+    .preview-wrap{display:none;margin-bottom:12px;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#0c1410;}
+    .preview-wrap img{max-width:100%;max-height:260px;object-fit:contain;display:block;margin:0 auto;}
+    .preview-meta{padding:7px 12px;font-size:0.73rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center;}
+    .btn-rm{background:none;border:none;color:var(--err);cursor:pointer;font-size:0.78rem;}
+
+    /* enhance toggle */
+    .enhance-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px;font-size:0.8rem;color:var(--muted);}
+    .toggle{width:40px;height:22px;background:var(--border);border-radius:999px;position:relative;cursor:pointer;transition:background 0.2s;}
+    .toggle.on{background:#1e5a2e;}
+    .toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:left 0.2s;}
+    .toggle.on::after{left:21px;}
+
+    /* extract btn */
+    .btn-extract{width:100%;padding:13px;border-radius:14px;border:none;background:linear-gradient(135deg,#1e5a2e,#2a8a44);color:#fff;font-size:0.95rem;font-weight:600;cursor:pointer;margin-bottom:12px;transition:opacity 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .btn-extract:disabled{opacity:0.35;cursor:not-allowed;}
+
+    /* progress */
+    .prog-wrap{display:none;margin-bottom:12px;}
+    .prog-bar{height:6px;background:var(--border);border-radius:99px;overflow:hidden;}
+    .prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width 0.3s;}
+    .prog-label{font-size:0.76rem;color:var(--muted);text-align:center;margin-top:5px;}
+
+    /* error */
+    .err-box{display:none;background:var(--err-bg);border:1px solid #5a2020;border-radius:12px;padding:11px 14px;color:var(--err);font-size:0.82rem;margin-bottom:12px;}
+
+    /* result */
+    .result-card{display:none;background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:18px;}
+    .result-header{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;background:#0e1812;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:7px;}
+    .result-title{font-size:0.82rem;color:var(--muted);}
+    .result-acts{display:flex;gap:7px;}
+    .btn-act{background:#1a2e1e;border:1px solid var(--border);border-radius:999px;padding:5px 11px;color:var(--text);font-size:0.74rem;cursor:pointer;}
+    .btn-act:hover{background:#233a27;}
+    .result-body{padding:14px;min-height:140px;white-space:pre-wrap;font-family:'Courier New',monospace;font-size:0.9rem;line-height:1.75;color:var(--text);word-break:break-word;}
+    .result-body.rtl{direction:rtl;text-align:right;font-family:'Segoe UI',Arial,sans-serif;font-size:1rem;}
+
+    /* toast */
+    .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#1a3a22;border:1px solid var(--accent);border-radius:999px;padding:9px 18px;font-size:0.8rem;color:var(--accent2);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:999;white-space:nowrap;}
+    .toast.show{opacity:1;}
+
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .spinner{width:17px;height:17px;border:2px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;}
+
+    footer{text-align:center;padding:18px;font-size:0.7rem;color:var(--muted);}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html">← FileMagic Pro</a>
+
+  <div class="header">
+    <h1>🔍 Image to Text (OCR)</h1>
+    <p>Extract text from any image — English, Hindi, Urdu, Arabic, Marathi</p>
+  </div>
+
+  <div class="engine-badge">
+    <span class="badge green" id="engineBadge">⏳ Loading OCR Engine...</span>
+    <span class="badge">🔒 100% Browser · No Upload</span>
+  </div>
+
+  <!-- Language Pills -->
+  <div class="lang-pills">
+    <div class="pill active" data-lang="eng">🇬🇧 English</div>
+    <div class="pill" data-lang="hin+eng">🇮🇳 Hindi</div>
+    <div class="pill" data-lang="urd+eng">اردو Urdu</div>
+    <div class="pill" data-lang="ara+eng">عربي Arabic</div>
+    <div class="pill" data-lang="mar+eng">मराठी Marathi</div>
+    <div class="pill" data-lang="eng+hin+urd+ara+mar">⚡ All Languages</div>
+  </div>
+
+  <!-- Drop Zone -->
+  <div class="drop-zone" id="dropZone">
+    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/bmp" />
+    <div class="drop-icon">📷</div>
+    <div class="drop-title">Click or drag image here</div>
+    <div class="drop-sub">JPG · PNG · WebP · BMP · Max 15MB</div>
+  </div>
+
+  <!-- Preview -->
+  <div class="preview-wrap" id="previewWrap">
+    <img id="previewImg" alt="preview" />
+    <div class="preview-meta">
+      <span id="previewMeta">—</span>
+      <button class="btn-rm" id="clearImgBtn">✕ Remove</button>
+    </div>
+  </div>
+
+  <!-- Enhance Toggle -->
+  <div class="enhance-row">
+    <span>✨ Enhance image for better accuracy</span>
+    <div class="toggle on" id="enhanceToggle"></div>
+  </div>
+
+  <!-- Extract Button -->
+  <button class="btn-extract" id="extractBtn" disabled>
+    <span>🔍 Extract Text</span>
+  </button>
+
+  <!-- Progress -->
+  <div class="prog-wrap" id="progWrap">
+    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+    <div class="prog-label" id="progLabel">Loading...</div>
+  </div>
+
+  <!-- Error -->
+  <div class="err-box" id="errBox"></div>
+
+  <!-- Result -->
+  <div class="result-card" id="resultCard">
+    <div class="result-header">
+      <span class="result-title" id="resultTitle">📄 Extracted Text</span>
+      <div class="result-acts">
+        <button class="btn-act" id="copyBtn">📋 Copy</button>
+        <button class="btn-act" id="downloadBtn">💾 Save</button>
+        <button class="btn-act" id="clearResultBtn">🗑️</button>
+      </div>
+    </div>
+    <div class="result-body" id="resultBody"></div>
+  </div>
+
+  <footer>🔒 100% Free · No Signup · FileMagic Pro</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  let currentFile = null;
+  let currentBlob = null;
+  let selectedLang = 'eng';
+  let enhanceOn = true;
+  let engineReady = false;
+  let rawText = '';
+
+  const dropZone     = document.getElementById('dropZone');
+  const fileInput    = document.getElementById('fileInput');
+  const previewWrap  = document.getElementById('previewWrap');
+  const previewImg   = document.getElementById('previewImg');
+  const previewMeta  = document.getElementById('previewMeta');
+  const clearImgBtn  = document.getElementById('clearImgBtn');
+  const extractBtn   = document.getElementById('extractBtn');
+  const progWrap     = document.getElementById('progWrap');
+  const progFill     = document.getElementById('progFill');
+  const progLabel    = document.getElementById('progLabel');
+  const errBox       = document.getElementById('errBox');
+  const resultCard   = document.getElementById('resultCard');
+  const resultBody   = document.getElementById('resultBody');
+  const resultTitle  = document.getElementById('resultTitle');
+  const copyBtn      = document.getElementById('copyBtn');
+  const downloadBtn  = document.getElementById('downloadBtn');
+  const clearResultBtn = document.getElementById('clearResultBtn');
+  const toastEl      = document.getElementById('toast');
+  const engineBadge  = document.getElementById('engineBadge');
+  const enhanceToggle= document.getElementById('enhanceToggle');
+
+  // Engine ready check
+  function checkEngine() {
+    if (typeof Tesseract !== 'undefined') {
+      engineReady = true;
+      engineBadge.textContent = '✅ OCR Engine Ready';
+      engineBadge.className = 'badge green';
+      if (currentFile) extractBtn.disabled = false;
+    } else {
+      setTimeout(checkEngine, 300);
+    }
+  }
+  checkEngine();
+
+  // Enhance toggle
+  enhanceToggle.addEventListener('click', () => {
+    enhanceOn = !enhanceOn;
+    enhanceToggle.classList.toggle('on', enhanceOn);
+  });
+
+  // Lang pills
+  document.querySelectorAll('.pill').forEach(p => {
+    p.addEventListener('click', () => {
+      document.querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
+      p.classList.add('active');
+      selectedLang = p.dataset.lang;
+    });
+  });
+
+  // Toast
+  let toastTimer;
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2200);
+  }
+
+  function showError(msg) {
+    errBox.textContent = '❌ ' + msg;
+    errBox.style.display = 'block';
+    setTimeout(() => errBox.style.display = 'none', 7000);
+  }
+
+  function setProgress(pct, label) {
+    progWrap.style.display = 'block';
+    progFill.style.width = pct + '%';
+    progLabel.textContent = label;
+  }
+
+  function hideProgress() {
+    setTimeout(() => progWrap.style.display = 'none', 1000);
+  }
+
+  // Image enhance (grayscale + contrast)
+  function enhanceImage(file) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        let w = img.width, h = img.height;
+        // Scale up small images
+        if (Math.max(w, h) < 1500) {
+          const scale = 1500 / Math.max(w, h);
+          w = Math.round(w * scale);
+          h = Math.round(h * scale);
+        }
+        canvas.width = w; canvas.height = h;
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, w, h);
+        const id = ctx.getImageData(0, 0, w, h);
+        const d = id.data;
+        for (let i = 0; i < d.length; i += 4) {
+          let gray = 0.299*d[i] + 0.587*d[i+1] + 0.114*d[i+2];
+          // Adaptive threshold
+          let val = gray > 140 ? 255 : 0;
+          d[i] = d[i+1] = d[i+2] = val;
+        }
+        ctx.putImageData(id, 0, 0);
+        canvas.toBlob(blob => resolve(blob), 'image/png', 1.0);
+      };
+      img.onerror = () => reject(new Error('Image load failed'));
+      img.src = url;
+    });
+  }
+
+  // Handle file
+  async function handleFile(file) {
+    if (!file || !file.type.startsWith('image/')) { showError('Please select an image'); return; }
+    if (file.size > 15 * 1024 * 1024) { showError('File too large (max 15MB)'); return; }
+    currentFile = file;
+    currentBlob = file;
+    errBox.style.display = 'none';
+    resultCard.style.display = 'none';
+
+    if (previewImg._objUrl) URL.revokeObjectURL(previewImg._objUrl);
+    const url = URL.createObjectURL(file);
+    previewImg._objUrl = url;
+    previewImg.src = url;
+    previewWrap.style.display = 'block';
+    previewMeta.textContent = file.name + ' · ' + (file.size/1024).toFixed(0) + ' KB';
+
+    if (engineReady) extractBtn.disabled = false;
+  }
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('drag-over');
+    if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+  });
+
+  clearImgBtn.addEventListener('click', () => {
+    currentFile = null; currentBlob = null; rawText = '';
+    previewWrap.style.display = 'none';
+    if (previewImg._objUrl) { URL.revokeObjectURL(previewImg._objUrl); previewImg._objUrl = null; }
+    previewImg.src = '';
+    resultCard.style.display = 'none';
+    extractBtn.disabled = true;
+    fileInput.value = '';
+    errBox.style.display = 'none';
+  });
+
+  // RTL detect
+  function isRTL(text) {
+    return /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/.test(text);
+  }
+
+  // Main OCR
+  extractBtn.addEventListener('click', async () => {
+    if (!currentFile || !engineReady) return;
+
+    extractBtn.disabled = true;
+    extractBtn.innerHTML = '<div class="spinner"></div><span>Processing...</span>';
+    resultCard.style.display = 'none';
+    errBox.style.display = 'none';
+    setProgress(5, 'Preparing image...');
+
+    try {
+      let blob = currentFile;
+
+      if (enhanceOn) {
+        setProgress(15, 'Enhancing image...');
+        try { blob = await enhanceImage(currentFile); } catch(e) { blob = currentFile; }
+      }
+
+      setProgress(25, 'Starting OCR...');
+
+      const result = await Tesseract.recognize(blob, selectedLang, {
+        logger: m => {
+          if (m.status === 'recognizing text') {
+            const pct = Math.round(25 + m.progress * 70);
+            setProgress(pct, `Recognizing text... ${Math.round(m.progress*100)}%`);
+          } else if (m.status === 'loading language traineddata') {
+            setProgress(20, 'Loading language data (first time takes ~30s)...');
+          }
+        }
+      });
+
+      rawText = result.data.text.trim();
+      if (!rawText) rawText = '⚠️ No text detected. Try turning off Enhance, or use a clearer image.';
+
+      setProgress(100, 'Done!');
+
+      const rtl = isRTL(rawText);
+      resultBody.className = 'result-body' + (rtl ? ' rtl' : '');
+      resultBody.textContent = rawText;
+      resultTitle.textContent = rtl ? '📄 Extracted Text (RTL)' : '📄 Extracted Text';
+      resultCard.style.display = 'block';
+      showToast('✅ Text extracted!');
+
+    } catch(err) {
+      showError(err.message || 'OCR failed. Try again.');
+    } finally {
+      extractBtn.disabled = false;
+      extractBtn.innerHTML = '<span>🔍 Extract Text</span>';
+      hideProgress();
+    }
+  });
+
+  copyBtn.addEventListener('click', () => {
+    if (!rawText) { showToast('Nothing to copy'); return; }
+    navigator.clipboard.writeText(rawText).then(() => showToast('✅ Copied!')).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = rawText; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      showToast('✅ Copied!');
+    });
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    if (!rawText) { showToast('Nothing to save'); return; }
+    const blob = new Blob([rawText], {type:'text/plain;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'ocr_' + Date.now() + '.txt';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a); URL.revokeObjectURL(a.href);
+    showToast('✅ Saved!');
+  });
+
+  clearResultBtn.addEventListener('click', () => {
+    rawText = ''; resultCard.style.display = 'none'; showToast('Cleared');
+  });
+</script>
+</body>
+</html>
