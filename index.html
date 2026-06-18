@@ -2714,62 +2714,7 @@
             });
         }
 
-        // ===== BACKGROUND REMOVER (AI - No API Key, Browser Only) =====
-var _bgrFile = null;
-var _bgrResultUrl = null;
-var _bgrModel = null;
-var _bgrProcessor = null;
-
-function loadBgRemoveImg(file) {
-    _bgrFile = file;
-    var fn = $('fn-bgremove');
-    if (fn) { fn.textContent = '✅ ' + file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + 'MB)'; }
-    var reader = new FileReader();
-    reader.onload = function(e) {
-        var oi = $('bgr-orig-img');
-        if (oi) { oi.src = e.target.result; }
-        $('bgremove-preview').style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-}
-
-async function doBgRemoveAI() {
-    if (!_bgrFile) { toast('Please select an image first'); return; }
-
-    $('prg-bgremove').style.display = 'block';
-    $('res-bgremove').style.display = 'none';
-    $('bgr-status').textContent = 'AI library load ho rahi hai...';
-    $('pb-bgremove').style.width = '5%';
-
-    try {
-        // Step 1: Load transformers.js script and wait until window.transformers is ready
-        await loadTransformers();
-
-        const T = window.transformers;
-        const { AutoModel, AutoProcessor, env, RawImage } = T;
-
-        env.allowRemoteModels = true;
-        env.backends.onnx.wasm.numThreads = 1;
-
-        // Step 2: Load model only once
-        if (!_bgrModel || !_bgrProcessor) {
-            $('bgr-status').textContent = 'AI model download ho raha hai (pehli baar ~40MB)...';
-            $('pb-bgremove').style.width = '10%';
-
-            const MODEL = 'briaai/RMBG-1.4';
-
-            [_bgrModel, _bgrProcessor] = await Promise.all([
-                AutoModel.from_pretrained(MODEL, {
-                    device: 'wasm',
-                    dtype: 'fp32',
-                    progress_callback: function(info) {
-                        if (info.status === 'downloading') {
-                            var p = Math.round(info.progress || 0);
-                            $('pb-bgremove').style.width = (10 + Math.round(p * 0.55)) + '%';
-                            $('bgr-status').textContent = 'Model download: ' + p + '%...';
-                        }
-                    }
-                }),
+        
                 AutoProcessor.from_pretrained(MODEL)
             ]);
         }
@@ -2869,25 +2814,99 @@ function waitForTransformers(resolve, reject) {
     var tries = 0;
     var timer = setInterval(function() {
         if (window.transformers && window.transformers.AutoModel) {
-            clearInterval(timer); resolve();
-        } else if (++tries > 150) {
-            clearInterval(timer);
-            reject(new Error('Transformers library ready nahi hui. Refresh karo.'));
+            
+
+        // ===== BACKGROUND REMOVER (via Cloudflare Worker + HuggingFace) =====
+var _bgrFile = null;
+var _bgrResultUrl = null;
+
+function loadBgRemoveImg(file) {
+    _bgrFile = file;
+    var fn = $('fn-bgremove');
+    if (fn) { fn.textContent = '✅ ' + file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + 'MB)'; }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var oi = $('bgr-orig-img');
+        if (oi) { oi.src = e.target.result; }
+        $('bgremove-preview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+}
+
+async function doBgRemoveAI() {
+    if (!_bgrFile) { toast('Please select an image first'); return; }
+
+    var WORKER_URL = 'https://ocr-worker.filemagicpro.workers.dev/remove-background';
+
+    $('prg-bgremove').style.display = 'block';
+    $('res-bgremove').style.display = 'none';
+    $('bgr-status').textContent = 'AI ko image bhej raha hai...';
+    $('pb-bgremove').style.width = '20%';
+
+    try {
+        var formData = new FormData();
+        formData.append('image_file', _bgrFile);
+
+        $('bgr-status').textContent = 'Background remove ho raha hai...';
+        $('pb-bgremove').style.width = '50%';
+
+        var res = await fetch(WORKER_URL, {
+            method: 'POST',
+            body: formData
+        });
+
+        // Model cold start — retry once after 20 seconds
+        if (res.status === 503) {
+            $('bgr-status').textContent = 'AI model warm up ho raha hai, 20 sec wait karo...';
+            $('pb-bgremove').style.width = '60%';
+            await new Promise(r => setTimeout(r, 20000));
+
+            res = await fetch(WORKER_URL, {
+                method: 'POST',
+                body: formData
+            });
         }
-    }, 100);
+
+        if (!res.ok) {
+            var errJson = await res.json().catch(() => ({ error: 'Unknown error' }));
+            throw new Error(errJson.error || 'Server error ' + res.status);
+        }
+
+        $('pb-bgremove').style.width = '90%';
+        $('bgr-status').textContent = 'Result taiyar ho raha hai...';
+
+        var blob = await res.blob();
+
+        $('pb-bgremove').style.width = '100%';
+        $('bgr-status').textContent = 'Done!';
+        setTimeout(function() { $('prg-bgremove').style.display = 'none'; }, 600);
+
+        if (_bgrResultUrl) { URL.revokeObjectURL(_bgrResultUrl); }
+        var url = URL.createObjectURL(blob);
+        _bgrResultUrl = url;
+
+        var ri = $('bgr-result-img');
+        if (ri) { ri.src = url; }
+        $('bgremove-preview').style.display = 'block';
+        $('res-bgremove').style.display = 'block';
+
+        $('dl-bgremove').onclick = function() { dlBlob(blob, 'bg_removed.png'); };
+        toast('✅ Background remove ho gaya!');
+
+    } catch (err) {
+        console.error(err);
+        $('prg-bgremove').style.display = 'none';
+        var m = (err.message || '').toLowerCase();
+        if (m.includes('fetch') || m.includes('network') || m.includes('failed')) {
+            toast('❌ Internet check karo aur dobara try karo');
+        } else if (m.includes('503') || m.includes('warm')) {
+            toast('❌ AI model busy hai, thodi der baad try karo');
+        } else {
+            toast('❌ Error: ' + err.message);
+        }
+    }
 }
 
-// ── Helper: file to data URL ──
-function fileToDataURL(file) {
-    return new Promise(function(resolve, reject) {
-        var r = new FileReader();
-        r.onload = function(e) { resolve(e.target.result); };
-        r.onerror = reject;
-        r.readAsDataURL(file);
-    });
-}
-
-        
 
         // ===== OCR (Image to Text) using Tesseract.js =====
         var _ocrFile = null;
