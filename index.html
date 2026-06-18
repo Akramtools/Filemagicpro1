@@ -2714,72 +2714,159 @@
             });
         }
 
-        // ===== BACKGROUND REMOVER (AI-powered with ClipDrop) =====
-        var _bgrFile = null;
-        var _bgrResultUrl = null;
+        // ===== BACKGROUND REMOVER (AI - No API Key, Browser Only) =====
+var _bgrFile = null;
+var _bgrResultUrl = null;
+var _bgrModel = null;
+var _bgrProcessor = null;
 
-        function loadBgRemoveImg(file) {
-            _bgrFile = file;
-            var fn = $('fn-bgremove');
-            if (fn) { fn.textContent = '✅ ' + file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + 'MB)'; }
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var oi = $('bgr-orig-img');
-                if (oi) { oi.src = e.target.result; }
-                $('bgremove-preview').style.display = 'block';
-            };
-            reader.readAsDataURL(file);
+function loadBgRemoveImg(file) {
+    _bgrFile = file;
+    var fn = $('fn-bgremove');
+    if (fn) { fn.textContent = '✅ ' + file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + 'MB)'; }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var oi = $('bgr-orig-img');
+        if (oi) { oi.src = e.target.result; }
+        $('bgremove-preview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+}
+
+async function doBgRemoveAI() {
+    if (!_bgrFile) { toast('Please select an image first'); return; }
+
+    $('prg-bgremove').style.display = 'block';
+    $('res-bgremove').style.display = 'none';
+    $('bgr-status').textContent = 'AI library load ho rahi hai...';
+    $('pb-bgremove').style.width = '5%';
+
+    try {
+        // Load transformers.js if not already loaded
+        if (!window._transformersLoaded) {
+            await loadScript('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.5.2/dist/transformers.min.js');
+            window._transformersLoaded = true;
         }
 
-        async function doBgRemoveAI() {
-            if (!_bgrFile) { toast('Please select an image first'); return; }
+        const T = window.transformers;
+        if (!T) throw new Error('Library load nahi hui, refresh karo');
 
-            // Free ClipDrop API key (public demo key – rate limited)
-            var CLIPDROP_KEY = '40d1273bc55304d7ef28072a05c8ca60d2f30a9fbde7af11eaa56efbb181bd27e5141d01f8cce99968d28c547389af53';
+        const { AutoModel, AutoProcessor, env, RawImage } = T;
 
-            $('prg-bgremove').style.display = 'block';
-            $('res-bgremove').style.display = 'none';
-            $('bgr-status').textContent = 'Sending to AI...';
-            $('pb-bgremove').style.width = '30%';
+        env.allowRemoteModels = true;
+        env.backends.onnx.wasm.numThreads = 1;
 
-            try {
-                var formData = new FormData();
-                formData.append('image_file', _bgrFile);
+        // Load model only once (cached after first time)
+        if (!_bgrModel || !_bgrProcessor) {
+            $('bgr-status').textContent = 'AI model download ho raha hai (pehli baar ~40MB)...';
+            $('pb-bgremove').style.width = '10%';
 
-                $('bgr-status').textContent = 'AI removing background...';
-                $('pb-bgremove').style.width = '60%';
+            const MODEL = 'briaai/RMBG-1.4';
 
-                var res = await fetch('https://clipdrop-api.co/remove-background/v1', {
-                    method: 'POST',
-                    headers: { 'x-api-key': CLIPDROP_KEY },
-                    body: formData
-                });
-
-                if (!res.ok) { throw new Error('API Error: ' + res.status); }
-
-                var blob = await res.blob();
-
-                $('pb-bgremove').style.width = '100%';
-                $('bgr-status').textContent = 'Done!';
-                setTimeout(function() { $('prg-bgremove').style.display = 'none'; }, 600);
-
-                if (_bgrResultUrl) { URL.revokeObjectURL(_bgrResultUrl); }
-                var url = URL.createObjectURL(blob);
-                _bgrResultUrl = url;
-
-                var ri = $('bgr-result-img');
-                if (ri) { ri.src = url; }
-                $('bgremove-preview').style.display = 'block';
-                $('res-bgremove').style.display = 'block';
-
-                $('dl-bgremove').onclick = function() { dlBlob(blob, 'bg_removed.png'); };
-
-            } catch (err) {
-                console.error(err);
-                $('prg-bgremove').style.display = 'none';
-                toast('❌ Failed: ' + err.message);
-            }
+            [_bgrModel, _bgrProcessor] = await Promise.all([
+                AutoModel.from_pretrained(MODEL, {
+                    device: 'wasm',
+                    dtype: 'fp32',
+                    progress_callback: function(info) {
+                        if (info.status === 'downloading') {
+                            var p = Math.round((info.progress || 0) * 0.55);
+                            $('pb-bgremove').style.width = (10 + p) + '%';
+                            $('bgr-status').textContent = 'Model: ' + Math.round(info.progress || 0) + '% download...';
+                        }
+                    }
+                }),
+                AutoProcessor.from_pretrained(MODEL)
+            ]);
         }
+
+        $('bgr-status').textContent = 'Background remove ho raha hai...';
+        $('pb-bgremove').style.width = '70%';
+
+        // Read image as data URL
+        var imgURL = await fileToDataURL(_bgrFile);
+        var image = await RawImage.fromURL(imgURL);
+
+        // Run model
+        var inputs = await _bgrProcessor(image);
+        var output = await _bgrModel(inputs);
+
+        $('pb-bgremove').style.width = '88%';
+        $('bgr-status').textContent = 'Mask apply ho raha hai...';
+
+        // Apply alpha mask to canvas
+        var mask = await RawImage.fromTensor(output[0].mul(255).to('uint8')).resize(image.width, image.height);
+
+        var canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        var ctx = canvas.getContext('2d');
+
+        var img = new Image();
+        await new Promise(function(res) { img.onload = res; img.src = imgURL; });
+        ctx.drawImage(img, 0, 0);
+
+        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var data = imageData.data;
+        for (var i = 0; i < data.length / 4; i++) {
+            data[i * 4 + 3] = mask.data[i];
+        }
+        ctx.putImageData(imageData, 0, 0);
+
+        $('pb-bgremove').style.width = '100%';
+        $('bgr-status').textContent = 'Done!';
+        setTimeout(function() { $('prg-bgremove').style.display = 'none'; }, 600);
+
+        // Convert canvas to blob
+        canvas.toBlob(function(blob) {
+            if (_bgrResultUrl) { URL.revokeObjectURL(_bgrResultUrl); }
+            var url = URL.createObjectURL(blob);
+            _bgrResultUrl = url;
+
+            var ri = $('bgr-result-img');
+            if (ri) { ri.src = url; }
+            $('bgremove-preview').style.display = 'block';
+            $('res-bgremove').style.display = 'block';
+
+            $('dl-bgremove').onclick = function() { dlBlob(blob, 'bg_removed.png'); };
+
+            toast('✅ Background remove ho gaya!');
+        }, 'image/png');
+
+    } catch (err) {
+        console.error(err);
+        $('prg-bgremove').style.display = 'none';
+        var m = (err.message || '').toLowerCase();
+        if (m.includes('fetch') || m.includes('network')) {
+            toast('❌ Internet check karo aur dobara try karo');
+        } else if (m.includes('wasm')) {
+            toast('❌ Browser update karo (Chrome latest chahiye)');
+        } else {
+            toast('❌ Error: ' + err.message);
+        }
+    }
+}
+
+// Helper: load external script dynamically
+function loadScript(src) {
+    return new Promise(function(resolve, reject) {
+        if (document.querySelector('script[src="' + src + '"]')) { resolve(); return; }
+        var s = document.createElement('script');
+        s.src = src;
+        s.onload = resolve;
+        s.onerror = function() { reject(new Error('Script load failed: ' + src)); };
+        document.head.appendChild(s);
+    });
+}
+
+// Helper: file to data URL
+function fileToDataURL(file) {
+    return new Promise(function(resolve, reject) {
+        var r = new FileReader();
+        r.onload = function(e) { resolve(e.target.result); };
+        r.onerror = reject;
+        r.readAsDataURL(file);
+    });
+}
 
         // ===== OCR (Image to Text) using Tesseract.js =====
         var _ocrFile = null;
