@@ -2742,21 +2742,16 @@ async function doBgRemoveAI() {
     $('pb-bgremove').style.width = '5%';
 
     try {
-        // Load transformers.js if not already loaded
-        if (!window._transformersLoaded) {
-            await loadScript('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.5.2/dist/transformers.min.js');
-            window._transformersLoaded = true;
-        }
+        // Step 1: Load transformers.js script and wait until window.transformers is ready
+        await loadTransformers();
 
         const T = window.transformers;
-        if (!T) throw new Error('Library load nahi hui, refresh karo');
-
         const { AutoModel, AutoProcessor, env, RawImage } = T;
 
         env.allowRemoteModels = true;
         env.backends.onnx.wasm.numThreads = 1;
 
-        // Load model only once (cached after first time)
+        // Step 2: Load model only once
         if (!_bgrModel || !_bgrProcessor) {
             $('bgr-status').textContent = 'AI model download ho raha hai (pehli baar ~40MB)...';
             $('pb-bgremove').style.width = '10%';
@@ -2769,9 +2764,9 @@ async function doBgRemoveAI() {
                     dtype: 'fp32',
                     progress_callback: function(info) {
                         if (info.status === 'downloading') {
-                            var p = Math.round((info.progress || 0) * 0.55);
-                            $('pb-bgremove').style.width = (10 + p) + '%';
-                            $('bgr-status').textContent = 'Model: ' + Math.round(info.progress || 0) + '% download...';
+                            var p = Math.round(info.progress || 0);
+                            $('pb-bgremove').style.width = (10 + Math.round(p * 0.55)) + '%';
+                            $('bgr-status').textContent = 'Model download: ' + p + '%...';
                         }
                     }
                 }),
@@ -2782,18 +2777,18 @@ async function doBgRemoveAI() {
         $('bgr-status').textContent = 'Background remove ho raha hai...';
         $('pb-bgremove').style.width = '70%';
 
-        // Read image as data URL
+        // Step 3: Read image
         var imgURL = await fileToDataURL(_bgrFile);
         var image = await RawImage.fromURL(imgURL);
 
-        // Run model
+        // Step 4: Run model
         var inputs = await _bgrProcessor(image);
         var output = await _bgrModel(inputs);
 
         $('pb-bgremove').style.width = '88%';
         $('bgr-status').textContent = 'Mask apply ho raha hai...';
 
-        // Apply alpha mask to canvas
+        // Step 5: Apply alpha mask
         var mask = await RawImage.fromTensor(output[0].mul(255).to('uint8')).resize(image.width, image.height);
 
         var canvas = document.createElement('canvas');
@@ -2816,7 +2811,7 @@ async function doBgRemoveAI() {
         $('bgr-status').textContent = 'Done!';
         setTimeout(function() { $('prg-bgremove').style.display = 'none'; }, 600);
 
-        // Convert canvas to blob
+        // Step 6: Show result
         canvas.toBlob(function(blob) {
             if (_bgrResultUrl) { URL.revokeObjectURL(_bgrResultUrl); }
             var url = URL.createObjectURL(blob);
@@ -2828,7 +2823,6 @@ async function doBgRemoveAI() {
             $('res-bgremove').style.display = 'block';
 
             $('dl-bgremove').onclick = function() { dlBlob(blob, 'bg_removed.png'); };
-
             toast('✅ Background remove ho gaya!');
         }, 'image/png');
 
@@ -2836,7 +2830,7 @@ async function doBgRemoveAI() {
         console.error(err);
         $('prg-bgremove').style.display = 'none';
         var m = (err.message || '').toLowerCase();
-        if (m.includes('fetch') || m.includes('network')) {
+        if (m.includes('fetch') || m.includes('network') || m.includes('failed')) {
             toast('❌ Internet check karo aur dobara try karo');
         } else if (m.includes('wasm')) {
             toast('❌ Browser update karo (Chrome latest chahiye)');
@@ -2846,19 +2840,44 @@ async function doBgRemoveAI() {
     }
 }
 
-// Helper: load external script dynamically
-function loadScript(src) {
+// ── Load transformers.js and wait until window.transformers is defined ──
+function loadTransformers() {
     return new Promise(function(resolve, reject) {
-        if (document.querySelector('script[src="' + src + '"]')) { resolve(); return; }
+        // Already loaded
+        if (window.transformers && window.transformers.AutoModel) {
+            resolve(); return;
+        }
+
+        var SRC = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.5.2/dist/transformers.min.js';
+
+        // Script already injected, just wait
+        if (document.querySelector('script[src="' + SRC + '"]')) {
+            waitForTransformers(resolve, reject); return;
+        }
+
+        // Inject script
         var s = document.createElement('script');
-        s.src = src;
-        s.onload = resolve;
-        s.onerror = function() { reject(new Error('Script load failed: ' + src)); };
+        s.src = SRC;
+        s.onload = function() { waitForTransformers(resolve, reject); };
+        s.onerror = function() { reject(new Error('Transformers.js CDN load nahi hua. Internet check karo.')); };
         document.head.appendChild(s);
     });
 }
 
-// Helper: file to data URL
+// Poll until window.transformers.AutoModel is available (max 15s)
+function waitForTransformers(resolve, reject) {
+    var tries = 0;
+    var timer = setInterval(function() {
+        if (window.transformers && window.transformers.AutoModel) {
+            clearInterval(timer); resolve();
+        } else if (++tries > 150) {
+            clearInterval(timer);
+            reject(new Error('Transformers library ready nahi hui. Refresh karo.'));
+        }
+    }, 100);
+}
+
+// ── Helper: file to data URL ──
 function fileToDataURL(file) {
     return new Promise(function(resolve, reject) {
         var r = new FileReader();
@@ -2867,6 +2886,8 @@ function fileToDataURL(file) {
         r.readAsDataURL(file);
     });
 }
+
+        
 
         // ===== OCR (Image to Text) using Tesseract.js =====
         var _ocrFile = null;
