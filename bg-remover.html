@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Background Remover – FileMagic Pro</title>
-  <meta name="description" content="Remove image background instantly in your browser. No upload to server, 100% free, powered by AI." />
-  <link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/bg-remover.html" />
+  <meta name="description" content="Remove image background free in browser. No upload, no API key, AI powered."/>
+  <link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/bg-remover.html"/>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3XYNGTK7JT"></script>
-  <script>
-    window.dataLayer=window.dataLayer||[];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js',new Date()); gtag('config','G-3XYNGTK7JT');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3XYNGTK7JT');</script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#0f1117;--surf:#1a1d27;--surf2:#22263a;--bdr:#2e3250;--acc:#6c63ff;--acc2:#a78bfa;--txt:#e8eaf6;--muted:#8892b0;--r:14px}
+    :root{--bg:#0f1117;--surf:#1a1d27;--surf2:#22263a;--bdr:#2e3250;--acc:#6c63ff;--acc2:#a78bfa;--txt:#e8eaf6;--muted:#8892b0}
     body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
     nav{background:var(--surf);border-bottom:1px solid var(--bdr);padding:0 20px;display:flex;align-items:center;gap:12px;height:56px}
     .logo{font-weight:700;font-size:1.1rem;color:var(--acc2);text-decoration:none}
@@ -25,18 +21,18 @@
     .badge{display:inline-block;background:linear-gradient(135deg,#6c63ff22,#a78bfa22);border:1px solid #6c63ff55;color:var(--acc2);font-size:.73rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 14px;border-radius:99px;margin-bottom:13px}
     h1{font-size:clamp(1.45rem,4vw,2.1rem);font-weight:800;background:linear-gradient(135deg,#e8eaf6,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:9px;line-height:1.2}
     .hero p{color:var(--muted);font-size:.92rem;max-width:440px;margin:0 auto}
-    .card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);max-width:700px;margin:0 auto 32px;padding:22px 18px}
+    .card{background:var(--surf);border:1px solid var(--bdr);border-radius:14px;max-width:700px;margin:0 auto 32px;padding:22px 18px}
     .dz{border:2px dashed var(--bdr);border-radius:12px;padding:42px 18px;text-align:center;cursor:pointer;background:var(--bg);position:relative;transition:border-color .2s,background .2s}
-    .dz:hover{border-color:var(--acc);background:#6c63ff0a}
+    .dz:hover,.dz.over{border-color:var(--acc);background:#6c63ff0a}
     .dz input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
     .dz-icon{font-size:2.5rem;margin-bottom:9px;display:block}
     .dz h3{font-size:.95rem;font-weight:600;margin-bottom:4px}
     .dz p{font-size:.8rem;color:var(--muted)}
-    .dz .bbtn{display:inline-block;margin-top:13px;background:var(--acc);color:#fff;font-size:.83rem;font-weight:600;padding:9px 22px;border-radius:8px;pointer-events:none}
+    .bbtn{display:inline-block;margin-top:13px;background:var(--acc);color:#fff;font-size:.83rem;font-weight:600;padding:9px 22px;border-radius:8px;pointer-events:none}
     #pw{display:none;margin-top:18px}
     .pl{font-size:.8rem;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
-    .pt{height:7px;background:var(--surf2);border-radius:99px;overflow:hidden}
-    .pf{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:99px;width:0%;transition:width .35s}
+    .pt{height:8px;background:var(--surf2);border-radius:99px;overflow:hidden}
+    .pf{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:99px;width:0%;transition:width .4s}
     .st{font-size:.78rem;color:var(--muted);margin-top:7px;text-align:center;min-height:18px}
     #rs{display:none;margin-top:20px}
     .rhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;flex-wrap:wrap;gap:8px}
@@ -44,7 +40,7 @@
     .tabs{display:flex;gap:6px}
     .tb{background:var(--surf2);border:1px solid var(--bdr);color:var(--muted);font-size:.76rem;font-weight:600;padding:5px 13px;border-radius:8px;cursor:pointer}
     .tb.active{background:var(--acc);border-color:var(--acc);color:#fff}
-    .cw{border-radius:10px;overflow:hidden;background:repeating-conic-gradient(#ffffff10 0% 25%,transparent 0% 50%) 0 0/18px 18px;display:flex;align-items:center;justify-content:center;min-height:200px;max-height:440px}
+    .cw{border-radius:10px;overflow:hidden;background:repeating-conic-gradient(#ffffff12 0% 25%,transparent 0% 50%) 0 0/18px 18px;display:flex;align-items:center;justify-content:center;min-height:200px;max-height:440px}
     #oc{max-width:100%;max-height:440px;display:block;border-radius:4px}
     #cmw{display:none;gap:10px}
     #cmw.show{display:flex;flex-wrap:wrap}
@@ -57,7 +53,7 @@
     .sw.active{border-color:var(--acc2)}
     .s-tr{background:repeating-conic-gradient(#aaa 0% 25%,#fff 0% 50%) 0 0/9px 9px}
     .s-wh{background:#fff}.s-bk{background:#111}.s-bl{background:#2563eb}.s-gr{background:#16a34a}.s-re{background:#dc2626}
-    #cc{width:25px;height:25px;border-radius:6px;border:2px solid var(--bdr);cursor:pointer;padding:0;flex-shrink:0}
+    #cusColor{width:25px;height:25px;border-radius:6px;border:2px solid var(--bdr);cursor:pointer;padding:0;flex-shrink:0}
     .ar{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
     .btn{flex:1;min-width:120px;padding:10px 16px;border-radius:10px;font-size:.86rem;font-weight:600;cursor:pointer;border:none;transition:opacity .2s,transform .1s}
     .btn:active{transform:scale(.97)}
@@ -65,7 +61,7 @@
     .b-s{background:var(--surf2);border:1px solid var(--bdr);color:var(--txt)}
     .feats{max-width:700px;margin:0 auto 46px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px;padding:0 12px}
     .ft{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;padding:15px 13px}
-    .fi{font-size:1.25rem;margin-bottom:6px}
+    .fi2{font-size:1.25rem;margin-bottom:6px}
     .ft h4{font-size:.82rem;font-weight:700;margin-bottom:2px}
     .ft p{font-size:.74rem;color:var(--muted);line-height:1.5}
     footer{border-top:1px solid var(--bdr);text-align:center;padding:20px 12px;font-size:.76rem;color:var(--muted)}
@@ -90,7 +86,7 @@
 
 <div class="card">
   <div class="dz" id="dz">
-    <input type="file" id="fi" accept="image/*" />
+    <input type="file" id="fi" accept="image/*"/>
     <span class="dz-icon">🖼️</span>
     <h3>Image choose karo</h3>
     <p>JPG, PNG, WEBP · Max 10 MB</p>
@@ -98,7 +94,7 @@
   </div>
 
   <div id="pw">
-    <div class="pl"><span id="plbl">Processing…</span><span id="pct">0%</span></div>
+    <div class="pl"><span>Processing…</span><span id="pct">0%</span></div>
     <div class="pt"><div class="pf" id="pf"></div></div>
     <div class="st" id="st">Please wait…</div>
   </div>
@@ -121,7 +117,7 @@
         <div class="sw s-bl" onclick="setBg('bl',this)" title="Blue"></div>
         <div class="sw s-gr" onclick="setBg('gr',this)" title="Green"></div>
         <div class="sw s-re" onclick="setBg('re',this)" title="Red"></div>
-        <input type="color" id="cc" title="Custom color" onchange="setBg(this.value,null)" />
+        <input type="color" id="cusColor" title="Custom color" onchange="setBg(this.value,null)"/>
       </div>
     </div>
     <div id="cmw">
@@ -130,27 +126,34 @@
     </div>
     <div class="ar">
       <button class="btn b-g" onclick="dlResult()">⬇️ Download PNG</button>
-      <button class="btn b-s" onclick="reset()">🔄 New Image</button>
+      <button class="btn b-s" onclick="doReset()">🔄 New Image</button>
     </div>
   </div>
 </div>
 
 <div class="feats">
-  <div class="ft"><div class="fi">🔒</div><h4>100% Private</h4><p>Image kabhi server pe nahi jati.</p></div>
-  <div class="ft"><div class="fi">🤖</div><h4>AI Powered</h4><p>Sharp, clean edges milti hain.</p></div>
-  <div class="ft"><div class="fi">⚡</div><h4>Fast</h4><p>Ek baar load, phir turant process.</p></div>
-  <div class="ft"><div class="fi">🎨</div><h4>Custom BG</h4><p>Transparent ya koi bhi color.</p></div>
+  <div class="ft"><div class="fi2">🔒</div><h4>100% Private</h4><p>Image kabhi server pe nahi jati.</p></div>
+  <div class="ft"><div class="fi2">🤖</div><h4>AI Powered</h4><p>Sharp, clean edges milti hain.</p></div>
+  <div class="ft"><div class="fi2">⚡</div><h4>Fast</h4><p>Ek baar load, phir turant process.</p></div>
+  <div class="ft"><div class="fi2">🎨</div><h4>Custom BG</h4><p>Transparent ya koi bhi color.</p></div>
 </div>
 
 <footer><p>© 2025 <a href="index.html">FileMagic Pro</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p></footer>
 <div id="toast"></div>
+
+<!-- Load transformers.js as regular script (NOT module) — avoids CORS on GitHub Pages -->
+<script src="https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.5.2/dist/transformers.min.js"></script>
 
 <script>
 /* ── state ── */
 let origFile=null, curBg='tr', resImg=null;
 
 /* ── toast ── */
-function toast(m,d=3000){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),d);}
+function toast(m,d=3200){
+  const t=document.getElementById('toast');
+  t.textContent=m; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),d);
+}
 
 /* ── progress ── */
 function prog(p,t){
@@ -159,10 +162,13 @@ function prog(p,t){
   document.getElementById('st').textContent=t;
 }
 
-/* ── file ── */
-document.getElementById('fi').addEventListener('change',e=>{if(e.target.files[0])go(e.target.files[0]);});
-document.getElementById('dz').addEventListener('dragover',e=>e.preventDefault());
-document.getElementById('dz').addEventListener('drop',e=>{e.preventDefault();if(e.dataTransfer.files[0])go(e.dataTransfer.files[0]);});
+/* ── file input ── */
+const dz=document.getElementById('dz');
+const fi=document.getElementById('fi');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');if(e.dataTransfer.files[0])go(e.dataTransfer.files[0]);});
+fi.addEventListener('change',()=>{if(fi.files[0])go(fi.files[0]);});
 
 function go(f){
   if(!f.type.startsWith('image/')){toast('❌ Sirf image files!');return;}
@@ -174,90 +180,120 @@ function go(f){
   process(f);
 }
 
-/* ── MAIN PROCESS ── */
+/* ── MAIN PROCESS using transformers.js RMBG model ── */
 async function process(file){
-  document.getElementById('dz').style.display='none';
+  dz.style.display='none';
   document.getElementById('rs').style.display='none';
   document.getElementById('pw').style.display='block';
-  prog(5,'Library load ho rahi hai…');
+  prog(5,'Model load ho raha hai…');
 
   try {
-    /* 
-      Use @imgly/background-removal with correct CDN config.
-      Key fix: use jsDelivr CDN with exact dist path for WASM assets.
-    */
-    const CDN='https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/browser/';
-    
-    prog(8,'AI library import ho rahi hai…');
-    const {removeBackground} = await import(CDN+'index.js');
-    
-    prog(15,'Model download ho raha hai (WiFi pe fast hoga)…');
-    
-    const blob = await removeBackground(file, {
-      publicPath: CDN,
-      progress:(key,cur,tot)=>{
-        if(!tot) return;
-        const p=Math.round(cur/tot*100);
-        if(key.includes('fetch')||key.includes('load')){
-          prog(15+p*0.65, 'Model load: '+p+'%');
-        } else {
-          prog(80+p*0.15, 'Processing: '+p+'%');
-        }
-      },
-      model: 'small',       // use smaller/faster model
-      output: {
-        format: 'image/png',
-        quality: 0.9,
-        type: 'foreground'
-      }
-    });
+    // Check transformers.js loaded
+    if(typeof transformers === 'undefined' && typeof AutoModel === 'undefined' && !(window.transformers)){
+      throw new Error('Library load nahi hui. Page refresh karo.');
+    }
 
-    prog(97,'Result taiyar ho raha hai…');
-    await loadResultBlob(blob);
+    const T = window.transformers || transformers;
+    const {AutoModel, AutoProcessor, env, RawImage} = T;
+
+    // Use jsDelivr-hosted model files (no Hugging Face CORS issue)
+    env.allowRemoteModels = true;
+    env.backends.onnx.wasm.numThreads = 1;
+
+    prog(10,'RMBG model download ho raha hai (~40MB, ek baar hi)…');
+
+    const MODEL_ID = 'briaai/RMBG-1.4';
+
+    const [model, processor] = await Promise.all([
+      AutoModel.from_pretrained(MODEL_ID, {
+        device: 'wasm',
+        dtype: 'fp32',
+        progress_callback: info => {
+          if(info.status==='downloading'){
+            const p=info.progress||0;
+            prog(10+p*0.55, 'Model download: '+Math.round(p)+'%');
+          }
+        }
+      }),
+      AutoProcessor.from_pretrained(MODEL_ID)
+    ]);
+
+    prog(68,'Image process ho rahi hai…');
+
+    // Read image
+    const imgURL = await fileToURL(file);
+    const image = await RawImage.fromURL(imgURL);
+
+    prog(72,'AI inference chal rahi hai…');
+
+    // Run model
+    const {pixel_values} = await processor(image);
+    const {output} = await model({input: pixel_values});
+
+    prog(88,'Mask apply ho raha hai…');
+
+    // Post-process: apply alpha mask
+    const mask = await RawImage.fromTensor(output[0].mul(255).to('uint8')).resize(image.width, image.height);
+
+    // Draw result on canvas
+    const canvas = document.getElementById('oc');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const ctx = canvas.getContext('2d');
+
+    // Draw original image
+    const img = new Image();
+    await new Promise(res=>{img.onload=res; img.src=imgURL;});
+    ctx.drawImage(img, 0, 0);
+
+    // Apply mask as alpha
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    const maskData = mask.data;
+    for(let i=0; i<data.length/4; i++){
+      data[i*4+3] = maskData[i];
+    }
+    ctx.putImageData(imageData, 0, 0);
+
+    // Copy to compare canvas
+    const cc2 = document.getElementById('cc2');
+    cc2.width = canvas.width; cc2.height = canvas.height;
+    cc2.getContext('2d').drawImage(canvas, 0, 0);
+
+    resImg = true;
     prog(100,'✅ Ho gaya!');
-    await delay(280);
+    await delay(300);
     showResult();
 
   } catch(err){
-    console.error('BG removal error:',err);
+    console.error(err);
+    dz.style.display='block';
     document.getElementById('pw').style.display='none';
-    document.getElementById('dz').style.display='block';
-    toast('❌ Error: '+summarizeError(err));
+    toast('❌ '+getErrMsg(err));
   }
 }
 
-function summarizeError(e){
+function getErrMsg(e){
   const m=(e?.message||'').toLowerCase();
-  if(m.includes('fetch')||m.includes('network')) return 'Internet connection check karo.';
-  if(m.includes('wasm')) return 'Browser WebAssembly support nahi karta. Chrome use karo.';
-  if(m.includes('memory')||m.includes('oom')) return 'Image bahut badi hai, chhoti image try karo.';
-  return 'Kuch gadbad hui. Dobara try karo.';
+  if(m.includes('library load')) return e.message;
+  if(m.includes('fetch')||m.includes('network')||m.includes('failed to fetch')) return 'Network error. Internet check karo.';
+  if(m.includes('wasm')) return 'Browser WASM support nahi karta. Chrome update karo.';
+  if(m.includes('memory')) return 'Image bahut badi hai. Chhoti image try karo.';
+  return 'Error: '+e.message;
+}
+
+function fileToURL(f){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=e=>res(e.target.result);
+    r.onerror=rej;
+    r.readAsDataURL(f);
+  });
 }
 
 function delay(ms){return new Promise(r=>setTimeout(r,ms));}
 
-function loadResultBlob(blob){
-  return new Promise(res=>{
-    const url=URL.createObjectURL(blob);
-    const img=new Image();
-    img.onload=()=>{
-      resImg=img;
-      // main canvas
-      const c=document.getElementById('oc');
-      c.width=img.width; c.height=img.height;
-      const ctx=c.getContext('2d');
-      ctx.clearRect(0,0,c.width,c.height);
-      ctx.drawImage(img,0,0);
-      // compare canvas
-      const c2=document.getElementById('cc2');
-      c2.width=img.width; c2.height=img.height;
-      c2.getContext('2d').drawImage(img,0,0);
-      res();
-    };
-    img.src=url;
-  });
-}
-
+/* ── show result ── */
 function showResult(){
   document.getElementById('pw').style.display='none';
   document.getElementById('rs').style.display='block';
@@ -265,26 +301,21 @@ function showResult(){
   toast('✅ Background remove ho gaya!');
 }
 
-/* ── background apply ── */
-const bgMap={
-  tr:['repeating-conic-gradient(#ffffff10 0% 25%,transparent 0% 50%) 0 0/18px 18px',''],
-  wh:['#fff',''],
-  bk:['#000',''],
-  bl:['#2563eb',''],
-  gr:['#16a34a',''],
-  re:['#dc2626',''],
+/* ── background ── */
+const bgCSS={
+  tr:'repeating-conic-gradient(#ffffff12 0% 25%,transparent 0% 50%) 0 0/18px 18px',
+  wh:'#fff', bk:'#111', bl:'#2563eb', gr:'#16a34a', re:'#dc2626'
 };
 
 function applyBg(){
   const wrap=document.getElementById('cw');
-  const bg=bgMap[curBg]||[curBg,''];
-  wrap.style.background=bg[0];
+  wrap.style.background = bgCSS[curBg] || curBg;
 }
 
 window.setBg=function(k,el){
   curBg=k;
   document.querySelectorAll('.sw').forEach(s=>s.classList.remove('active'));
-  if(el)el.classList.add('active');
+  if(el) el.classList.add('active');
   applyBg();
 };
 
@@ -305,8 +336,9 @@ window.dlResult=function(){
     const tmp=document.createElement('canvas');
     tmp.width=src.width; tmp.height=src.height;
     const ctx=tmp.getContext('2d');
-    const bgColor=curBg==='wh'?'#fff':curBg==='bk'?'#000':bgMap[curBg]?bgMap[curBg][0]:curBg;
-    ctx.fillStyle=bgColor; ctx.fillRect(0,0,tmp.width,tmp.height);
+    ctx.fillStyle=bgCSS[curBg]||curBg;
+    if(curBg==='tr') ctx.clearRect(0,0,tmp.width,tmp.height);
+    else ctx.fillRect(0,0,tmp.width,tmp.height);
     ctx.drawImage(src,0,0);
     dlC=tmp;
   }
@@ -320,16 +352,16 @@ window.dlResult=function(){
 };
 
 /* ── reset ── */
-window.reset=function(){
+window.doReset=function(){
   origFile=null; resImg=null; curBg='tr';
   document.getElementById('rs').style.display='none';
   document.getElementById('pw').style.display='none';
-  document.getElementById('dz').style.display='block';
-  document.getElementById('fi').value='';
+  dz.style.display='block';
+  fi.value='';
   swTab('r');
   document.querySelectorAll('.sw').forEach(s=>s.classList.remove('active'));
   document.querySelector('.s-tr').classList.add('active');
 };
 </script>
 </body>
-  </html>
+</html>
