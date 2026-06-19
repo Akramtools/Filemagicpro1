@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compress Image Free Online — Reduce Image Size Without Losing Quality | FileMagic Pro</title>
+  <meta name="description" content="Compress JPG, PNG images online free. Reduce image file size without losing quality. No upload to server, works in browser. Fast, free image compressor tool." />
+  <meta name="keywords" content="compress image, reduce image size, image compressor online free, compress jpg, compress png, reduce image file size" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/compress-image.html" />
+
+  <meta property="og:title" content="Compress Image Free Online | FileMagic Pro" />
+  <meta property="og:description" content="Reduce image file size online free. JPG, PNG compression in your browser. No upload, no watermark." />
+  <meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/compress-image.html" />
+  <meta property="og:type" content="website" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Compress Image Online Free",
+    "url": "https://akramtools.github.io/Filemagicpro1/compress-image.html",
+    "description": "Free online image compressor. Reduce JPG, PNG file sizes in your browser without uploading.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #0c0a14;
+      --surface: #130f1e;
+      --card: #1a1528;
+      --border: #271f3a;
+      --accent: #b06cff;
+      --accent2: #ff6cae;
+      --text: #ede8f8;
+      --muted: #8878a8;
+      --success: #5cd97a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 24px; background: var(--surface);
+      border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--accent); text-decoration: none; }
+    .nav-back { font-size: 0.85rem; color: var(--muted); text-decoration: none; }
+    .nav-back:hover { color: var(--text); }
+
+    .hero { text-align: center; padding: 48px 24px 32px; background: linear-gradient(180deg, #130c1e 0%, var(--bg) 100%); }
+    .tool-badge {
+      display: inline-block; background: rgba(176,108,255,0.12); color: var(--accent);
+      border: 1px solid rgba(176,108,255,0.25); border-radius: 20px;
+      padding: 4px 14px; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;
+    }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 6vw, 2.8rem); font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
+    h1 span { color: var(--accent); }
+    .hero-sub { color: var(--muted); font-size: 1rem; max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .trust-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .pill { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 0.78rem; color: var(--muted); }
+    .pill span { color: var(--success); margin-right: 4px; }
+
+    .tool-wrapper { max-width: 680px; margin: 32px auto; padding: 0 16px 48px; }
+    .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+
+    .drop-zone {
+      border: 2px dashed var(--border); border-radius: 14px; margin: 24px;
+      padding: 48px 20px; text-align: center; cursor: pointer; transition: all 0.2s;
+    }
+    .drop-zone:hover, .drop-zone.drag-over { border-color: var(--accent); background: rgba(176,108,255,0.05); }
+    .drop-icon { width: 64px; height: 64px; background: rgba(176,108,255,0.12); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 1.8rem; }
+    .drop-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .drop-sub { font-size: 0.82rem; color: var(--muted); }
+    #fileInput { display: none; }
+
+    #tool-body { display: none; padding: 0 24px 24px; }
+
+    .preview-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;
+    }
+    .preview-box {
+      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+      background: var(--surface);
+    }
+    .preview-box img { width: 100%; height: 140px; object-fit: contain; display: block; background: #000; }
+    .preview-label {
+      padding: 8px 10px; font-size: 0.72rem; color: var(--muted); border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+    }
+    .preview-label strong { color: var(--text); font-size: 0.78rem; }
+
+    .quality-row { margin-bottom: 20px; }
+    .quality-row label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+    .slider-wrap { display: flex; align-items: center; gap: 12px; }
+    input[type=range] {
+      flex: 1; -webkit-appearance: none; height: 4px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent) var(--pct, 80%), var(--border) var(--pct, 80%));
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+      background: var(--accent); cursor: pointer; border: 2px solid var(--bg);
+    }
+    .quality-value {
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem;
+      color: var(--accent); min-width: 40px; text-align: right;
+    }
+
+    .btn-convert {
+      width: 100%; background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; border: none; border-radius: 12px; padding: 14px;
+      font-size: 1rem; font-family: 'Syne', sans-serif; font-weight: 700;
+      cursor: pointer; transition: opacity 0.2s; margin-bottom: 16px;
+    }
+    .btn-convert:hover { opacity: 0.9; }
+    .btn-convert:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .result-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
+    .stat-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 4px; }
+    .stat-value { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.92rem; }
+    .stat-value.green { color: var(--success); }
+    .btn-download { width: 100%; background: var(--success); color: #000; border: none; border-radius: 10px; padding: 12px; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.95rem; }
+
+    #result-section { display: none; }
+    #status-msg { font-size: 0.82rem; text-align: center; color: var(--muted); min-height: 18px; margin-bottom: 8px; }
+
+    .seo-section { max-width: 680px; margin: 0 auto; padding: 0 16px 60px; }
+    .seo-section h2 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; margin-top: 26px; }
+    .seo-section h2:first-child { margin-top: 0; }
+    .seo-section p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 24px; }
+    .seo-section ul { color: var(--muted); font-size: 0.9rem; line-height: 1.9; margin: 0 0 24px 20px; }
+    .seo-section ul li strong { color: var(--text); }
+    .faq-item { border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 10px; background: var(--card); }
+    .faq-q { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; }
+    .faq-a { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    footer { text-align: center; padding: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">⚡ FileMagic Pro</a>
+  <a href="index.html" class="nav-back">← All Tools</a>
+</nav>
+
+<div class="hero">
+  <div class="tool-badge">🖼️ Image Tool</div>
+  <h1>Compress <span>Image</span><br/>Free & Instant</h1>
+  <p class="hero-sub">Reduce JPG, PNG & WebP file size — from a few KB to 300MB. Set a target size or adjust quality manually. Works smoothly on phone & desktop.</p>
+  <div class="trust-pills">
+    <div class="pill"><span>✓</span> Up to 300MB</div>
+    <div class="pill"><span>✓</span> Target Size Mode</div>
+    <div class="pill"><span>✓</span> No Upload</div>
+    <div class="pill"><span>✓</span> 100% Free</div>
+  </div>
+</div>
+
+<div class="tool-wrapper">
+  <div class="tool-card">
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+      <div class="drop-icon">🖼️</div>
+      <div class="drop-title">Click to select JPG or PNG</div>
+      <div class="drop-sub">or drag & drop image here</div>
+      <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" />
+    </div>
+
+    <div id="tool-body">
+      <div class="preview-row">
+        <div class="preview-box">
+          <img id="origPreview" src="" alt="Original" />
+          <div class="preview-label">
+            <span>Original</span>
+            <strong id="origSizeLabel">-</strong>
+          </div>
+        </div>
+        <div class="preview-box">
+          <img id="compPreview" src="" alt="Compressed" />
+          <div class="preview-label">
+            <span>Compressed</span>
+            <strong id="compSizeLabel">-</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="quality-row">
+        <label>Output Format</label>
+        <div class="slider-wrap">
+          <select id="formatSelect" onchange="onSettingChange()" style="flex:1; background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:10px; font-size:0.9rem;">
+            <option value="auto">Auto (same as input)</option>
+            <option value="image/jpeg">JPG</option>
+            <option value="image/webp">WebP (best compression)</option>
+            <option value="image/png">PNG</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="quality-row">
+        <label>Compression Mode</label>
+        <div class="slider-wrap">
+          <select id="modeSelect" onchange="onModeChange()" style="flex:1; background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:10px; font-size:0.9rem;">
+            <option value="quality">Manual Quality</option>
+            <option value="target">Target File Size</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="quality-row" id="qualityRow">
+        <label>Quality: <span id="qualityDisplay">80%</span></label>
+        <div class="slider-wrap">
+          <input type="range" id="qualitySlider" min="10" max="100" value="80" oninput="updateSlider(this)" />
+          <span class="quality-value" id="qualityVal">80%</span>
+        </div>
+      </div>
+
+      <div class="quality-row" id="targetRow" style="display:none;">
+        <label>Target Size</label>
+        <div class="slider-wrap">
+          <input type="number" id="targetSizeInput" min="1" value="100" style="flex:1; background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:10px; font-size:0.9rem;" />
+          <select id="targetUnit" style="background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:10px; font-size:0.9rem;">
+            <option value="1024">KB</option>
+            <option value="1048576">MB</option>
+          </select>
+          <button class="btn-convert" style="width:auto; margin:0; padding:10px 18px;" onclick="compress()">Go</button>
+        </div>
+      </div>
+
+      <div id="status-msg"></div>
+      <div id="result-section">
+        <div class="result-stats">
+          <div class="stat-card"><div class="stat-label">Original</div><div class="stat-value" id="origStat">-</div></div>
+          <div class="stat-card"><div class="stat-label">Compressed</div><div class="stat-value green" id="newStat">-</div></div>
+          <div class="stat-card"><div class="stat-label">Saved</div><div class="stat-value green" id="savedStat">-</div></div>
+        </div>
+        <button class="btn-download" id="downloadBtn">⬇ Download Compressed Image</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="seo-section">
+  <h2>Free Image Compressor — No App, No Upload</h2>
+  <p>Big photos slow down websites, eat up phone storage, and get rejected by college or job portals that enforce strict size limits. FileMagic Pro's image compressor fixes this directly in your browser — no app install, no account, no waiting on a slow upload. Open this page, drop in your JPG, PNG, or WebP image, and download a smaller version in seconds.</p>
+
+  <h2>How to Compress Images Online Free</h2>
+  <p>Select your JPG or PNG image, adjust the quality slider to your preference, and the compressed image is shown instantly alongside the original. When you are happy, click Download. The entire process happens in your browser with no data sent to any server.</p>
+  <ul>
+    <li><strong>Step 1:</strong> Tap the drop zone above or drag your image in.</li>
+    <li><strong>Step 2:</strong> Choose Manual Quality or Target File Size mode.</li>
+    <li><strong>Step 3:</strong> Adjust the slider or enter your target KB/MB, then download.</li>
+  </ul>
+
+  <h2>Why Compress Images?</h2>
+  <p>Smaller image files load faster on websites, take up less storage, and are easier to share over WhatsApp or email. FileMagic Pro lets you control the quality-to-size trade-off with a simple slider, so you always get the right balance. This is especially useful for students uploading documents to portals with strict KB limits, sellers preparing product photos, and anyone sending images over slow mobile data.</p>
+
+  <h2>Target File Size Mode Explained</h2>
+  <p>Instead of guessing a quality percentage and checking the result repeatedly, Target File Size mode lets you simply type the exact size you need — like 100 KB for a government form upload — and the tool automatically searches for the best quality and dimensions to hit that target as closely as possible, without you needing to experiment manually.</p>
+
+  <h2>JPG vs PNG vs WebP Compression</h2>
+  <p>JPG works best for photos and complex images with many colors. PNG is better for screenshots, logos, or images needing transparency, though it compresses less aggressively. WebP usually gives the smallest file size of the three while keeping good visual quality, making it a strong choice when the platform you're uploading to supports it.</p>
+
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item">
+    <div class="faq-q">What formats are supported?</div>
+    <div class="faq-a">JPG, JPEG, PNG, and WebP images are supported, both as input and output. You can convert between formats while compressing.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What's the maximum file size?</div>
+    <div class="faq-a">You can compress images from a few KB up to 300MB. Very large images are automatically resized to a safe maximum dimension so the tool stays smooth on phones and low-memory devices.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What is "Target File Size" mode?</div>
+    <div class="faq-a">Instead of guessing a quality percentage, enter your desired output size (e.g. 100 KB) and the tool automatically finds the best quality and dimensions to get as close as possible to that size.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What quality setting should I use?</div>
+    <div class="faq-a">80% is ideal for web use — great visual quality with significantly smaller file size. For maximum compression, use 50–60% or switch to WebP format.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is my image uploaded anywhere?</div>
+    <div class="faq-a">No. Compression happens entirely in your browser using the Canvas API. Your images never leave your device, even for very large files.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Will the compressed image have a watermark?</div>
+    <div class="faq-a">No watermarks, ever. Your output image is clean.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Does this work on mobile?</div>
+    <div class="faq-a">Yes. The tool is fully optimized for mobile browsers including Chrome and Samsung Internet, and large images are automatically scaled down internally to keep things smooth on phones.</div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 <a href="index.html">FileMagic Pro</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
+</footer>
+
+<script>
+  let selectedFile = null;
+  let compressedDataUrl = null;
+  let compressedBlob = null;
+  let debounceTimer = null;
+  let sourceBitmap = null;
+
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  const statusEl = document.getElementById('status-msg');
+  const MAX_DIM = 4096; // cap very large images so canvas/memory stays safe on mobile
+
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('drag-over');
+    const f = e.dataTransfer.files[0];
+    if (f && f.type.startsWith('image/')) loadFile(f);
+  });
+  fileInput.addEventListener('change', () => { if (fileInput.files[0]) loadFile(fileInput.files[0]); });
+
+  function formatSize(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+    return (b/1048576).toFixed(2) + ' MB';
+  }
+
+  function setStatus(msg) { statusEl.textContent = msg; }
+
+  function updateSlider(el) {
+    const v = el.value;
+    el.style.setProperty('--pct', v + '%');
+    document.getElementById('qualityVal').textContent = v + '%';
+    document.getElementById('qualityDisplay').textContent = v + '%';
+    if (selectedFile) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(compress, 300);
+    }
+  }
+
+  function onModeChange() {
+    const mode = document.getElementById('modeSelect').value;
+    document.getElementById('qualityRow').style.display = mode === 'quality' ? 'block' : 'none';
+    document.getElementById('targetRow').style.display = mode === 'target' ? 'block' : 'none';
+    if (mode === 'quality' && selectedFile) compress();
+  }
+
+  function onSettingChange() {
+    if (selectedFile) compress();
+  }
+
+  async function loadFile(file) {
+    // 300MB hard limit
+    if (file.size > 300 * 1024 * 1024) {
+      alert('File too large. Maximum supported size is 300MB.');
+      return;
+    }
+    selectedFile = file;
+    document.getElementById('tool-body').style.display = 'block';
+    document.getElementById('result-section').style.display = 'none';
+    setStatus('Loading image…');
+
+    const url = URL.createObjectURL(file);
+    document.getElementById('origPreview').src = url;
+    document.getElementById('origSizeLabel').textContent = formatSize(file.size);
+
+    try {
+      // createImageBitmap is far more memory-efficient than <img> for big files,
+      // and decodes off the main thread on most browsers
+      if (sourceBitmap) sourceBitmap.close();
+      sourceBitmap = await createImageBitmap(file);
+    } catch (err) {
+      setStatus('Could not read this image. Try a different file.');
+      return;
+    }
+    setStatus('');
+    compress();
+  }
+
+  function getOutputMime() {
+    const sel = document.getElementById('formatSelect').value;
+    if (sel !== 'auto') return sel;
+    return selectedFile.type === 'image/png' ? 'image/png' : 'image/jpeg';
+  }
+
+  function getCanvasFromBitmap() {
+    let w = sourceBitmap.width, h = sourceBitmap.height;
+    if (w > MAX_DIM || h > MAX_DIM) {
+      const scale = MAX_DIM / Math.max(w, h);
+      w = Math.round(w * scale);
+      h = Math.round(h * scale);
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(sourceBitmap, 0, 0, w, h);
+    return canvas;
+  }
+
+  function canvasToBlob(canvas, mime, quality) {
+    return new Promise(resolve => canvas.toBlob(resolve, mime, quality));
+  }
+
+  async function compress() {
+    if (!selectedFile || !sourceBitmap) return;
+    const mode = document.getElementById('modeSelect').value;
+    const btn = document.getElementById('downloadBtn');
+
+    setStatus('Compressing…');
+    await new Promise(r => setTimeout(r, 10)); // let UI breathe before heavy work
+
+    const canvas = getCanvasFromBitmap();
+    let mimeType = getOutputMime();
+    let blob;
+
+    if (mode === 'quality') {
+      const quality = parseInt(document.getElementById('qualitySlider').value) / 100;
+      blob = await canvasToBlob(canvas, mimeType, quality);
+    } else {
+      // Target size mode: binary search quality to hit target (for jpeg/webp)
+      const targetVal = parseFloat(document.getElementById('targetSizeInput').value) || 100;
+      const unit = parseFloat(document.getElementById('targetUnit').value);
+      const targetBytes = targetVal * unit;
+
+      if (mimeType === 'image/png') {
+        // PNG quality isn't adjustable; fall back to JPEG for target-size accuracy
+        mimeType = 'image/jpeg';
+      }
+
+      let lo = 0.05, hi = 1.0, best = null;
+      for (let i = 0; i < 8; i++) {
+        const mid = (lo + hi) / 2;
+        const candidate = await canvasToBlob(canvas, mimeType, mid);
+        if (!candidate) break;
+        if (candidate.size > targetBytes) {
+          hi = mid;
+        } else {
+          best = candidate;
+          lo = mid;
+        }
+        setStatus(`Compressing… optimizing quality (step ${i+1}/8)`);
+        await new Promise(r => setTimeout(r, 0));
+      }
+      blob = best || await canvasToBlob(canvas, mimeType, 0.05);
+
+      // If even lowest quality is still above target, try downscaling dimensions
+      if (blob.size > targetBytes) {
+        let scale = 0.9;
+        let scaledCanvas = canvas;
+        for (let i = 0; i < 6 && blob.size > targetBytes; i++) {
+          const w = Math.max(1, Math.round(scaledCanvas.width * scale));
+          const h = Math.max(1, Math.round(scaledCanvas.height * scale));
+          const c2 = document.createElement('canvas');
+          c2.width = w; c2.height = h;
+          c2.getContext('2d').drawImage(canvas, 0, 0, w, h);
+          scaledCanvas = c2;
+          const candidate = await canvasToBlob(scaledCanvas, mimeType, 0.6);
+          if (candidate) blob = candidate;
+          setStatus(`Compressing… resizing to fit target (step ${i+1}/6)`);
+          await new Promise(r => setTimeout(r, 0));
+        }
+      }
+    }
+
+    if (!blob) {
+      setStatus('Compression failed. Try a different format or image.');
+      return;
+    }
+
+    compressedBlob = blob;
+    if (compressedDataUrl) URL.revokeObjectURL(compressedDataUrl);
+    compressedDataUrl = URL.createObjectURL(blob);
+    document.getElementById('compPreview').src = compressedDataUrl;
+    document.getElementById('compSizeLabel').textContent = formatSize(blob.size);
+
+    const saved = selectedFile.size - blob.size;
+    const pct = ((saved / selectedFile.size) * 100).toFixed(1);
+    document.getElementById('origStat').textContent = formatSize(selectedFile.size);
+    document.getElementById('newStat').textContent = formatSize(blob.size);
+    document.getElementById('savedStat').textContent = saved > 0 ? `-${pct}%` : '~0%';
+    document.getElementById('result-section').style.display = 'block';
+    setStatus('Done ✓');
+
+    document.getElementById('downloadBtn').onclick = () => {
+      const a = document.createElement('a');
+      a.href = compressedDataUrl;
+      const ext = mimeType === 'image/png' ? '.png' : (mimeType === 'image/webp' ? '.webp' : '.jpg');
+      a.download = 'compressed-' + selectedFile.name.replace(/\.[^.]+$/, '') + ext;
+      a.click();
+    };
+  }
+</script>
+</body>
+</html>
