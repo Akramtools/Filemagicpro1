@@ -8,582 +8,338 @@
   <meta name="keywords" content="jpg to pdf, jpg to pdf converter, convert jpg to pdf free, image to pdf online, jpg to pdf no upload" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/jpg-to-pdf.html" />
-
-  <!-- Open Graph -->
   <meta property="og:title" content="JPG to PDF Converter Free Online | FileMagic Pro" />
   <meta property="og:description" content="Convert JPG images to PDF instantly in your browser. Free, fast, no sign up needed." />
-  <meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/jpg-to-pdf.html" />
   <meta property="og:type" content="website" />
-
-  <!-- Schema.org Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "JPG to PDF Converter",
-    "url": "https://akramtools.github.io/Filemagicpro1/jpg-to-pdf.html",
-    "description": "Free online JPG to PDF converter. Convert JPG images to PDF in your browser without uploading to any server.",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Any",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
-  }
-  </script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-
+  <meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/jpg-to-pdf.html" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
-    :root {
-      --bg: #0d0d0f;
-      --surface: #16161a;
-      --card: #1e1e24;
-      --border: #2a2a35;
-      --accent: #ff6b35;
-      --accent2: #ffb347;
-      --text: #f0f0f5;
-      --muted: #8888a0;
-      --success: #4caf82;
-    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    /* NAV */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 24px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.2rem;
-      color: var(--accent);
-      text-decoration: none;
-    }
-    .nav-back {
-      font-size: 0.85rem;
-      color: var(--muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .nav-back:hover { color: var(--text); }
-
-    /* HERO */
-    .hero {
-      text-align: center;
-      padding: 48px 24px 32px;
-      background: linear-gradient(180deg, #1a1218 0%, var(--bg) 100%);
-    }
-    .tool-badge {
-      display: inline-block;
-      background: rgba(255,107,53,0.15);
-      color: var(--accent);
-      border: 1px solid rgba(255,107,53,0.3);
-      border-radius: 20px;
-      padding: 4px 14px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.8rem, 6vw, 2.8rem);
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 14px;
-    }
-    h1 span { color: var(--accent); }
-    .hero-sub {
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 480px;
-      margin: 0 auto 32px;
-      line-height: 1.6;
-    }
-    .trust-pills {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 0;
-    }
-    .pill {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 5px 12px;
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-    .pill span { color: var(--success); margin-right: 4px; }
-
-    /* TOOL CARD */
-    .tool-wrapper {
-      max-width: 680px;
-      margin: 32px auto;
-      padding: 0 16px 48px;
-    }
-    .tool-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-    }
-    .drop-zone {
-      border: 2px dashed var(--border);
-      border-radius: 14px;
-      margin: 24px;
-      padding: 40px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .drop-zone:hover, .drop-zone.drag-over {
-      border-color: var(--accent);
-      background: rgba(255,107,53,0.05);
-    }
-    .drop-icon {
-      width: 56px;
-      height: 56px;
-      background: rgba(255,107,53,0.12);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 1.6rem;
-    }
-    .drop-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .drop-sub { font-size: 0.82rem; color: var(--muted); }
-    #fileInput { display: none; }
-
-    /* PREVIEWS */
-    #preview-section { display: none; padding: 0 24px 24px; }
-    .preview-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .preview-item {
-      position: relative;
-      border-radius: 10px;
-      overflow: hidden;
-      aspect-ratio: 1;
-      background: var(--surface);
-      border: 1px solid var(--border);
-    }
-    .preview-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .remove-btn {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      background: rgba(0,0,0,0.7);
-      border: none;
-      color: #fff;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      font-size: 0.7rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* OPTIONS */
-    .options-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .option-group {
-      flex: 1;
-      min-width: 140px;
-    }
-    .option-group label {
-      display: block;
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
-    .option-group select {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      padding: 8px 10px;
-      font-size: 0.85rem;
-      font-family: inherit;
-    }
-
-    /* BUTTONS */
-    .btn-convert {
-      width: 100%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 1rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
-    }
-    .btn-convert:hover { opacity: 0.92; transform: translateY(-1px); }
-    .btn-convert:active { transform: translateY(0); }
-    .btn-convert:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* PROGRESS */
-    #progress-bar {
-      display: none;
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      margin: 16px 0 0;
-      overflow: hidden;
-    }
-    #progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      border-radius: 2px;
-      width: 0%;
-      transition: width 0.3s;
-    }
-
-    /* SUCCESS */
-    #success-box {
-      display: none;
-      background: rgba(76,175,130,0.1);
-      border: 1px solid rgba(76,175,130,0.3);
-      border-radius: 12px;
-      padding: 16px;
-      margin-top: 16px;
-      text-align: center;
-    }
-    #success-box p { color: var(--success); font-size: 0.9rem; margin-bottom: 10px; }
-    .btn-download {
-      background: var(--success);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 10px 24px;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    /* STATUS */
-    #status-msg {
-      font-size: 0.82rem;
-      text-align: center;
-      margin-top: 10px;
-      color: var(--muted);
-      min-height: 20px;
-    }
-
-    /* SEO CONTENT */
-    .seo-section {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 16px 60px;
-    }
-    .seo-section h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: var(--text);
-    }
-    .seo-section p {
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.7;
-      margin-bottom: 24px;
-    }
-    .faq-item {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 10px;
-      background: var(--card);
-    }
-    .faq-q {
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      font-size: 0.92rem;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-    .faq-a {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 24px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-    footer a { color: var(--accent); text-decoration: none; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+    header { background: #1a1d2e; border-bottom: 1px solid #2d3748; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 1.2rem; font-weight: 700; color: #a78bfa; text-decoration: none; }
+    nav a { color: #94a3b8; text-decoration: none; margin-left: 16px; font-size: 0.9rem; }
+    nav a:hover { color: #e2e8f0; }
+    .breadcrumb { font-size: 0.8rem; color: #64748b; padding: 10px 20px; }
+    .breadcrumb a { color: #a78bfa; text-decoration: none; }
+    .container { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+    .tool-badge { display: inline-block; background: #1e293b; color: #a78bfa; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; margin-bottom: 12px; }
+    h1 { font-size: 1.9rem; font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+    h1 span { color: #a78bfa; }
+    .subtitle { color: #94a3b8; font-size: 0.95rem; margin-bottom: 20px; }
+    .trust-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .badge { background: #1e293b; border: 1px solid #2d3748; border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; color: #94a3b8; }
+    .badge span { color: #4ade80; margin-right: 4px; }
+    .tool-box { background: #1a1d2e; border: 2px dashed #2d3748; border-radius: 16px; padding: 32px 20px; text-align: center; margin-bottom: 24px; transition: border-color 0.2s; }
+    .tool-box:hover { border-color: #a78bfa; }
+    .drop-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .drop-text { color: #94a3b8; font-size: 0.95rem; margin-bottom: 16px; }
+    .file-input { display: none; }
+    .btn-browse { background: #a78bfa; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 600; }
+    .btn-browse:hover { background: #8b5cf6; }
+    .options { background: #1e293b; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+    .options label { font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 6px; }
+    .options select { background: #0f1117; color: #e2e8f0; border: 1px solid #2d3748; border-radius: 8px; padding: 8px 12px; width: 100%; font-size: 0.9rem; margin-bottom: 12px; }
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .btn-convert { background: linear-gradient(135deg, #7c3aed, #a78bfa); color: #fff; border: none; padding: 14px 32px; border-radius: 10px; cursor: pointer; font-size: 1rem; font-weight: 700; width: 100%; margin-bottom: 16px; }
+    .btn-convert:hover { opacity: 0.9; }
+    .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .preview-item { position: relative; }
+    .preview-item img { width: 100%; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #2d3748; }
+    .result-box { background: #14532d; border: 1px solid #16a34a; border-radius: 12px; padding: 16px; text-align: center; display: none; }
+    .result-box p { color: #4ade80; font-weight: 600; margin-bottom: 12px; }
+    .btn-download { background: #16a34a; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 600; }
+    .seo-section { margin-top: 40px; }
+    .seo-section h2 { font-size: 1.2rem; font-weight: 700; color: #e2e8f0; margin: 28px 0 10px; }
+    .seo-section p { color: #94a3b8; font-size: 0.92rem; line-height: 1.7; margin-bottom: 10px; }
+    .steps { list-style: none; margin: 10px 0; }
+    .steps li { color: #94a3b8; font-size: 0.92rem; padding: 6px 0 6px 20px; position: relative; line-height: 1.6; }
+    .steps li::before { content: "→"; position: absolute; left: 0; color: #a78bfa; }
+    .faq-item { border-top: 1px solid #2d3748; padding: 14px 0; }
+    .faq-q { font-size: 0.95rem; font-weight: 600; color: #e2e8f0; cursor: pointer; display: flex; justify-content: space-between; }
+    .faq-a { color: #94a3b8; font-size: 0.88rem; margin-top: 8px; line-height: 1.6; display: none; }
+    .faq-item.open .faq-a { display: block; }
+    .related-tools { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+    .related-card { background: #1e293b; border: 1px solid #2d3748; border-radius: 10px; padding: 12px; text-decoration: none; display: block; }
+    .related-card:hover { border-color: #a78bfa; }
+    .related-card .rtitle { font-size: 0.9rem; font-weight: 600; color: #e2e8f0; }
+    .related-card .rdesc { font-size: 0.78rem; color: #64748b; margin-top: 2px; }
+    footer { background: #1a1d2e; border-top: 1px solid #2d3748; padding: 20px; text-align: center; margin-top: 48px; }
+    footer a { color: #64748b; text-decoration: none; margin: 0 8px; font-size: 0.85rem; }
+    footer a:hover { color: #a78bfa; }
+    footer p { color: #475569; font-size: 0.8rem; margin-top: 8px; }
+    #file-list { font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px; }
   </style>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="nav-logo">⚡ FileMagic Pro</a>
-  <a href="index.html" class="nav-back">← All Tools</a>
-</nav>
+<header>
+  <a class="logo" href="https://akramtools.github.io/Filemagicpro1/index.html">🪄 FileMagic Pro</a>
+  <nav>
+    <a href="https://akramtools.github.io/Filemagicpro1/index.html">Home</a>
+    <a href="https://akramtools.github.io/Filemagicpro1/about.html">About</a>
+  </nav>
+</header>
 
-<div class="hero">
+<div class="breadcrumb">
+  <a href="https://akramtools.github.io/Filemagicpro1/index.html">Home</a> › JPG to PDF
+</div>
+
+<div class="container">
   <div class="tool-badge">🖼️ Image Tool</div>
-  <h1>Convert <span>JPG to PDF</span><br/>Free & Instant</h1>
-  <p class="hero-sub">No upload to server. Everything happens in your browser. 100% private, 100% free.</p>
-  <div class="trust-pills">
-    <div class="pill"><span>✓</span> No Sign Up</div>
-    <div class="pill"><span>✓</span> No File Upload</div>
-    <div class="pill"><span>✓</span> Unlimited Files</div>
-    <div class="pill"><span>✓</span> 100% Free</div>
+  <h1>Convert JPG to PDF<br><span>Free &amp; Instant</span></h1>
+  <p class="subtitle">No upload to server. Everything happens in your browser. 100% private, 100% free.</p>
+
+  <div class="trust-badges">
+    <div class="badge"><span>✓</span> No Sign Up</div>
+    <div class="badge"><span>✓</span> No File Upload</div>
+    <div class="badge"><span>✓</span> Unlimited Files</div>
+    <div class="badge"><span>✓</span> 100% Free</div>
   </div>
-</div>
 
-<div class="tool-wrapper">
-  <div class="tool-card">
-    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-      <div class="drop-icon">🖼️</div>
-      <div class="drop-title">Click to select JPG / PNG images</div>
-      <div class="drop-sub">or drag & drop files here • Multiple files supported</div>
-      <input type="file" id="fileInput" accept="image/*" multiple />
-    </div>
+  <div class="tool-box" id="dropzone">
+    <div class="drop-icon">🖼️</div>
+    <p class="drop-text">Click to select JPG / PNG images<br><small>or drag &amp; drop files here • Multiple files supported</small></p>
+    <input type="file" id="fileInput" class="file-input" accept="image/*" multiple />
+    <button class="btn-browse" onclick="document.getElementById('fileInput').click()">📂 Browse Images</button>
+  </div>
 
-    <div id="preview-section">
-      <div class="preview-grid" id="previewGrid"></div>
-      <div class="options-row">
-        <div class="option-group">
-          <label>Page Size</label>
-          <select id="pageSize">
-            <option value="A4">A4 (Standard)</option>
-            <option value="Letter">US Letter</option>
-            <option value="A3">A3</option>
-            <option value="fit">Fit to Image</option>
-          </select>
-        </div>
-        <div class="option-group">
-          <label>Orientation</label>
-          <select id="orientation">
-            <option value="portrait">Portrait</option>
-            <option value="landscape">Landscape</option>
-          </select>
-        </div>
-        <div class="option-group">
-          <label>Margin</label>
-          <select id="margin">
-            <option value="0">No Margin</option>
-            <option value="20" selected>Small (20px)</option>
-            <option value="40">Medium (40px)</option>
-          </select>
-        </div>
+  <div id="file-list"></div>
+  <div class="preview-grid" id="previewGrid"></div>
+
+  <div class="options">
+    <div class="options-grid">
+      <div>
+        <label>Page Size</label>
+        <select id="pageSize">
+          <option value="a4">A4 (Standard)</option>
+          <option value="letter">US Letter</option>
+          <option value="a3">A3</option>
+          <option value="fit">Fit to Image</option>
+        </select>
       </div>
-      <button class="btn-convert" id="convertBtn" onclick="convertToPDF()">⚡ Convert to PDF</button>
-      <div id="progress-bar"><div id="progress-fill"></div></div>
-      <div id="status-msg"></div>
-      <div id="success-box">
-        <p>✅ PDF created successfully!</p>
-        <button class="btn-download" id="downloadBtn">⬇ Download PDF</button>
+      <div>
+        <label>Orientation</label>
+        <select id="orientation">
+          <option value="portrait">Portrait</option>
+          <option value="landscape">Landscape</option>
+        </select>
+      </div>
+      <div>
+        <label>Margin</label>
+        <select id="margin">
+          <option value="0">No Margin</option>
+          <option value="20" selected>Small (20px)</option>
+          <option value="40">Medium (40px)</option>
+        </select>
       </div>
     </div>
   </div>
-</div>
 
-<!-- SEO Content -->
-<div class="seo-section">
-  <h2>How to Convert JPG to PDF Online Free</h2>
-  <p>Converting JPG images to PDF is simple with FileMagic Pro. Just select your JPG files, choose your page size and orientation, and click Convert. Your PDF will be ready to download instantly — all inside your browser, with zero uploads.</p>
+  <button class="btn-convert" id="convertBtn" onclick="convertToPDF()">⚡ Convert to PDF</button>
 
-  <h2>Why Choose FileMagic Pro for JPG to PDF?</h2>
-  <p>Unlike other converters, FileMagic Pro never uploads your files to any server. The entire conversion happens locally in your browser using advanced JavaScript. This means your images stay 100% private, and there are no file size limits or hidden charges.</p>
+  <div class="result-box" id="resultBox">
+    <p>✅ PDF created successfully!</p>
+    <button class="btn-download" id="downloadBtn">⬇ Download PDF</button>
+  </div>
 
-  <h2>Frequently Asked Questions</h2>
+  <!-- SEO Content -->
+  <div class="seo-section">
+    <h2>Free JPG to PDF Converter — No App, No Upload</h2>
+    <p>Converting JPG images to PDF is one of the most common tasks for students, job seekers, and office workers in India. Whether you need to combine mark sheets, ID proofs, or scanned documents into a single PDF file, FileMagic Pro makes it instant and completely free. No app installation, no server upload, no signup — just open this page, select your images, and get a clean PDF in seconds.</p>
+    <p>The entire conversion happens inside your browser using the jsPDF library. Your images never leave your device, making this the most private JPG to PDF converter available for mobile and desktop users alike.</p>
 
-  <div class="faq-item">
-    <div class="faq-q">Is this JPG to PDF converter really free?</div>
-    <div class="faq-a">Yes, completely free. No subscription, no credit card, no watermark on your PDF.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">Can I convert multiple JPG files to one PDF?</div>
-    <div class="faq-a">Yes! Select multiple images and they will all be combined into a single PDF, one image per page, in the order you choose.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">Are my images safe?</div>
-    <div class="faq-a">Absolutely. Your files never leave your device. All processing is done locally in your browser — we have no access to your images.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">What image formats are supported?</div>
-    <div class="faq-a">JPG, JPEG, PNG, WebP, and most common image formats are supported.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-q">Will the PDF have a watermark?</div>
-    <div class="faq-a">No watermarks, ever. Your output PDF is clean and professional.</div>
+    <h2>How to Convert JPG to PDF Online Free</h2>
+    <ul class="steps">
+      <li><strong>Step 1:</strong> Tap "Browse Images" or drag your JPG/PNG files into the drop zone above.</li>
+      <li><strong>Step 2:</strong> Choose your page size (A4 is standard for India), orientation, and margin.</li>
+      <li><strong>Step 3:</strong> Tap "Convert to PDF" — your PDF downloads instantly.</li>
+    </ul>
+
+    <h2>Why Choose FileMagic Pro for JPG to PDF?</h2>
+    <p>Unlike other online converters that upload your files to a remote server — which is slow, risky for personal documents like Aadhaar or mark sheets, and requires internet bandwidth — FileMagic Pro processes everything locally in your browser. There are no file size limits, no watermarks, and no charge, ever. It works perfectly on Android Chrome, Samsung Internet, and all desktop browsers.</p>
+
+    <h2>Combine Multiple JPG Files into One PDF</h2>
+    <p>You can select multiple images at once and they will all be combined into a single PDF, with each image on its own page in the order you choose. This is perfect for submitting assignment bundles, combining photos of documents, or preparing image collections for sharing. Supported formats include JPG, JPEG, PNG, and WebP.</p>
+
+    <h2>Page Size and Layout Options</h2>
+    <p>Choose from A4 (the standard for Indian government and education forms), US Letter, A3, or "Fit to Image" which adjusts the PDF page to match your image dimensions exactly. Portrait and landscape orientations are both supported, along with margin control for clean presentation.</p>
+
+    <h2>Also Try These Tools</h2>
+    <div class="related-tools">
+      <a class="related-card" href="https://akramtools.github.io/Filemagicpro1/compress-pdf.html">
+        <div class="rtitle">📦 Compress PDF</div>
+        <div class="rdesc">Reduce PDF file size</div>
+      </a>
+      <a class="related-card" href="https://akramtools.github.io/Filemagicpro1/pdf-to-word.html">
+        <div class="rtitle">📘 PDF to Word</div>
+        <div class="rdesc">Convert PDF to editable doc</div>
+      </a>
+      <a class="related-card" href="https://akramtools.github.io/Filemagicpro1/compress-image.html">
+        <div class="rtitle">🗜️ Compress Image</div>
+        <div class="rdesc">Reduce JPG, PNG size</div>
+      </a>
+      <a class="related-card" href="https://akramtools.github.io/Filemagicpro1/pdf-to-text.html">
+        <div class="rtitle">📃 PDF to Text</div>
+        <div class="rdesc">Extract text from PDF</div>
+      </a>
+    </div>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Is this JPG to PDF converter really free? <span>▼</span></div>
+      <div class="faq-a">Yes, completely free. No subscription, no credit card, no watermark on your PDF. All 22+ tools on FileMagic Pro are free forever.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Can I convert multiple JPG files to one PDF? <span>▼</span></div>
+      <div class="faq-a">Yes! Select multiple images and they will all be combined into a single PDF, one image per page, in the order you selected.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Are my images safe? <span>▼</span></div>
+      <div class="faq-a">Absolutely. Your files never leave your device. All processing is done locally in your browser using JavaScript — we have no access to your images.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What image formats are supported? <span>▼</span></div>
+      <div class="faq-a">JPG, JPEG, PNG, and WebP images are all supported. You can mix different formats in the same PDF.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Will the PDF have a watermark? <span>▼</span></div>
+      <div class="faq-a">No watermarks, ever. Your output PDF is clean and professional — ready to submit to any portal or share on WhatsApp.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Does it work on Android mobile? <span>▼</span></div>
+      <div class="faq-a">Yes. FileMagic Pro is fully optimized for Android Chrome and Samsung Internet. Just open this page in your browser — no app download needed.</div>
+    </div>
   </div>
 </div>
 
 <footer>
-  <p>© 2025 <a href="index.html">FileMagic Pro</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
+  <div>
+    <a href="https://akramtools.github.io/Filemagicpro1/index.html">Home</a>
+    <a href="https://akramtools.github.io/Filemagicpro1/about.html">About</a>
+    <a href="https://akramtools.github.io/Filemagicpro1/privacy.html">Privacy</a>
+    <a href="https://akramtools.github.io/Filemagicpro1/terms.html">Terms</a>
+    <a href="https://akramtools.github.io/Filemagicpro1/contact.html">Contact</a>
+  </div>
+  <p>© 2026 FileMagic Pro · Free PDF Tools · Files never leave your device</p>
 </footer>
 
 <script>
-  const dropZone = document.getElementById('dropZone');
-  const fileInput = document.getElementById('fileInput');
-  const previewSection = document.getElementById('preview-section');
-  const previewGrid = document.getElementById('previewGrid');
-  const statusMsg = document.getElementById('status-msg');
   let selectedFiles = [];
   let pdfBlob = null;
 
-  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-  dropZone.addEventListener('drop', e => {
+  const fileInput = document.getElementById('fileInput');
+  const dropzone = document.getElementById('dropzone');
+
+  fileInput.addEventListener('change', handleFiles);
+
+  dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.style.borderColor = '#a78bfa'; });
+  dropzone.addEventListener('dragleave', () => { dropzone.style.borderColor = '#2d3748'; });
+  dropzone.addEventListener('drop', e => {
     e.preventDefault();
-    dropZone.classList.remove('drag-over');
-    handleFiles([...e.dataTransfer.files].filter(f => f.type.startsWith('image/')));
+    dropzone.style.borderColor = '#2d3748';
+    handleFiles({ target: { files: e.dataTransfer.files } });
   });
-  fileInput.addEventListener('change', () => handleFiles([...fileInput.files]));
 
-  function handleFiles(files) {
-    if (!files.length) return;
-    selectedFiles = [...selectedFiles, ...files];
-    renderPreviews();
-    previewSection.style.display = 'block';
-    document.getElementById('success-box').style.display = 'none';
-    statusMsg.textContent = '';
-  }
-
-  function renderPreviews() {
-    previewGrid.innerHTML = '';
-    selectedFiles.forEach((file, i) => {
-      const item = document.createElement('div');
-      item.className = 'preview-item';
-      const img = document.createElement('img');
-      img.src = URL.createObjectURL(file);
-      const btn = document.createElement('button');
-      btn.className = 'remove-btn';
-      btn.textContent = '×';
-      btn.onclick = () => { selectedFiles.splice(i, 1); renderPreviews(); if (!selectedFiles.length) previewSection.style.display = 'none'; };
-      item.appendChild(img);
-      item.appendChild(btn);
-      previewGrid.appendChild(item);
+  function handleFiles(e) {
+    const files = Array.from(e.target.files).filter(f => f.type.startsWith('image/'));
+    selectedFiles = files;
+    document.getElementById('file-list').textContent = files.length + ' image(s) selected';
+    const grid = document.getElementById('previewGrid');
+    grid.innerHTML = '';
+    files.forEach(f => {
+      const url = URL.createObjectURL(f);
+      const div = document.createElement('div');
+      div.className = 'preview-item';
+      div.innerHTML = `<img src="${url}" />`;
+      grid.appendChild(div);
     });
+    document.getElementById('resultBox').style.display = 'none';
   }
 
   async function convertToPDF() {
-    if (!selectedFiles.length) return;
+    if (!selectedFiles.length) { alert('Please select at least one image.'); return; }
     const btn = document.getElementById('convertBtn');
-    const progressBar = document.getElementById('progress-bar');
-    const progressFill = document.getElementById('progress-fill');
+    btn.textContent = '⏳ Converting...';
     btn.disabled = true;
-    progressBar.style.display = 'block';
-    progressFill.style.width = '10%';
-    statusMsg.textContent = 'Creating PDF...';
+
+    const { jsPDF } = window.jspdf;
+    const pageSize = document.getElementById('pageSize').value;
+    const orientation = document.getElementById('orientation').value;
+    const margin = parseInt(document.getElementById('margin').value);
 
     try {
-      const { PDFDocument } = PDFLib;
-      const pdfDoc = await PDFDocument.create();
-      const pageSize = document.getElementById('pageSize').value;
-      const orientation = document.getElementById('orientation').value;
-      const margin = parseInt(document.getElementById('margin').value);
-
-      const pageSizes = { A4: [595, 842], Letter: [612, 792], A3: [842, 1191] };
-
+      let pdf = null;
       for (let i = 0; i < selectedFiles.length; i++) {
-        progressFill.style.width = `${10 + ((i / selectedFiles.length) * 80)}%`;
-        statusMsg.textContent = `Processing image ${i + 1} of ${selectedFiles.length}...`;
-
-        const ab = await selectedFiles[i].arrayBuffer();
-        const type = selectedFiles[i].type;
-        let img;
-        if (type === 'image/png') {
-          img = await pdfDoc.embedPng(ab);
-        } else {
-          img = await pdfDoc.embedJpg(ab);
-        }
+        const file = selectedFiles[i];
+        const imgData = await fileToDataURL(file);
+        const img = await loadImage(imgData);
 
         let pw, ph;
         if (pageSize === 'fit') {
-          pw = img.width; ph = img.height;
+          pw = img.width * 0.75;
+          ph = img.height * 0.75;
         } else {
-          [pw, ph] = pageSizes[pageSize] || [595, 842];
+          const sizes = { a4: [595.28, 841.89], letter: [612, 792], a3: [841.89, 1190.55] };
+          [pw, ph] = orientation === 'landscape' ? [sizes[pageSize][1], sizes[pageSize][0]] : sizes[pageSize];
         }
-        if (orientation === 'landscape') { [pw, ph] = [ph, pw]; }
 
-        const page = pdfDoc.addPage([pw, ph]);
-        const maxW = pw - margin * 2;
-        const maxH = ph - margin * 2;
-        const scale = Math.min(maxW / img.width, maxH / img.height, 1);
-        const iw = img.width * scale;
-        const ih = img.height * scale;
-        const x = (pw - iw) / 2;
-        const y = (ph - ih) / 2;
-        page.drawImage(img, { x, y, width: iw, height: ih });
+        if (!pdf) {
+          pdf = new jsPDF({ orientation: orientation === 'landscape' ? 'l' : 'p', unit: 'pt', format: pageSize === 'fit' ? [pw, ph] : pageSize });
+        } else {
+          pdf.addPage(pageSize === 'fit' ? [pw, ph] : pageSize, orientation === 'landscape' ? 'l' : 'p');
+        }
+
+        const usableW = pw - margin * 2;
+        const usableH = ph - margin * 2;
+        const ratio = Math.min(usableW / img.width, usableH / img.height);
+        const drawW = img.width * ratio;
+        const drawH = img.height * ratio;
+        const x = margin + (usableW - drawW) / 2;
+        const y = margin + (usableH - drawH) / 2;
+
+        pdf.addImage(imgData, 'JPEG', x, y, drawW, drawH);
       }
 
-      progressFill.style.width = '95%';
-      const pdfBytes = await pdfDoc.save();
-      pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-      progressFill.style.width = '100%';
-      statusMsg.textContent = '';
-      document.getElementById('success-box').style.display = 'block';
-
+      pdfBlob = pdf.output('blob');
+      const url = URL.createObjectURL(pdfBlob);
       document.getElementById('downloadBtn').onclick = () => {
-        const url = URL.createObjectURL(pdfBlob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'FileMagicPro-converted.pdf';
+        a.download = 'converted.pdf';
         a.click();
-        URL.revokeObjectURL(url);
       };
+      document.getElementById('resultBox').style.display = 'block';
     } catch (err) {
-      statusMsg.textContent = '❌ Error: ' + err.message;
+      alert('Error: ' + err.message);
     }
+
+    btn.textContent = '⚡ Convert to PDF';
     btn.disabled = false;
-    setTimeout(() => { progressBar.style.display = 'none'; progressFill.style.width = '0'; }, 1000);
+  }
+
+  function fileToDataURL(file) {
+    return new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = e => res(e.target.result);
+      r.onerror = rej;
+      r.readAsDataURL(file);
+    });
+  }
+
+  function loadImage(src) {
+    return new Promise((res, rej) => {
+      const img = new Image();
+      img.onload = () => res(img);
+      img.onerror = rej;
+      img.src = src;
+    });
+  }
+
+  function toggleFaq(el) {
+    el.parentElement.classList.toggle('open');
   }
 </script>
 </body>
-</html>
+        </html>
+        
