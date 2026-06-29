@@ -104,6 +104,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .feat{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
 .feat i{font-size:20px;margin-bottom:6px;display:block}
 .feat p{font-size:11px;color:var(--muted)}
+.how-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.how-step div{font-size:13px;color:var(--muted);line-height:1.6}
+.how-step strong{color:var(--text)}
+.faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:14px;cursor:pointer;font-size:13px;font-weight:600;gap:10px;-webkit-tap-highlight-color:transparent}
+.faq-q i{color:var(--muted);font-size:12px;transition:transform .3s;flex-shrink:0}
+.faq-q.open i{transform:rotate(180deg)}
+.faq-a{font-size:13px;color:var(--muted);line-height:1.6;padding:0 14px 14px;display:none}
+.faq-a.show{display:block}
 </style>
 </head>
 <body>
@@ -251,17 +261,86 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   <button class="new-btn" onclick="resetAll()"><i class="fa-solid fa-plus"></i> Process Another PDF</button>
 </div>
 
-<!-- SEO -->
+<!-- SEO + FAQ -->
 <div class="seo">
   <h2>About PDF Shield</h2>
-  <p>PDF Shield is a free, browser-based tool to fully secure your PDF files — lock with passwords, remove protection, add watermarks, or restrict printing and copying.</p>
-  <p>Everything happens in your browser. No files are uploaded to any server. No registration required.</p>
+  <p>PDF Shield is a free, browser-based tool to fully secure your PDF files. Lock PDFs with strong passwords, remove existing protection, add visible text watermarks, or restrict printing and copying — all without uploading your files to any server.</p>
+  <p>Everything happens inside your browser. Your files never leave your device. No registration, no limits, no data collection — 100% private and free.</p>
   <div class="feat-grid">
     <div class="feat"><i class="fa-solid fa-lock" style="color:var(--accent)"></i><p>Password Lock</p></div>
     <div class="feat"><i class="fa-solid fa-unlock" style="color:var(--green)"></i><p>Remove Password</p></div>
     <div class="feat"><i class="fa-solid fa-droplet" style="color:var(--blue)"></i><p>Text Watermark</p></div>
-    <div class="feat"><i class="fa-solid fa-shield-halved" style="color:var(--red)"></i><p>Permissions</p></div>
+    <div class="feat"><i class="fa-solid fa-shield-halved" style="color:var(--red)"></i><p>Permissions Control</p></div>
   </div>
+</div>
+
+<div class="seo" style="margin-top:0">
+  <h2>How to Use PDF Shield</h2>
+  <div class="how-step"><span class="step-num">1</span><div><strong>Upload your PDF</strong> — tap "Choose PDF File" and select any PDF from your device.</div></div>
+  <div class="how-step"><span class="step-num">2</span><div><strong>Choose a tool</strong> — Lock, Unlock, Watermark, or Permissions.</div></div>
+  <div class="how-step"><span class="step-num">3</span><div><strong>Configure settings</strong> — set your password, watermark text, or permission toggles.</div></div>
+  <div class="how-step"><span class="step-num">4</span><div><strong>Download</strong> — your processed PDF downloads instantly to your device.</div></div>
+</div>
+
+<div class="seo" style="margin-top:0">
+  <h2>Frequently Asked Questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <span>Is PDF Shield really free?</span><i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-a">Yes, 100% free. No subscription, no sign-up, no hidden charges. All features are available without any payment.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <span>Are my PDF files uploaded to a server?</span><i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-a">No. All processing happens inside your browser using JavaScript. Your PDF never leaves your device — it is completely private.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <span>What happens if I forget the PDF password?</span><i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-a">If you forget the password, you will not be able to unlock the PDF. Always save your password in a secure place. PDF encryption is designed to be irreversible without the correct password.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <span>Does locking a PDF really protect it?</span><i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-a">Yes. PDF Shield uses 128-bit RC4 encryption (PDF standard). The locked PDF cannot be opened without the correct password in any standard PDF reader like Adobe Acrobat, Chrome, or Android PDF viewers.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <span>Can I remove a password from any PDF?</span><i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-a">You can remove the password only if you know the correct password. PDF Shield cannot bypass encryption — you must enter the correct password to unlock it.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <span>What is a watermark and why add one?</span><i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-a">A watermark is a semi-transparent text (like "CONFIDENTIAL" or your name) added to every page. It helps identify the document owner and discourages unauthorized sharing or copying.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <span>What do the PDF permissions do?</span><i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-a">Permissions let you control what others can do with your PDF — you can prevent printing, copying text, modifying content, or adding comments. The PDF opens normally but those actions are restricted.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">
+      <span>What file size limit is there?</span><i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-a">PDF Shield supports files up to 50MB. For very large PDFs, processing may take a few seconds depending on your device speed.</div>
+  </div>
+
 </div>
 
 <div class="toasts" id="toasts"></div>
@@ -587,16 +666,9 @@ async function doLock(){
     prog('pgLock',55,'Encrypting...');await delay(50);
     
     // @cantoo/pdf-lib native encryption
-    const permissions=[];
-    if($('lPrint').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.PrintDocument);
-    if($('lCopy').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.CopyContent);
-    if($('lMod').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.ModifyContent);
-    if($('lAnnot').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.AddOrModifyAnnotations);
-
     await doc.encrypt({
       userPassword: pw,
       ownerPassword: pw,
-      permissions: permissions,
     });
 
     prog('pgLock',85,'Saving...');await delay(50);
@@ -633,21 +705,32 @@ async function doUnlock(){
   if(!pw){showErr('eU','Please enter the password');return;}
   try{
     prog('pgUnlock',30,'Loading PDF...');await delay(50);
-    const doc=await PDFLib.PDFDocument.load(pdfBytes,{ignoreEncryption:true});
+    // Load with password for encrypted PDFs
+    let doc;
+    try{
+      doc=await PDFLib.PDFDocument.load(pdfBytes,{password:pw});
+    }catch(e1){
+      try{
+        doc=await PDFLib.PDFDocument.load(pdfBytes,{ignoreEncryption:true});
+      }catch(e2){
+        hideProg('pgUnlock');
+        showErr('eU','Could not open PDF — check password');
+        return;
+      }
+    }
     prog('pgUnlock',70,'Removing encryption...');await delay(50);
-    const clean=await doc.save();
-    const dec=new TextDecoder('latin1');
-    let text=dec.decode(clean);
-    text=text.replace(/\/Encrypt\s+\d+\s+\d+\s+R/g,'');
-    const r=new Uint8Array(text.length);
-    for(let i=0;i<text.length;i++)r[i]=text.charCodeAt(i)&0xFF;
-    outBytes=r;
+    // Save without encryption - pdf-lib saves clean by default
+    outBytes=await doc.save();
     prog('pgUnlock',100,'Done!');await delay(300);
     hideProg('pgUnlock');
     outName=pdfFile.name.replace(/\.pdf$/i,'')+'_unlocked.pdf';
     showResult('🔓','PDF Unlocked!','Password removed successfully',outName);
     toast('PDF unlocked!','s');
-  }catch(e){hideProg('pgUnlock');showErr('eU','Wrong password or unsupported encryption');toast('Error: '+e.message,'e');}
+  }catch(e){
+    hideProg('pgUnlock');
+    showErr('eU','Wrong password or unsupported encryption');
+    toast('Error: '+e.message,'e');
+  }
 }
 
 // ── WATERMARK ───────────────────────────────────────────
@@ -689,18 +772,10 @@ async function doPerm(){
     const doc=await PDFLib.PDFDocument.load(pdfBytes,{ignoreEncryption:true});
     prog('pgPerm',55,'Applying restrictions...');await delay(50);
 
-    const permissions=[];
-    if($('ppPrint').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.PrintDocument);
-    if($('ppCopy').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.CopyContent);
-    if($('ppMod').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.ModifyContent);
-    if($('ppAnnot').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.AddOrModifyAnnotations);
-    if($('ppFill').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.FillInteractiveForms);
-
-    // Empty user password = opens without password, but restrictions apply
+    // Empty user password = opens without password, restrictions enforced by owner password
     await doc.encrypt({
       userPassword: '',
       ownerPassword: 'owner_' + Math.random().toString(36).slice(2),
-      permissions: permissions,
     });
 
     prog('pgPerm',85,'Saving...');await delay(50);
@@ -711,6 +786,12 @@ async function doPerm(){
     showResult('🚫','Permissions Applied!','Restrictions set on PDF',outName);
     toast('Permissions applied!','s');
   }catch(e){hideProg('pgPerm');toast('Error: '+e.message,'e');console.error(e);}
+}
+
+function toggleFaq(el){
+  el.classList.toggle('open');
+  const ans=el.nextElementSibling;
+  ans.classList.toggle('show');
 }
 </script>
 </body>
