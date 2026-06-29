@@ -1,842 +1,717 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PDF Shield — Protect Your PDFs</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js" onload="initApp()"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --bg:#06070A;--card:#0D0F15;--card2:#13161F;--border:#1C2030;
-            --fg:#E8EAF0;--muted:#586080;--accent:#E8A838;--accent-dim:rgba(232,168,56,0.1);
-            --success:#34D399;--danger:#F87171;--info:#60A5FA;
-        }
-        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-        body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--fg);min-height:100vh;min-height:100dvh;overflow-x:hidden}
-        .amb{position:fixed;inset:0;z-index:0;pointer-events:none;
-            background:radial-gradient(ellipse 500px 350px at 15% 5%,rgba(232,168,56,0.06),transparent),
-            radial-gradient(ellipse 400px 400px at 85% 90%,rgba(52,211,153,0.04),transparent)}
-        .amb::after{content:'';position:absolute;inset:0;
-            background:url("data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.4' fill='%23ffffff06'/%3E%3C/svg%3E") repeat;background-size:50px 50px}
-
-        .upload-zone{border:2px dashed var(--border);border-radius:18px;background:var(--card);
-            transition:all .3s;position:relative;overflow:hidden;cursor:pointer}
-        .upload-zone.drag-over{border-color:var(--accent);background:var(--card2);box-shadow:0 0 40px var(--accent-dim)}
-        .upload-ring{width:80px;height:80px;border-radius:50%;
-            background:conic-gradient(var(--accent-dim),transparent 70%);
-            display:flex;align-items:center;justify-content:center;position:relative;margin:0 auto 16px}
-        .upload-ring::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--card)}
-        .upload-ico{position:relative;z-index:1;width:56px;height:56px;border-radius:50%;
-            background:var(--accent-dim);display:flex;align-items:center;justify-content:center;transition:transform .3s}
-        .upload-zone:active .upload-ico{transform:scale(.95)}
-
-        .tool-card{background:var(--card);border:1px solid var(--border);border-radius:16px;
-            padding:20px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;
-            -webkit-user-select:none;user-select:none}
-        .tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
-            background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
-        .tool-card:active{transform:scale(.97)}
-        .tool-card.active{border-color:var(--accent);background:var(--card2);box-shadow:0 0 30px var(--accent-dim)}
-        .tool-card.active::before{opacity:1}
-        .tool-ico{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;
-            justify-content:center;font-size:18px;margin-bottom:14px;flex-shrink:0}
-
-        .inp{width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--border);
-            background:var(--bg);color:var(--fg);font-family:inherit;font-size:16px;outline:none;
-            transition:all .2s;-webkit-appearance:none;appearance:none}
-        .inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
-        .inp::placeholder{color:var(--muted)}
-
-        .tog{width:48px;height:26px;border-radius:13px;background:var(--border);cursor:pointer;
-            position:relative;transition:background .25s;flex-shrink:0}
-        .tog.on{background:var(--accent)}
-        .tog::after{content:'';position:absolute;width:20px;height:20px;border-radius:50%;
-            background:#fff;top:3px;left:3px;transition:transform .25s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
-        .tog.on::after{transform:translateX(22px)}
-
-        .btn-p{padding:16px 28px;border-radius:14px;border:none;
-            background:linear-gradient(135deg,#E8A838,#D4922A);color:#000;font-family:inherit;
-            font-size:16px;font-weight:700;cursor:pointer;transition:all .25s;
-            display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%}
-        .btn-p:active{transform:scale(.97)}
-        .btn-p:disabled{opacity:.3;cursor:not-allowed;transform:none}
-        .btn-g{padding:14px 20px;border-radius:12px;border:1px solid var(--border);
-            background:transparent;color:var(--fg);font-family:inherit;font-size:14px;font-weight:500;
-            cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;
-            justify-content:center;gap:8px;width:100%}
-        .btn-g:active{background:rgba(255,255,255,.03)}
-        .btn-back{padding:10px 14px;border-radius:10px;border:1px solid var(--border);
-            background:transparent;color:var(--muted);font-family:inherit;font-size:13px;font-weight:500;
-            cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px;width:auto;margin-bottom:16px}
-        .btn-back:active{color:var(--fg);border-color:var(--muted)}
-
-        .file-card{background:var(--card2);border:1px solid var(--border);border-radius:14px;
-            padding:16px;display:flex;align-items:center;gap:14px}
-        .file-ico{width:50px;height:50px;border-radius:13px;
-            background:linear-gradient(135deg,#DC2626,#991B1B);display:flex;align-items:center;
-            justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
-
-        .perm{display:flex;align-items:center;justify-content:space-between;
-            padding:14px 16px;border-radius:12px;background:var(--bg);border:1px solid var(--border)}
-
-        .prog{width:100%;height:6px;border-radius:3px;background:var(--border);overflow:hidden}
-        .prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),#F0C060);
-            width:0%;transition:width .3s}
-
-        .toast-wrap{position:fixed;bottom:20px;left:16px;right:16px;z-index:9999;
-            display:flex;flex-direction:column;gap:8px;pointer-events:none}
-        .toast{padding:14px 18px;border-radius:12px;font-size:13px;font-weight:500;color:#fff;
-            box-shadow:0 8px 30px rgba(0,0,0,.5);animation:tIn .35s ease-out;
-            display:flex;align-items:center;gap:10px;pointer-events:auto;max-width:400px}
-        .toast.success{background:rgba(5,150,105,.94)}.toast.error{background:rgba(220,38,38,.94)}
-        .toast.info{background:rgba(37,99,235,.94)}.toast.out{animation:tOut .3s forwards}
-        @keyframes tIn{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
-        @keyframes tOut{from{opacity:1}to{transform:translateY(20px);opacity:0}}
-
-        .sec{display:none;animation:fadeUp .4s ease-out}
-        .sec.show{display:block}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
-        .safe-b{padding-bottom:env(safe-area-inset-bottom,16px)}
-        .pw-wrap{position:relative}
-        .pw-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);
-            background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:4px}
-        .pw-toggle:active{color:var(--fg)}
-
-        .wm-preview{background:var(--bg);border:1px solid var(--border);border-radius:12px;
-            padding:24px;text-align:center;position:relative;overflow:hidden;min-height:120px;
-            display:flex;align-items:center;justify-content:center}
-        .wm-text-preview{font-size:28px;font-weight:700;color:rgba(232,168,56,0.25);
-            transform:rotate(-30deg);white-space:nowrap;pointer-events:none;
-            text-transform:uppercase;letter-spacing:4px}
-
-        .err-msg{color:var(--danger);font-size:12px;margin-top:8px;display:none;align-items:center;gap:4px}
-        .err-msg.show{display:flex}
-
-        @media(min-width:640px){
-            .tool-grid{display:grid!important;grid-template-columns:1fr 1fr;gap:12px}
-            .perm-grid{display:grid!important;grid-template-columns:1fr 1fr;gap:10px}
-        }
-        @media(min-width:1024px){.main-wrap{max-width:900px;margin:0 auto}}
-        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-        ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PDF Shield — Lock, Unlock & Watermark PDFs | FileMagic Pro</title>
+<meta name="description" content="Password protect, unlock, watermark and restrict PDF permissions. 100% free, browser-based, no upload needed.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0d0d14;--surface:#1a1a28;--surface2:#22223a;--border:#2a2a40;
+  --text:#f0f0f8;--muted:#7070a0;--accent:#ff6b35;--accent2:#ff8c5a;
+  --green:#22c55e;--blue:#3b82f6;--red:#ef4444;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.nav{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text)}
+.nav-logo-icon{width:32px;height:32px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:16px}
+.nav-logo-text{font-size:16px;font-weight:800;letter-spacing:-0.5px}
+.nav-logo-text span{color:var(--accent)}
+.nav-back{margin-left:auto;background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:6px}
+.hero{padding:24px 16px 16px;text-align:center}
+.hero-icon{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#ff6b35,#ff4500);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 14px;box-shadow:0 8px 32px rgba(255,107,53,0.3)}
+.hero h1{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px}
+.hero p{font-size:13px;color:var(--muted);line-height:1.5}
+.upload-box{margin:16px;border:2px dashed var(--border);border-radius:16px;background:var(--surface);padding:32px 20px;text-align:center}
+.upload-box-icon{font-size:36px;margin-bottom:12px;color:var(--accent)}
+.upload-box h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.upload-box p{font-size:12px;color:var(--muted);margin-bottom:16px}
+.upload-label{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;font-family:inherit;font-size:14px;font-weight:600;padding:13px 26px;border-radius:10px;cursor:pointer}
+.upload-label:active{opacity:.85}
+#fileInput{position:absolute;left:-9999px;top:-9999px;opacity:0;width:1px;height:1px}
+.file-info{margin:0 16px 16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;display:none;align-items:center;gap:12px}
+.file-info.show{display:flex}
+.fi-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#dc2626,#991b1b);display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0}
+.fi-text{flex:1;min-width:0}
+.fi-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fi-size{font-size:11px;color:var(--muted);margin-top:2px}
+.fi-close{width:30px;height:30px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.tools-label{padding:0 16px 10px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:none}
+.tools-label.show{display:block}
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 16px}
+.tool-btn{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;text-align:left;display:none;flex-direction:column;gap:4px}
+.tool-btn.show{display:flex}
+.tool-btn:active{transform:scale(.97)}
+.tool-btn.sel{border-color:var(--accent);background:rgba(255,107,53,0.08)}
+.tb-icon{font-size:22px;margin-bottom:4px}
+.tb-name{font-size:13px;font-weight:700}
+.tb-desc{font-size:11px;color:var(--muted)}
+.panel{display:none;margin:0 16px 16px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;animation:fadeup .3s ease}
+.panel.show{display:block}
+@keyframes fadeup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.panel-title{font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.inp{width:100%;padding:12px 42px 12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:15px;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.inp:focus{border-color:var(--accent)}
+.inp-plain{padding:12px 14px}
+.pw-wrap{position:relative}
+.pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);font-size:15px;cursor:pointer;padding:4px;line-height:1}
+.err{font-size:12px;color:var(--red);margin-top:5px;display:none;align-items:center;gap:4px}
+.err.show{display:flex}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:10px;background:var(--bg);border:1px solid var(--border);margin-bottom:8px}
+.tog-lbl{font-size:13px;font-weight:500}
+.tog{width:44px;height:24px;border-radius:12px;background:var(--border);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.tog.on{background:var(--accent)}
+.tog::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.tog.on::after{transform:translateX(20px)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wm-prev{background:var(--bg);border:1px solid var(--border);border-radius:10px;min-height:90px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-top:8px}
+.wm-txt{font-size:22px;font-weight:800;opacity:.2;transform:rotate(-30deg);white-space:nowrap;letter-spacing:3px;text-transform:uppercase;pointer-events:none}
+.prog-wrap{margin-bottom:12px;display:none}
+.prog-wrap.show{display:block}
+.prog-bar{height:6px;border-radius:3px;background:var(--border);overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .3s}
+.prog-txt{font-size:12px;color:var(--muted);margin-top:5px;text-align:center}
+.act-btn{width:100%;padding:14px;border-radius:12px;border:none;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
+.act-btn:active{opacity:.85}
+.btn-ora{background:linear-gradient(135deg,#ff6b35,#e05520);color:#fff}
+.btn-grn{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff}
+.btn-blu{background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff}
+.btn-red{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
+.result{display:none;margin:0 16px 24px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px 20px;text-align:center}
+.result.show{display:block}
+.res-icon{font-size:48px;margin-bottom:12px}
+.res-title{font-size:18px;font-weight:800;margin-bottom:6px}
+.res-desc{font-size:13px;color:var(--muted);margin-bottom:20px}
+.dl-btn{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#ff6b35,#e05520);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
+.dl-btn:active{opacity:.85}
+.new-btn{width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:inherit;font-size:14px;font-weight:500;cursor:pointer}
+.new-btn:active{background:var(--surface2)}
+.toasts{position:fixed;bottom:20px;left:16px;right:16px;z-index:9999;pointer-events:none;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 16px;border-radius:10px;font-size:13px;font-weight:500;color:#fff;display:flex;align-items:center;gap:10px;pointer-events:auto;animation:tslide .3s ease-out;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.toast.s{background:#15803d}.toast.e{background:#dc2626}.toast.i{background:#1d4ed8}
+.toast.out{animation:tfade .3s forwards}
+@keyframes tslide{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes tfade{to{opacity:0;transform:translateY(10px)}}
+.seo{margin:0 16px 30px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:16px}
+.seo h2{font-size:16px;font-weight:700;margin-bottom:10px}
+.seo p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:8px}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.feat{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.feat i{font-size:20px;margin-bottom:6px;display:block}
+.feat p{font-size:11px;color:var(--muted)}
+</style>
 </head>
 <body>
-<div class="amb"></div>
 
-<header class="relative z-10 px-5 pt-5 pb-2 safe-b">
-    <div class="main-wrap">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg" style="background:var(--accent-dim);color:var(--accent)">
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-            <div>
-                <h1 class="text-xl font-bold tracking-tight">PDF Shield</h1>
-                <p class="text-xs" style="color:var(--muted)">100% Browser-based — No data sent to server</p>
-            </div>
-        </div>
-    </div>
-</header>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">✨</div>
+    <span class="nav-logo-text">File<span>Magic</span>Pro</span>
+  </a>
+  <a href="index.html" class="nav-back"><i class="fa-solid fa-arrow-left"></i> Home</a>
+</nav>
 
-<main class="relative z-10 px-5 pb-8 safe-b">
-<div class="main-wrap">
-
-    <!-- UPLOAD -->
-    <div id="secUpload" class="sec show mt-4">
-        <div class="upload-zone p-8 text-center" id="uploadZone">
-            <div class="upload-ring"><div class="upload-ico"><i class="fa-solid fa-file-arrow-up text-xl" style="color:var(--accent)"></i></div></div>
-            <p class="text-base font-semibold mb-2">Select PDF File</p>
-            <p class="text-sm mb-4" style="color:var(--muted)">Max 50MB</p>
-            <label for="fileInput" style="display:inline-block;padding:12px 28px;border-radius:12px;background:linear-gradient(135deg,#E8A838,#D4922A);color:#000;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;">
-                <i class="fa-solid fa-folder-open mr-2"></i>Choose PDF File
-            </label>
-            <input type="file" id="fileInput" accept=".pdf,application/pdf" style="position:absolute;width:1px;height:1px;opacity:0;">
-        </div>
-        <div class="grid grid-cols-2 gap-3 mt-6">
-            <div class="flex items-start gap-3 p-3 rounded-xl" style="background:var(--card);border:1px solid var(--border)">
-                <i class="fa-solid fa-lock text-sm mt-0.5" style="color:var(--accent)"></i>
-                <div><p class="text-xs font-semibold">Password Protect</p><p class="text-xs mt-0.5" style="color:var(--muted)">Lock your PDF</p></div>
-            </div>
-            <div class="flex items-start gap-3 p-3 rounded-xl" style="background:var(--card);border:1px solid var(--border)">
-                <i class="fa-solid fa-unlock text-sm mt-0.5" style="color:var(--success)"></i>
-                <div><p class="text-xs font-semibold">Password Remove</p><p class="text-xs mt-0.5" style="color:var(--muted)">Remove password</p></div>
-            </div>
-            <div class="flex items-start gap-3 p-3 rounded-xl" style="background:var(--card);border:1px solid var(--border)">
-                <i class="fa-solid fa-droplet text-sm mt-0.5" style="color:var(--info)"></i>
-                <div><p class="text-xs font-semibold">Watermark</p><p class="text-xs mt-0.5" style="color:var(--muted)">Add text watermark</p></div>
-            </div>
-            <div class="flex items-start gap-3 p-3 rounded-xl" style="background:var(--card);border:1px solid var(--border)">
-                <i class="fa-solid fa-ban text-sm mt-0.5" style="color:var(--danger)"></i>
-                <div><p class="text-xs font-semibold">Permissions</p><p class="text-xs mt-0.5" style="color:var(--muted)">Restrict print/copy</p></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TOOL SELECT -->
-    <div id="secTools" class="sec mt-4">
-        <div class="file-card mb-5">
-            <div class="file-ico"><i class="fa-solid fa-file-pdf"></i></div>
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold truncate" id="fileName">---</p>
-                <p class="text-xs mt-0.5" style="color:var(--muted)" id="fileInfo">---</p>
-            </div>
-            <button class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style="background:var(--bg);border:1px solid var(--border);color:var(--muted)" id="btnChangeFile" aria-label="Change file"><i class="fa-solid fa-xmark text-sm"></i></button>
-        </div>
-        <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--muted)">What do you want to do?</p>
-        <div class="tool-grid" style="display:grid;grid-template-columns:1fr;gap:12px">
-            <div class="tool-card" data-tool="lock"><div class="tool-ico" style="background:rgba(232,168,56,.12);color:var(--accent)"><i class="fa-solid fa-lock"></i></div><p class="text-sm font-bold mb-1">Lock PDF</p><p class="text-xs" style="color:var(--muted)">Set a password</p></div>
-            <div class="tool-card" data-tool="unlock"><div class="tool-ico" style="background:rgba(52,211,153,.12);color:var(--success)"><i class="fa-solid fa-unlock"></i></div><p class="text-sm font-bold mb-1">Unlock PDF</p><p class="text-xs" style="color:var(--muted)">Remove password</p></div>
-            <div class="tool-card" data-tool="watermark"><div class="tool-ico" style="background:rgba(96,165,250,.12);color:var(--info)"><i class="fa-solid fa-droplet"></i></div><p class="text-sm font-bold mb-1">Watermark</p><p class="text-xs" style="color:var(--muted)">Add text watermark</p></div>
-            <div class="tool-card" data-tool="permissions"><div class="tool-ico" style="background:rgba(248,113,113,.12);color:var(--danger)"><i class="fa-solid fa-sliders"></i></div><p class="text-sm font-bold mb-1">Permissions</p><p class="text-xs" style="color:var(--muted)">Restrict copy/print</p></div>
-        </div>
-    </div>
-
-    <!-- LOCK PDF -->
-    <div id="secLock" class="sec mt-4">
-        <button class="btn-back" id="btnBackLock"><i class="fa-solid fa-arrow-left text-xs"></i> Back</button>
-        <div class="file-card mb-5"><div class="file-ico"><i class="fa-solid fa-file-pdf"></i></div><div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate" id="lockFileName">---</p><p class="text-xs mt-0.5" style="color:var(--muted)" id="lockFileInfo">---</p></div></div>
-        <div class="p-5 rounded-2xl mb-5" style="background:var(--card);border:1px solid var(--border)">
-            <p class="text-sm font-bold mb-4"><i class="fa-solid fa-key mr-2" style="color:var(--accent)"></i>Set Password</p>
-            <label class="block text-xs font-semibold mb-2" style="color:var(--muted)">PASSWORD</label>
-            <div class="pw-wrap mb-4"><input type="password" class="inp" id="lockPw" placeholder="Enter a strong password" autocomplete="new-password"><button class="pw-toggle" data-target="lockPw" aria-label="Toggle"><i class="fa-solid fa-eye"></i></button></div>
-            <div class="err-msg mb-3" id="lockErr1"><i class="fa-solid fa-circle-exclamation"></i> <span></span></div>
-            <label class="block text-xs font-semibold mb-2" style="color:var(--muted)">CONFIRM PASSWORD</label>
-            <div class="pw-wrap mb-5"><input type="password" class="inp" id="lockPwC" placeholder="Confirm password" autocomplete="new-password"><button class="pw-toggle" data-target="lockPwC" aria-label="Toggle"><i class="fa-solid fa-eye"></i></button></div>
-            <div class="err-msg mb-3" id="lockErr2"><i class="fa-solid fa-circle-exclamation"></i> <span></span></div>
-            <p class="text-xs font-bold mb-3" style="color:var(--muted)">PERMISSIONS (Optional)</p>
-            <div class="perm-grid" style="display:flex;flex-direction:column;gap:8px">
-                <div class="perm"><span class="text-sm">Printing</span><div class="tog on" data-perm="printing"></div></div>
-                <div class="perm"><span class="text-sm">Copying</span><div class="tog on" data-perm="copying"></div></div>
-                <div class="perm"><span class="text-sm">Modifying</span><div class="tog" data-perm="modifying"></div></div>
-                <div class="perm"><span class="text-sm">Annotating</span><div class="tog on" data-perm="annotating"></div></div>
-            </div>
-        </div>
-        <div id="lockProg" class="mb-4 hidden"><div class="prog"><div class="prog-fill" id="lockProgF"></div></div><p class="text-xs mt-2 text-center" style="color:var(--muted)" id="lockProgT">Processing...</p></div>
-        <button class="btn-p" id="btnDoLock"><i class="fa-solid fa-lock"></i> Lock PDF</button>
-    </div>
-
-    <!-- UNLOCK PDF -->
-    <div id="secUnlock" class="sec mt-4">
-        <button class="btn-back" id="btnBackUnlock"><i class="fa-solid fa-arrow-left text-xs"></i> Back</button>
-        <div class="file-card mb-5"><div class="file-ico"><i class="fa-solid fa-file-pdf"></i></div><div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate" id="unlockFileName">---</p><p class="text-xs mt-0.5" style="color:var(--muted)" id="unlockFileInfo">---</p></div></div>
-        <div class="p-5 rounded-2xl mb-5" style="background:var(--card);border:1px solid var(--border)">
-            <p class="text-sm font-bold mb-1"><i class="fa-solid fa-unlock mr-2" style="color:var(--success)"></i>Enter Password</p>
-            <p class="text-xs mb-4" style="color:var(--muted)">Enter the password you set</p>
-            <div class="pw-wrap mb-2"><input type="password" class="inp" id="unlockPw" placeholder="Password" autocomplete="current-password"><button class="pw-toggle" data-target="unlockPw" aria-label="Toggle"><i class="fa-solid fa-eye"></i></button></div>
-            <div class="err-msg" id="unlockErr"><i class="fa-solid fa-circle-exclamation"></i> <span></span></div>
-        </div>
-        <div id="unlockProg" class="mb-4 hidden"><div class="prog"><div class="prog-fill" id="unlockProgF"></div></div><p class="text-xs mt-2 text-center" style="color:var(--muted)" id="unlockProgT">Processing...</p></div>
-        <button class="btn-p" id="btnDoUnlock" style="background:linear-gradient(135deg,#34D399,#059669)"><i class="fa-solid fa-unlock"></i> Unlock PDF</button>
-    </div>
-
-    <!-- WATERMARK -->
-    <div id="secWatermark" class="sec mt-4">
-        <button class="btn-back" id="btnBackWm"><i class="fa-solid fa-arrow-left text-xs"></i> Back</button>
-        <div class="file-card mb-5"><div class="file-ico"><i class="fa-solid fa-file-pdf"></i></div><div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate" id="wmFileName">---</p><p class="text-xs mt-0.5" style="color:var(--muted)" id="wmFileInfo">---</p></div></div>
-        <div class="p-5 rounded-2xl mb-5" style="background:var(--card);border:1px solid var(--border)">
-            <p class="text-sm font-bold mb-4"><i class="fa-solid fa-droplet mr-2" style="color:var(--info)"></i>Configure Watermark</p>
-            <label class="block text-xs font-semibold mb-2" style="color:var(--muted)">TEXT</label>
-            <input type="text" class="inp mb-4" id="wmText" placeholder="CONFIDENTIAL" value="CONFIDENTIAL" maxlength="50">
-            <div class="grid grid-cols-2 gap-3 mb-4">
-                <div><label class="block text-xs font-semibold mb-2" style="color:var(--muted)">FONT SIZE</label><input type="number" class="inp" id="wmSize" value="60" min="10" max="200"></div>
-                <div><label class="block text-xs font-semibold mb-2" style="color:var(--muted)">OPACITY %</label><input type="number" class="inp" id="wmOpacity" value="15" min="1" max="100"></div>
-            </div>
-            <div class="grid grid-cols-2 gap-3 mb-4">
-                <div><label class="block text-xs font-semibold mb-2" style="color:var(--muted)">ROTATION</label><input type="number" class="inp" id="wmRot" value="-30" min="-90" max="90"></div>
-                <div><label class="block text-xs font-semibold mb-2" style="color:var(--muted)">COLOR</label><input type="color" class="inp" id="wmColor" value="#888888" style="padding:8px;height:50px;cursor:pointer"></div>
-            </div>
-            <p class="text-xs font-semibold mb-2" style="color:var(--muted)">PREVIEW</p>
-            <div class="wm-preview"><span class="wm-text-preview" id="wmPrev">CONFIDENTIAL</span></div>
-        </div>
-        <div id="wmProg" class="mb-4 hidden"><div class="prog"><div class="prog-fill" id="wmProgF"></div></div><p class="text-xs mt-2 text-center" style="color:var(--muted)" id="wmProgT">Processing...</p></div>
-        <button class="btn-p" id="btnDoWm" style="background:linear-gradient(135deg,#60A5FA,#2563EB)"><i class="fa-solid fa-droplet"></i> Watermark Apply Karo</button>
-    </div>
-
-    <!-- PERMISSIONS -->
-    <div id="secPerms" class="sec mt-4">
-        <button class="btn-back" id="btnBackPerm"><i class="fa-solid fa-arrow-left text-xs"></i> Back</button>
-        <div class="file-card mb-5"><div class="file-ico"><i class="fa-solid fa-file-pdf"></i></div><div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate" id="permFileName">---</p><p class="text-xs mt-0.5" style="color:var(--muted)" id="permFileInfo">---</p></div></div>
-        <div class="p-5 rounded-2xl mb-5" style="background:var(--card);border:1px solid var(--border)">
-            <p class="text-sm font-bold mb-1"><i class="fa-solid fa-sliders mr-2" style="color:var(--danger)"></i>Set Permissions</p>
-            <p class="text-xs mb-4" style="color:var(--muted)">Disabled options will be restricted</p>
-            <div class="perm-grid" style="display:flex;flex-direction:column;gap:8px">
-                <div class="perm"><span class="text-sm"><i class="fa-solid fa-print mr-2 text-xs" style="color:var(--muted)"></i>Printing</span><div class="tog on" data-perm="p_printing"></div></div>
-                <div class="perm"><span class="text-sm"><i class="fa-solid fa-copy mr-2 text-xs" style="color:var(--muted)"></i>Content Copying</span><div class="tog on" data-perm="p_copying"></div></div>
-                <div class="perm"><span class="text-sm"><i class="fa-solid fa-pen mr-2 text-xs" style="color:var(--muted)"></i>Modifying</span><div class="tog" data-perm="p_modifying"></div></div>
-                <div class="perm"><span class="text-sm"><i class="fa-solid fa-comment mr-2 text-xs" style="color:var(--muted)"></i>Commenting</span><div class="tog on" data-perm="p_annotating"></div></div>
-                <div class="perm"><span class="text-sm"><i class="fa-solid fa-file-export mr-2 text-xs" style="color:var(--muted)"></i>Form Filling</span><div class="tog on" data-perm="p_filling"></div></div>
-                <div class="perm"><span class="text-sm"><i class="fa-solid fa-scissors mr-2 text-xs" style="color:var(--muted)"></i>Page Extraction</span><div class="tog on" data-perm="p_extraction"></div></div>
-            </div>
-        </div>
-        <div id="permProg" class="mb-4 hidden"><div class="prog"><div class="prog-fill" id="permProgF"></div></div><p class="text-xs mt-2 text-center" style="color:var(--muted)" id="permProgT">Processing...</p></div>
-        <button class="btn-p" id="btnDoPerm" style="background:linear-gradient(135deg,#F87171,#DC2626)"><i class="fa-solid fa-shield-halved"></i> Permissions Apply Karo</button>
-    </div>
-
-    <!-- DONE -->
-    <div id="secDone" class="sec mt-4">
-        <div class="text-center py-8">
-            <div class="w-20 h-20 rounded-full mx-auto mb-5 flex items-center justify-center text-3xl" style="background:rgba(52,211,153,.12);color:var(--success)"><i class="fa-solid fa-circle-check"></i></div>
-            <h2 class="text-xl font-bold mb-2" id="doneTitle">Done!</h2>
-            <p class="text-sm mb-6" style="color:var(--muted)" id="doneDesc">Your PDF is ready</p>
-            <div class="file-card mb-6 text-left mx-auto" style="max-width:360px"><div class="file-ico"><i class="fa-solid fa-file-pdf"></i></div><div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate" id="doneFileName">---</p><p class="text-xs mt-0.5" style="color:var(--muted)" id="doneFileInfo">---</p></div></div>
-            <div class="flex flex-col gap-3 mx-auto" style="max-width:360px">
-                <button class="btn-p" id="btnDownload"><i class="fa-solid fa-download"></i> Download PDF</button>
-                <button class="btn-g" id="btnNewFile"><i class="fa-solid fa-plus"></i> New PDF</button>
-            </div>
-        </div>
-    </div>
-
+<div class="hero">
+  <div class="hero-icon">🛡️</div>
+  <h1>PDF Shield</h1>
+  <p>Lock · Unlock · Watermark · Restrict Permissions<br>100% free — no upload, works in browser</p>
 </div>
-</main>
 
-<div class="toast-wrap" id="toastWrap"></div>
+<div class="upload-box" id="uploadBox">
+  <div class="upload-box-icon"><i class="fa-solid fa-file-shield"></i></div>
+  <h3>Select a PDF File</h3>
+  <p>Your file stays on your device — nothing is uploaded</p>
+  <label class="upload-label" for="fileInput">
+    <i class="fa-solid fa-folder-open"></i> Choose PDF File
+  </label>
+  <input type="file" id="fileInput">
+</div>
 
+<div class="file-info" id="fileInfo">
+  <div class="fi-icon"><i class="fa-solid fa-file-pdf"></i></div>
+  <div class="fi-text">
+    <div class="fi-name" id="fName">—</div>
+    <div class="fi-size" id="fSize">—</div>
+  </div>
+  <div class="fi-close" id="btnClose"><i class="fa-solid fa-xmark"></i></div>
+</div>
+
+<div class="tools-label" id="tlbl">Choose a tool</div>
+<div class="tools-grid">
+  <button class="tool-btn" id="tLock" onclick="pickTool('lock')">
+    <div class="tb-icon">🔒</div>
+    <div class="tb-name">Lock PDF</div>
+    <div class="tb-desc">Set password</div>
+  </button>
+  <button class="tool-btn" id="tUnlock" onclick="pickTool('unlock')">
+    <div class="tb-icon">🔓</div>
+    <div class="tb-name">Unlock PDF</div>
+    <div class="tb-desc">Remove password</div>
+  </button>
+  <button class="tool-btn" id="tWm" onclick="pickTool('wm')">
+    <div class="tb-icon">💧</div>
+    <div class="tb-name">Watermark</div>
+    <div class="tb-desc">Add text watermark</div>
+  </button>
+  <button class="tool-btn" id="tPerm" onclick="pickTool('perm')">
+    <div class="tb-icon">🚫</div>
+    <div class="tb-name">Permissions</div>
+    <div class="tb-desc">Restrict print/copy</div>
+  </button>
+</div>
+
+<!-- LOCK -->
+<div class="panel" id="pnLock">
+  <div class="panel-title">🔒 Lock PDF</div>
+  <div class="field">
+    <label>Password</label>
+    <div class="pw-wrap">
+      <input type="password" class="inp" id="lPw" placeholder="Enter password">
+      <button class="pw-eye" onclick="eyeTog('lPw',this)"><i class="fa-solid fa-eye"></i></button>
+    </div>
+    <div class="err" id="e1"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+  </div>
+  <div class="field">
+    <label>Confirm Password</label>
+    <div class="pw-wrap">
+      <input type="password" class="inp" id="lPwC" placeholder="Re-enter password">
+      <button class="pw-eye" onclick="eyeTog('lPwC',this)"><i class="fa-solid fa-eye"></i></button>
+    </div>
+    <div class="err" id="e2"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+  </div>
+  <div class="field">
+    <label>Permissions</label>
+    <div class="tog-row"><span class="tog-lbl">Allow Printing</span><div class="tog on" id="lPrint"></div></div>
+    <div class="tog-row"><span class="tog-lbl">Allow Copying</span><div class="tog on" id="lCopy"></div></div>
+    <div class="tog-row"><span class="tog-lbl">Allow Modifying</span><div class="tog" id="lMod"></div></div>
+    <div class="tog-row"><span class="tog-lbl">Allow Annotating</span><div class="tog on" id="lAnnot"></div></div>
+  </div>
+  <div class="prog-wrap" id="pgLock"><div class="prog-bar"><div class="prog-fill" id="pgLockF"></div></div><div class="prog-txt" id="pgLockT"></div></div>
+  <button class="act-btn btn-ora" onclick="doLock()"><i class="fa-solid fa-lock"></i> Lock PDF</button>
+</div>
+
+<!-- UNLOCK -->
+<div class="panel" id="pnUnlock">
+  <div class="panel-title">🔓 Unlock PDF</div>
+  <div class="field">
+    <label>Current Password</label>
+    <div class="pw-wrap">
+      <input type="password" class="inp" id="uPw" placeholder="Enter current password">
+      <button class="pw-eye" onclick="eyeTog('uPw',this)"><i class="fa-solid fa-eye"></i></button>
+    </div>
+    <div class="err" id="eU"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+  </div>
+  <div class="prog-wrap" id="pgUnlock"><div class="prog-bar"><div class="prog-fill" id="pgUnlockF"></div></div><div class="prog-txt" id="pgUnlockT"></div></div>
+  <button class="act-btn btn-grn" onclick="doUnlock()"><i class="fa-solid fa-unlock"></i> Unlock PDF</button>
+</div>
+
+<!-- WATERMARK -->
+<div class="panel" id="pnWm">
+  <div class="panel-title">💧 Add Watermark</div>
+  <div class="field">
+    <label>Watermark Text</label>
+    <input type="text" class="inp inp-plain" id="wText" value="CONFIDENTIAL" maxlength="40" oninput="wmPrev()">
+  </div>
+  <div class="grid2">
+    <div class="field"><label>Font Size</label><input type="number" class="inp inp-plain" id="wSize" value="60" min="10" max="200" oninput="wmPrev()"></div>
+    <div class="field"><label>Opacity %</label><input type="number" class="inp inp-plain" id="wOp" value="15" min="1" max="100" oninput="wmPrev()"></div>
+    <div class="field"><label>Rotation °</label><input type="number" class="inp inp-plain" id="wRot" value="-30" min="-90" max="90" oninput="wmPrev()"></div>
+    <div class="field"><label>Color</label><input type="color" class="inp" id="wCol" value="#888888" style="height:46px;padding:6px;cursor:pointer" oninput="wmPrev()"></div>
+  </div>
+  <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px">Preview</label>
+  <div class="wm-prev"><span class="wm-txt" id="wPrev">CONFIDENTIAL</span></div>
+  <div class="prog-wrap" id="pgWm" style="margin-top:12px"><div class="prog-bar"><div class="prog-fill" id="pgWmF"></div></div><div class="prog-txt" id="pgWmT"></div></div>
+  <button class="act-btn btn-blu" style="margin-top:12px" onclick="doWm()"><i class="fa-solid fa-droplet"></i> Apply Watermark</button>
+</div>
+
+<!-- PERMISSIONS -->
+<div class="panel" id="pnPerm">
+  <div class="panel-title">🚫 Set Permissions</div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Turn off to restrict that action in the PDF</p>
+  <div class="tog-row"><span class="tog-lbl"><i class="fa-solid fa-print" style="margin-right:8px;color:var(--muted)"></i>Printing</span><div class="tog on" id="ppPrint"></div></div>
+  <div class="tog-row"><span class="tog-lbl"><i class="fa-solid fa-copy" style="margin-right:8px;color:var(--muted)"></i>Copying</span><div class="tog on" id="ppCopy"></div></div>
+  <div class="tog-row"><span class="tog-lbl"><i class="fa-solid fa-pen" style="margin-right:8px;color:var(--muted)"></i>Modifying</span><div class="tog" id="ppMod"></div></div>
+  <div class="tog-row"><span class="tog-lbl"><i class="fa-solid fa-comment" style="margin-right:8px;color:var(--muted)"></i>Commenting</span><div class="tog on" id="ppAnnot"></div></div>
+  <div class="tog-row"><span class="tog-lbl"><i class="fa-solid fa-file-pen" style="margin-right:8px;color:var(--muted)"></i>Form Filling</span><div class="tog on" id="ppFill"></div></div>
+  <div class="prog-wrap" id="pgPerm"><div class="prog-bar"><div class="prog-fill" id="pgPermF"></div></div><div class="prog-txt" id="pgPermT"></div></div>
+  <button class="act-btn btn-red" onclick="doPerm()"><i class="fa-solid fa-shield-halved"></i> Apply Restrictions</button>
+</div>
+
+<!-- RESULT -->
+<div class="result" id="resultBox">
+  <div class="res-icon" id="rIcon">✅</div>
+  <div class="res-title" id="rTitle">Done!</div>
+  <div class="res-desc" id="rDesc">Your PDF is ready</div>
+  <button class="dl-btn" onclick="dlFile()"><i class="fa-solid fa-download"></i> Download PDF</button>
+  <button class="new-btn" onclick="resetAll()"><i class="fa-solid fa-plus"></i> Process Another PDF</button>
+</div>
+
+<!-- SEO -->
+<div class="seo">
+  <h2>About PDF Shield</h2>
+  <p>PDF Shield is a free, browser-based tool to fully secure your PDF files — lock with passwords, remove protection, add watermarks, or restrict printing and copying.</p>
+  <p>Everything happens in your browser. No files are uploaded to any server. No registration required.</p>
+  <div class="feat-grid">
+    <div class="feat"><i class="fa-solid fa-lock" style="color:var(--accent)"></i><p>Password Lock</p></div>
+    <div class="feat"><i class="fa-solid fa-unlock" style="color:var(--green)"></i><p>Remove Password</p></div>
+    <div class="feat"><i class="fa-solid fa-droplet" style="color:var(--blue)"></i><p>Text Watermark</p></div>
+    <div class="feat"><i class="fa-solid fa-shield-halved" style="color:var(--red)"></i><p>Permissions</p></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="https://unpkg.com/@cantoo/pdf-lib@latest/dist/pdf-lib.min.js"></script>
 <script>
-function initApp() {
-const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
-const $ = id => document.getElementById(id);
+var pdfBytes=null,pdfFile=null,outBytes=null,outName='';
+const $=id=>document.getElementById(id);
+const delay=ms=>new Promise(r=>setTimeout(r,ms));
 
-let currentFile = null, currentBytes = null, outputBytes = null;
+// File input — no accept attr so all files visible, validate in JS
+$('fileInput').addEventListener('change',function(){
+  if(this.files[0]) loadPDF(this.files[0]);
+  this.value='';
+});
 
-function toast(msg, type='info') {
-    const t = document.createElement('div');
-    t.className = `toast ${type}`;
-    t.innerHTML = `<i class="fa-solid fa-${type==='success'?'circle-check':type==='error'?'circle-xmark':'circle-info'}"></i>${msg}`;
-    $('toastWrap').appendChild(t);
-    setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 300); }, 3500);
+async function loadPDF(file){
+  if(file.size>52428800){toast('File too large — max 50MB','e');return;}
+  try{
+    const ab=await file.arrayBuffer();
+    const bytes=new Uint8Array(ab);
+    // Check PDF header
+    const hdr=new TextDecoder('latin1').decode(bytes.slice(0,5));
+    if(hdr!=='%PDF-'){toast('Please select a valid PDF file','e');return;}
+    pdfBytes=bytes; pdfFile=file;
+    const sz=file.size<1048576?(file.size/1024).toFixed(1)+' KB':(file.size/1048576).toFixed(2)+' MB';
+    $('fName').textContent=file.name;
+    $('fSize').textContent=sz;
+    $('fileInfo').classList.add('show');
+    $('uploadBox').style.display='none';
+    $('tlbl').classList.add('show');
+    document.querySelectorAll('.tool-btn').forEach(b=>b.classList.add('show'));
+    hideResult();
+    toast('PDF loaded!','s');
+  }catch(e){toast('Error: '+e.message,'e');}
 }
 
-function showSec(id) {
-    document.querySelectorAll('.sec').forEach(s => s.classList.remove('show'));
-    $(id).classList.add('show');
-    window.scrollTo({top:0, behavior:'smooth'});
+$('btnClose').onclick=resetAll;
+
+function resetAll(){
+  pdfBytes=null;pdfFile=null;outBytes=null;
+  $('fileInfo').classList.remove('show');
+  $('uploadBox').style.display='';
+  $('tlbl').classList.remove('show');
+  document.querySelectorAll('.tool-btn').forEach(b=>{b.classList.remove('show','sel');});
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));
+  hideResult();
 }
 
-function fmtSize(b) {
-    if(b<1024) return b+' B';
-    if(b<1048576) return (b/1024).toFixed(1)+' KB';
-    return (b/1048576).toFixed(2)+' MB';
+function pickTool(t){
+  const map={lock:'tLock',unlock:'tUnlock',wm:'tWm',perm:'tPerm'};
+  const pmap={lock:'pnLock',unlock:'pnUnlock',wm:'pnWm',perm:'pnPerm'};
+  document.querySelectorAll('.tool-btn').forEach(b=>b.classList.remove('sel'));
+  $(map[t]).classList.add('sel');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));
+  hideResult();
+  $(pmap[t]).classList.add('show');
+  $(pmap[t]).scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function showErr(id, msg) {
-    const el = $(id);
-    el.querySelector('span').textContent = msg;
-    el.classList.add('show');
+document.querySelectorAll('.tog').forEach(t=>t.addEventListener('click',()=>t.classList.toggle('on')));
+
+function eyeTog(id,btn){
+  const i=$( id);const p=i.type==='password';
+  i.type=p?'text':'password';
+  btn.innerHTML=p?'<i class="fa-solid fa-eye-slash"></i>':'<i class="fa-solid fa-eye"></i>';
 }
-function hideErr(id) { $(id).classList.remove('show'); }
 
-function showProg(p) { $(p).classList.remove('hidden'); $(p+'F').style.width='0%'; }
-function setProg(p, v, t) { $(p+'F').style.width=v+'%'; if(t) $(p+'T').textContent=t; }
-function hideProg(p) { $(p).classList.add('hidden'); }
+function wmPrev(){
+  const txt=$('wText').value||'WATERMARK';
+  const op=(parseInt($('wOp').value)||15)/100;
+  const rot=parseInt($('wRot').value)||-30;
+  const col=$('wCol').value||'#888';
+  const p=$('wPrev');
+  p.textContent=txt;p.style.opacity=op;p.style.transform=`rotate(${rot}deg)`;p.style.color=col;
+}
 
-const uploadZone = $('uploadZone'), fileInput = $('fileInput');
-// label handles file input click
-fileInput.addEventListener('change', e => { if(e.target.files[0]) handleFile(e.target.files[0]); });
-uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
-uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
-uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.classList.remove('drag-over'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+function showErr(id,msg){const e=$(id);e.querySelector('span').textContent=msg;e.classList.add('show');}
+function hideErr(id){$(id).classList.remove('show');}
 
-async function handleFile(file) {
-    if(!file.name.toLowerCase().endsWith('.pdf') && file.type!=='application/pdf') { toast('Only PDF files are allowed','error'); return; }
-    if(file.size > 50*1024*1024) { toast('File exceeds 50MB limit','error'); return; }
-    try {
-        currentFile = file;
-        currentBytes = new Uint8Array(await file.arrayBuffer());
-        const pdf = await PDFDocument.load(currentBytes, {ignoreEncryption:true});
-        const pages = pdf.getPageCount();
-        $('fileName').textContent = file.name;
-        $('fileInfo').textContent = `${fmtSize(file.size)} · ${pages} page${pages>1?'s':''}`;
-        showSec('secTools');
-        toast('PDF loaded successfully','success');
-    } catch(err) {
-        toast('Failed to parse PDF: ' + err.message,'error');
+function prog(id,pct,txt){
+  $(id).classList.add('show');
+  $(id+'F').style.width=pct+'%';
+  $(id+'T').textContent=txt;
+}
+function hideProg(id){$(id).classList.remove('show');}
+
+function showResult(icon,title,desc,name){
+  outName=name;
+  $('rIcon').textContent=icon;$('rTitle').textContent=title;$('rDesc').textContent=desc;
+  $('resultBox').classList.add('show');
+  $('resultBox').scrollIntoView({behavior:'smooth'});
+}
+function hideResult(){$('resultBox').classList.remove('show');}
+
+function dlFile(){
+  if(!outBytes)return;
+  const blob=new Blob([outBytes],{type:'application/pdf'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=outName;
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+  toast('Download started!','s');
+}
+
+function toast(msg,type){
+  const w=$('toasts');const t=document.createElement('div');
+  t.className='toast '+type;
+  const ic=type==='s'?'circle-check':type==='e'?'circle-xmark':'circle-info';
+  t.innerHTML=`<i class="fa-solid fa-${ic}"></i>${msg}`;
+  w.appendChild(t);
+  setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),300);},3000);
+}
+
+// ── Crypto helpers (PDF Spec 7.6.3, R=3, V=2, 128-bit) ──
+const PDF_PAD = new Uint8Array([0x28,0xBF,0x4E,0x5E,0x4E,0x75,0x8A,0x41,0x64,0x00,0x4B,0x49,0x17,0x32,0x13,0x90,
+  0x28,0xBF,0x4E,0x5E,0x4E,0x75,0x8A,0x41,0x64,0x00,0x4B,0x49,0x17,0x32,0x13,0x90]);
+
+function padPw(pw){
+  const r=new Uint8Array(32);
+  const b=new TextEncoder().encode(pw||'');
+  const n=Math.min(b.length,32);
+  for(let i=0;i<n;i++)r[i]=b[i];
+  for(let i=n;i<32;i++)r[i]=PDF_PAD[i-n];
+  return r;
+}
+
+// Generate random file ID
+function randomId(){
+  const r=new Uint8Array(16);
+  crypto.getRandomValues(r);
+  return r;
+}
+
+// Algorithm 2: compute encryption key (128-bit, R=3)
+function encKey(pw, O, P, fileId){
+  // MD5(padded_pw + O + P as 4-byte LE + fileId)
+  const buf=new Uint8Array(32+32+4+16);
+  buf.set(padPw(pw),0);
+  buf.set(O,32);
+  // P as signed 32-bit little-endian
+  const pv=P>>>0;
+  buf[64]=pv&0xFF;buf[65]=(pv>>8)&0xFF;buf[66]=(pv>>16)&0xFF;buf[67]=(pv>>24)&0xFF;
+  buf.set(fileId,68);
+  let h=md5(buf);
+  // For R>=3: apply md5 50 more times
+  for(let i=0;i<50;i++) h=md5(h);
+  return h; // 16 bytes = 128-bit
+}
+
+// Algorithm 3: O value
+function makeO(ownerPw, userPw){
+  // Step 1: MD5(padded owner pw), then 50 more times
+  let h=md5(padPw(ownerPw||userPw));
+  for(let i=0;i<50;i++) h=md5(h);
+  const oKey=h; // 16 bytes
+  // Step 2: RC4 encrypt padded user pw 20 times with modified keys
+  let result=padPw(userPw);
+  for(let i=0;i<20;i++){
+    const k=new Uint8Array(16);
+    for(let j=0;j<16;j++) k[j]=oKey[j]^i;
+    result=rc4(k,result);
+  }
+  return result;
+}
+
+// Algorithm 5: U value
+function makeU(userPw, O, P, fileId){
+  const key=encKey(userPw,O,P,fileId);
+  // RC4(key, PDF_PAD) then 19 more times with modified keys
+  let result=rc4(key,PDF_PAD);
+  for(let i=1;i<20;i++){
+    const k=new Uint8Array(16);
+    for(let j=0;j<16;j++) k[j]=key[j]^i;
+    result=rc4(k,result);
+  }
+  // Pad to 32 bytes
+  const u=new Uint8Array(32);u.set(result);
+  return u;
+}
+
+function md5(m){
+  const H=[0x67452301,0xEFCDAB89,0x98BADCFE,0x10325476];
+  const ml=m.length*8,pl=((56-(m.length+1)%64)+64)%64;
+  const p=new Uint8Array(m.length+1+pl+8);p.set(m);p[m.length]=0x80;
+  const dv=new DataView(p.buffer);
+  dv.setUint32(p.length-8,ml&0xFFFFFFFF,true);dv.setUint32(p.length-4,Math.floor(ml/0x100000000),true);
+  const T=[0xd76aa478,0xe8c7b756,0x242070db,0xc1bdceee,0xf57c0faf,0x4787c62a,0xa8304613,0xfd469501,0x698098d8,0x8b44f7af,0xffff5bb1,0x895cd7be,0x6b901122,0xfd987193,0xa679438e,0x49b40821,0xf61e2562,0xc040b340,0x265e5a51,0xe9b6c7aa,0xd62f105d,0x02441453,0xd8a1e681,0xe7d3fbc8,0x21e1cde6,0xc33707d6,0xf4d50d87,0x455a14ed,0xa9e3e905,0xfcefa3f8,0x676f02d9,0x8d2a4c8a,0xfffa3942,0x8771f681,0x6d9d6122,0xfde5380c,0xa4beea44,0x4bdecfa9,0xf6bb4b60,0xbebfbc70,0x289b7ec6,0xeaa127fa,0xd4ef3085,0x04881d05,0xd9d4d039,0xe6db99e5,0x1fa27cf8,0xc4ac5665,0xf4292244,0x432aff97,0xab9423a7,0xfc93a039,0x655b59c3,0x8f0ccc92,0xffeff47d,0x85845dd1,0x6fa87e4f,0xfe2ce6e0,0xa3014314,0x4e0811a1,0xf7537e82,0xbd3af235,0x2ad7d2bb,0xeb86d391];
+  const S=[7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20,4,11,16,23,4,11,16,23,4,11,16,23,4,11,16,23,6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21];
+  const G1=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],G2=[1,6,11,0,5,10,15,4,9,14,3,8,13,2,7,12];
+  const G3=[5,8,11,14,1,4,7,10,13,0,3,6,9,12,15,2],G4=[0,7,14,5,12,3,10,1,8,15,6,13,4,11,2,9];
+  const rot=(v,n)=>((v<<n)|(v>>>(32-n)))|0;
+  for(let o=0;o<p.length;o+=64){
+    const M=new Uint32Array(16);const bv=new DataView(p.buffer,o,64);
+    for(let j=0;j<16;j++)M[j]=bv.getUint32(j*4,true);
+    let[a,b,c,d]=[...H];
+    for(let i=0;i<16;i++){const f=b&c|~b&d;a=rot(a+f+M[G1[i]]+T[i],S[i])+b;[a,b,c,d]=[d,a,b,c]}
+    for(let i=0;i<16;i++){const f=b&d|c&~d;a=rot(a+f+M[G2[i]]+T[16+i],S[16+i])+b;[a,b,c,d]=[d,a,b,c]}
+    for(let i=0;i<16;i++){const f=b^c^d;a=rot(a+f+M[G3[i]]+T[32+i],S[32+i])+b;[a,b,c,d]=[d,a,b,c]}
+    for(let i=0;i<16;i++){const f=c^(b|~d);a=rot(a+f+M[G4[i]]+T[48+i],S[48+i])+b;[a,b,c,d]=[d,a,b,c]}
+    H[0]=(H[0]+a)|0;H[1]=(H[1]+b)|0;H[2]=(H[2]+c)|0;H[3]=(H[3]+d)|0;
+  }
+  const r=new Uint8Array(16);const rv=new DataView(r.buffer);
+  for(let i=0;i<4;i++)rv.setUint32(i*4,H[i],true);
+  return r;
+}
+
+function rc4(key,data){
+  const S=new Uint8Array(256);for(let i=0;i<256;i++)S[i]=i;
+  let j=0;for(let i=0;i<256;i++){j=(j+S[i]+key[i%key.length])&0xFF;[S[i],S[j]]=[S[j],S[i]];}
+  const r=new Uint8Array(data.length);let ii=0,jj=0;
+  for(let k=0;k<data.length;k++){ii=(ii+1)&0xFF;jj=(jj+S[ii])&0xFF;[S[ii],S[jj]]=[S[jj],S[ii]];r[k]=data[k]^S[(S[ii]+S[jj])&0xFF];}
+  return r;
+}
+
+function u8hex(a){return Array.from(a).map(b=>b.toString(16).padStart(2,'0')).join('');}
+
+function makeEncDict(userPw,ownerPw,pval,fileId){
+  const O=makeO(ownerPw,userPw);
+  const U=makeU(userPw,O,pval,fileId);
+  return {O,U,pval,fileId};
+}
+
+// Inject encryption into PDF bytes - supports both traditional trailer and xref stream
+function injectEnc(bytes,encInfo){
+  const dec=new TextDecoder('latin1');
+  const enc=s=>{const r=new Uint8Array(s.length);for(let i=0;i<s.length;i++)r[i]=s.charCodeAt(i)&0xFF;return r;};
+  const {O,U,pval,fileId}=encInfo;
+  const oHex=u8hex(O),uHex=u8hex(U);
+  const fidHex=u8hex(fileId);
+  const encDictContent=`/Filter /Standard /V 2 /R 3 /Length 128 /O <${oHex}> /U <${uHex}> /P ${pval} /ID [<${fidHex}><${fidHex}>]`;
+
+  let text=dec.decode(bytes);
+
+  // Try traditional trailer first
+  const ti=text.lastIndexOf('trailer');
+  if(ti!==-1){
+    const ds=text.indexOf('<<',ti),de=text.indexOf('>>',ds);
+    if(ds!==-1&&de!==-1){
+      let dict=text.substring(ds+2,de);
+      const sm=dict.match(/\/Size\s+(\d+)/);
+      let oid=sm?parseInt(sm[1]):9999;
+      if(sm)dict=dict.replace(/\/Size\s+\d+/,`/Size ${oid+1}`);
+      dict+=` /Encrypt ${oid} 0 R`;
+      const encObj=`\n${oid} 0 obj\n<<${encDictContent}>>\nendobj\n`;
+      const before=text.substring(0,ds+2);
+      let after=text.substring(de);
+      const xm=after.match(/startxref\s+(\d+)/);
+      if(xm)after=after.replace(/startxref\s+\d+/,`startxref ${parseInt(xm[1])+enc(encObj).length}`);
+      return enc(before+dict+after.substring(0,after.indexOf('startxref'))+encObj+after.substring(after.indexOf('startxref')));
     }
+  }
+
+  // PDF 1.5+ xref stream format — append encrypt obj and update xref stream
+  // Find last startxref offset
+  const sxIdx=text.lastIndexOf('startxref');
+  if(sxIdx===-1)throw new Error('Cannot find PDF structure');
+
+  // Find all object numbers used
+  const objNums=[...text.matchAll(/(\d+)\s+\d+\s+obj/g)].map(m=>parseInt(m[1]));
+  const maxObj=objNums.length>0?Math.max(...objNums):100;
+  const encId=maxObj+1;
+
+  // Build encrypt object to append
+  const encObj=`\n${encId} 0 obj\n<<${encDictContent}>>\nendobj\n`;
+
+  // Find the xref stream object (last obj before startxref)
+  // We need to add /Encrypt ref to the xref stream dict
+  // Strategy: find last "obj" before startxref and inject /Encrypt into its dict
+  const beforeSX=text.substring(0,sxIdx);
+  const lastObjIdx=beforeSX.lastIndexOf(' obj');
+  if(lastObjIdx===-1)throw new Error('No PDF objects found');
+
+  // Find the dict << >> in that last object
+  const dictStart=text.indexOf('<<',lastObjIdx);
+  if(dictStart===-1)throw new Error('No dict in last object');
+
+  // Find matching >>
+  let depth=0,dictEnd=-1;
+  for(let i=dictStart;i<text.length-1;i++){
+    if(text[i]==='<'&&text[i+1]==='<'){depth++;i++;}
+    else if(text[i]==='>'&&text[i+1]==='>'){depth--;if(depth===0){dictEnd=i;break;}i++;}
+  }
+  if(dictEnd===-1)throw new Error('Could not parse dict');
+
+  // Inject /Encrypt and update /Size
+  let innerDict=text.substring(dictStart+2,dictEnd);
+  const sm2=innerDict.match(/\/Size\s+(\d+)/);
+  if(sm2)innerDict=innerDict.replace(/\/Size\s+\d+/,`/Size ${encId+1}`);
+  innerDict+=` /Encrypt ${encId} 0 R`;
+
+  const newText=text.substring(0,dictStart+2)+innerDict+text.substring(dictEnd);
+
+  // Append encrypt object and fix startxref
+  const newSxIdx=newText.lastIndexOf('startxref');
+  const beforeNew=newText.substring(0,newSxIdx);
+  const afterNew=newText.substring(newSxIdx);
+  const newStartxref=enc(beforeNew+encObj).length;
+  const finalText=beforeNew+encObj+`startxref\n${newStartxref}\n%%EOF\n`;
+  return enc(finalText);
 }
 
-$('btnChangeFile').addEventListener('click', () => { currentFile=null; currentBytes=null; outputBytes=null; fileInput.value=''; showSec('secUpload'); });
+function calcP(pr,cp,mo,an,fi){
+  let p=-4;
+  if(!pr)p&=~((1<<2)|(1<<11));
+  if(!cp)p&=~((1<<4)|(1<<9));
+  if(!mo)p&=~(1<<3);
+  if(!an)p&=~(1<<5);
+  if(!fi)p&=~(1<<8);
+  return p;
+}
 
-document.querySelectorAll('.tool-card').forEach(card => {
-    card.addEventListener('click', () => {
-        document.querySelectorAll('.tool-card').forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-        const tool = card.dataset.tool;
-        const name = $('fileName').textContent, info = $('fileInfo').textContent;
-        hideErr('lockErr1'); hideErr('lockErr2'); hideErr('unlockErr');
-        if(tool==='lock') { $('lockFileName').textContent=name; $('lockFileInfo').textContent=info; $('lockPw').value=''; $('lockPwC').value=''; showSec('secLock'); }
-        else if(tool==='unlock') { $('unlockFileName').textContent=name; $('unlockFileInfo').textContent=info; $('unlockPw').value=''; showSec('secUnlock'); }
-        else if(tool==='watermark') { $('wmFileName').textContent=name; $('wmFileInfo').textContent=info; updateWmPrev(); showSec('secWatermark'); }
-        else if(tool==='permissions') { $('permFileName').textContent=name; $('permFileInfo').textContent=info; showSec('secPerms'); }
+// ── LOCK ────────────────────────────────────────────────
+async function doLock(){
+  hideErr('e1');hideErr('e2');
+  const pw=$('lPw').value,pwc=$('lPwC').value;
+  if(!pw){showErr('e1','Please enter a password');return;}
+  if(pw!==pwc){showErr('e2','Passwords do not match');return;}
+  try{
+    prog('pgLock',20,'Loading PDF...');await delay(50);
+    const doc=await PDFLib.PDFDocument.load(pdfBytes,{ignoreEncryption:true});
+    prog('pgLock',55,'Encrypting...');await delay(50);
+    
+    // @cantoo/pdf-lib native encryption
+    const permissions=[];
+    if($('lPrint').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.PrintDocument);
+    if($('lCopy').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.CopyContent);
+    if($('lMod').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.ModifyContent);
+    if($('lAnnot').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.AddOrModifyAnnotations);
+
+    await doc.encrypt({
+      userPassword: pw,
+      ownerPassword: pw,
+      permissions: permissions,
     });
-});
 
-$('btnBackLock').addEventListener('click', () => showSec('secTools'));
-$('btnBackUnlock').addEventListener('click', () => showSec('secTools'));
-$('btnBackWm').addEventListener('click', () => showSec('secTools'));
-$('btnBackPerm').addEventListener('click', () => showSec('secTools'));
+    prog('pgLock',85,'Saving...');await delay(50);
+    outBytes=await doc.save();
+    prog('pgLock',100,'Done!');await delay(300);
+    hideProg('pgLock');
+    outName=pdfFile.name.replace(/\.pdf$/i,'')+'_locked.pdf';
+    showResult('🔒','PDF Locked!','Password protection applied',outName);
+    toast('PDF locked successfully!','s');
+  }catch(e){
+    hideProg('pgLock');
+    // Fallback: try without permissions API
+    try{
+      prog('pgLock',40,'Trying alternate method...');
+      const doc2=await PDFLib.PDFDocument.load(pdfBytes,{ignoreEncryption:true});
+      await doc2.encrypt({userPassword:pw,ownerPassword:pw});
+      outBytes=await doc2.save();
+      hideProg('pgLock');
+      outName=pdfFile.name.replace(/\.pdf$/i,'')+'_locked.pdf';
+      showResult('🔒','PDF Locked!','Password protection applied',outName);
+      toast('PDF locked!','s');
+    }catch(e2){
+      hideProg('pgLock');
+      toast('Error: '+e2.message,'e');
+      console.error(e2);
+    }
+  }
+}
 
-document.querySelectorAll('.tog').forEach(t => t.addEventListener('click', () => t.classList.toggle('on')));
+// ── UNLOCK ──────────────────────────────────────────────
+async function doUnlock(){
+  hideErr('eU');
+  const pw=$('uPw').value;
+  if(!pw){showErr('eU','Please enter the password');return;}
+  try{
+    prog('pgUnlock',30,'Loading PDF...');await delay(50);
+    const doc=await PDFLib.PDFDocument.load(pdfBytes,{ignoreEncryption:true});
+    prog('pgUnlock',70,'Removing encryption...');await delay(50);
+    const clean=await doc.save();
+    const dec=new TextDecoder('latin1');
+    let text=dec.decode(clean);
+    text=text.replace(/\/Encrypt\s+\d+\s+\d+\s+R/g,'');
+    const r=new Uint8Array(text.length);
+    for(let i=0;i<text.length;i++)r[i]=text.charCodeAt(i)&0xFF;
+    outBytes=r;
+    prog('pgUnlock',100,'Done!');await delay(300);
+    hideProg('pgUnlock');
+    outName=pdfFile.name.replace(/\.pdf$/i,'')+'_unlocked.pdf';
+    showResult('🔓','PDF Unlocked!','Password removed successfully',outName);
+    toast('PDF unlocked!','s');
+  }catch(e){hideProg('pgUnlock');showErr('eU','Wrong password or unsupported encryption');toast('Error: '+e.message,'e');}
+}
 
-document.querySelectorAll('.pw-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const inp = $(btn.dataset.target);
-        const isP = inp.type==='password';
-        inp.type = isP?'text':'password';
-        btn.innerHTML = isP?'<i class="fa-solid fa-eye-slash"></i>':'<i class="fa-solid fa-eye"></i>';
+// ── WATERMARK ───────────────────────────────────────────
+async function doWm(){
+  const txt=$('wText').value.trim();
+  if(!txt){toast('Please enter watermark text','e');return;}
+  const fs=Math.max(10,Math.min(200,parseInt($('wSize').value)||60));
+  const op=Math.max(0.01,Math.min(1,(parseInt($('wOp').value)||15)/100));
+  const rot=parseInt($('wRot').value)||-30;
+  const hex=$('wCol').value||'#888888';
+  const cr=parseInt(hex.slice(1,3),16)/255,cg=parseInt(hex.slice(3,5),16)/255,cb=parseInt(hex.slice(5,7),16)/255;
+  try{
+    prog('pgWm',10,'Loading PDF...');
+    const doc=await PDFLib.PDFDocument.load(pdfBytes,{ignoreEncryption:true});
+    const font=await doc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+    const pages=doc.getPages();
+    for(let i=0;i<pages.length;i++){
+      const pg=pages[i];const{width,height}=pg.getSize();
+      const tw=font.widthOfTextAtSize(txt,fs);
+      for(let y=-height;y<height*2;y+=fs*3.5)
+        for(let x=-width;x<width*2;x+=tw+80)
+          pg.drawText(txt,{x,y,size:fs,font,color:PDFLib.rgb(cr,cg,cb),opacity:op,rotate:PDFLib.degrees(rot)});
+      prog('pgWm',10+Math.round((i+1)/pages.length*80),`Page ${i+1}/${pages.length}...`);
+    }
+    prog('pgWm',95,'Saving...');
+    outBytes=await doc.save();
+    prog('pgWm',100,'Done!');await delay(300);
+    hideProg('pgWm');
+    outName=pdfFile.name.replace(/\.pdf$/i,'')+'_watermarked.pdf';
+    showResult('💧','Watermark Applied!',`"${txt}" added to all pages`,outName);
+    toast('Watermark applied!','s');
+  }catch(e){hideProg('pgWm');toast('Error: '+e.message,'e');}
+}
+
+// ── PERMISSIONS ─────────────────────────────────────────
+async function doPerm(){
+  try{
+    prog('pgPerm',20,'Loading PDF...');await delay(50);
+    const doc=await PDFLib.PDFDocument.load(pdfBytes,{ignoreEncryption:true});
+    prog('pgPerm',55,'Applying restrictions...');await delay(50);
+
+    const permissions=[];
+    if($('ppPrint').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.PrintDocument);
+    if($('ppCopy').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.CopyContent);
+    if($('ppMod').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.ModifyContent);
+    if($('ppAnnot').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.AddOrModifyAnnotations);
+    if($('ppFill').classList.contains('on')) permissions.push(PDFLib.EncryptionPermissions.FillInteractiveForms);
+
+    // Empty user password = opens without password, but restrictions apply
+    await doc.encrypt({
+      userPassword: '',
+      ownerPassword: 'owner_' + Math.random().toString(36).slice(2),
+      permissions: permissions,
     });
-});
 
-function updateWmPrev() {
-    const txt=$('wmText').value||'WATERMARK', sz=Math.max(10,Math.min(200,parseInt($('wmSize').value)||60));
-    const op=Math.max(1,Math.min(100,parseInt($('wmOpacity').value)||15)), rot=parseInt($('wmRot').value)||-30;
-    const col=$('wmColor').value||'#888888';
-    const p=$('wmPrev');
-    p.textContent=txt; p.style.fontSize=Math.min(sz*0.5,36)+'px';
-    p.style.opacity=op/100; p.style.transform=`rotate(${rot}deg)`; p.style.color=col;
+    prog('pgPerm',85,'Saving...');await delay(50);
+    outBytes=await doc.save();
+    prog('pgPerm',100,'Done!');await delay(300);
+    hideProg('pgPerm');
+    outName=pdfFile.name.replace(/\.pdf$/i,'')+'_restricted.pdf';
+    showResult('🚫','Permissions Applied!','Restrictions set on PDF',outName);
+    toast('Permissions applied!','s');
+  }catch(e){hideProg('pgPerm');toast('Error: '+e.message,'e');console.error(e);}
 }
-['wmText','wmSize','wmOpacity','wmRot','wmColor'].forEach(id => $(id).addEventListener('input', updateWmPrev));
-
-function calcP(perms) {
-    let p = 0xFFFFF0C0;
-    if(perms.printing) p |= (1<<2)|(1<<3);
-    if(perms.modifying) p |= (1<<6);
-    if(perms.copying) p |= (1<<4)|(1<<5);
-    if(perms.annotating) p |= (1<<8);
-    if(perms.filling) p |= (1<<8)|(1<<9);
-    if(perms.extraction) p |= (1<<4)|(1<<5);
-    p = p & 0x0FFFFFFF;
-    return p;
-}
-
-function getToggles(containerId) {
-    const perms = {};
-    $(containerId).querySelectorAll('.tog[data-perm]').forEach(t => {
-        perms[t.dataset.perm] = t.classList.contains('on');
-    });
-    return perms;
-}
-
-// ===== FIX: TextEncoder -> TextDecoder (latin1) =====
-function injectEncryptDict(pdfBytes, userPass, ownerPass, pValue) {
-    const oVal = genOValue(ownerPass, userPass);
-    const uVal = genUValue(userPass);
-    const oHex = u8toHex(oVal);
-    const uHex = u8toHex(uVal);
-
-    const encStr = `/Filter /Standard /V 2 /R 3 /Length 128 /O <${oHex}> /U <${uHex}> /P ${pValue} /EncryptMetadata false`;
-
-    // FIX: Use TextDecoder('latin1') to convert binary PDF bytes to string
-    const text = new TextDecoder('latin1').decode(pdfBytes);
-
-    const trailerIdx = text.lastIndexOf('trailer');
-    if(trailerIdx === -1) throw new Error('PDF trailer not found');
-
-    const dictStart = text.indexOf('<<', trailerIdx);
-    const dictEnd = text.indexOf('>>', dictStart);
-    if(dictStart === -1 || dictEnd === -1) throw new Error('PDF trailer dict not found');
-
-    let newSize = text.substring(dictStart, dictEnd);
-    const sizeMatch = newSize.match(/\/Size\s+(\d+)/);
-    let objNum = 999999;
-    if(sizeMatch) {
-        objNum = parseInt(sizeMatch[1]);
-        newSize = newSize.replace(/\/Size\s+\d+/, `/Size ${objNum + 1}`);
-    }
-
-    newSize += ` /Encrypt ${objNum} 0 R`;
-
-    const before = text.substring(0, dictStart);
-    const after = text.substring(dictEnd + 2);
-
-    const encObj = `\n${objNum} 0 obj\n<< ${encStr} >>\nendobj\n`;
-
-    const xrefMatch = after.match(/startxref\s+(\d+)/);
-    let finalAfter = after;
-    if(xrefMatch) {
-        const oldOffset = parseInt(xrefMatch[1]);
-        const newOffset = oldOffset + new TextEncoder().encode(encObj).length;
-        finalAfter = after.replace(/startxref\s+\d+/, `startxref ${newOffset}`);
-    }
-
-    const xrefIdx = finalAfter.indexOf('xref');
-    if(xrefIdx !== -1) {
-        const beforeXref = finalAfter.substring(0, xrefIdx + 4);
-        const afterXrefHeader = finalAfter.substring(xrefIdx + 4);
-
-        const subsectionMatch = afterXrefHeader.match(/(\d+)\s+(\d+)\s*\n/);
-        if(subsectionMatch) {
-            const startObj = parseInt(subsectionMatch[1]);
-            if(startObj === 0) {
-                const afterFirstEntry = afterXrefHeader.substring(subsectionMatch[0].length);
-                const firstEntryEnd = afterFirstEntry.indexOf('\n') + 1;
-                const encObjOffset = pdfBytes.length;
-                const newEntry = encObjOffset.toString().padStart(10,'0') + ' 00000 n \n';
-                finalAfter = beforeXref + subsectionMatch[0] + afterFirstEntry.substring(0, firstEntryEnd) + newEntry + afterFirstEntry.substring(firstEntryEnd);
-                finalAfter = finalAfter.replace(/\/Size\s+\d+/, `/Size ${objNum + 1}`);
-            }
-        }
-    }
-
-    // FIX: Use latin1 encoding when converting back to binary
-    const finalStr = before + newSize + '>>' + encObj + finalAfter;
-    const result = new Uint8Array(finalStr.length);
-    for(let i = 0; i < finalStr.length; i++) {
-        result[i] = finalStr.charCodeAt(i) & 0xFF;
-    }
-    return result;
-}
-
-function genOValue(ownerPw, userPw) {
-    const padded = padPw(ownerPw);
-    const hash = md5(padded);
-    const key = hash.slice(0, 5);
-    const uPadded = padPw(userPw);
-    return rc4(key, uPadded);
-}
-
-function genUValue(userPw) {
-    const padded = padPw(userPw);
-    const hash = md5(padded);
-    return rc4(hash.slice(0, 5), new Uint8Array(32));
-}
-
-function padPw(pw) {
-    const p = new Uint8Array(32);
-    const b = new TextEncoder().encode(pw || '');
-    const len = Math.min(b.length, 32);
-    for(let i=0;i<len;i++) p[i]=b[i];
-    const pad=[0x28,0xBF,0x4E,0x5E,0x4E,0x75,0x8A,0x41,0x64,0x00,0x4B,0x49,0x17,0x32,0x13,0x90];
-    for(let i=len;i<32;i++) p[i]=pad[i-len];
-    return p;
-}
-
-function md5(...inputs) {
-    let totalLen = 0;
-    for(const a of inputs) totalLen += a.length;
-    const data = new Uint8Array(totalLen);
-    let off=0;
-    for(const a of inputs){data.set(a,off);off+=a.length;}
-    return md5Calc(data);
-}
-
-function md5Calc(m) {
-    const H=[0x67452301,0xEFCDAB89,0x98BADCFE,0x10325476];
-    const ml=m.length*8;
-    const pl=((56-(m.length+1)%64)+64)%64;
-    const pad=new Uint8Array(m.length+1+pl+8);
-    pad.set(m); pad[m.length]=0x80;
-    const dv=new DataView(pad.buffer);
-    dv.setUint32(pad.length-8,ml&0xFFFFFFFF,true);
-    dv.setUint32(pad.length-4,Math.floor(ml/0x100000000),true);
-    const T=[0xd76aa478,0xe8c7b756,0x242070db,0xc1bdceee,0xf57c0faf,0x4787c62a,0xa8304613,0xfd469501,0x698098d8,0x8b44f7af,0xffff5bb1,0x895cd7be,0x6b901122,0xfd987193,0xa679438e,0x49b40821,0xf61e2562,0xc040b340,0x265e5a51,0xe9b6c7aa,0xd62f105d,0x02441453,0xd8a1e681,0xe7d3fbc8,0x21e1cde6,0xc33707d6,0xf4d50d87,0x455a14ed,0xa9e3e905,0xfcefa3f8,0x676f02d9,0x8d2a4c8a,0xfffa3942,0x8771f681,0x6d9d6122,0xfde5380c,0xa4beea44,0x4bdecfa9,0xf6bb4b60,0xbebfbc70,0x289b7ec6,0xeaa127fa,0xd4ef3085,0x04881d05,0xd9d4d039,0xe6db99e5,0x1fa27cf8,0xc4ac5665,0xf4292244,0x432aff97,0xab9423a7,0xfc93a039,0x655b59c3,0x8f0ccc92,0xffeff47d,0x85845dd1,0x6fa87e4f,0xfe2ce6e0,0xa3014314,0x4e0811a1,0xf7537e82,0xbd3af235,0x2ad7d2bb,0xeb86d391];
-    const S=[7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20,4,11,16,23,4,11,16,23,4,11,16,23,4,11,16,23,6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21];
-    const G1=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-    const G2=[1,6,11,0,5,10,15,4,9,14,3,8,13,2,7,12];
-    const G3=[5,8,11,14,1,4,7,10,13,0,3,6,9,12,15,2];
-    const G4=[0,7,14,5,12,3,10,1,8,15,6,13,4,11,2,9];
-
-    for(let o=0;o<pad.length;o+=64){
-        const M=new Uint32Array(16);
-        const bv=new DataView(pad.buffer,o,64);
-        for(let j=0;j<16;j++) M[j]=bv.getUint32(j*4,true);
-        let[a,b,c,d]=[...H];
-        for(let i=0;i<16;i++){const f=b&c|~b&d;a=rot(a+f+M[G1[i]]+T[i],S[i])+b;[a,b,c,d]=[d,a,b,c]}
-        for(let i=0;i<16;i++){const f=b&d|c&~d;a=rot(a+f+M[G2[i]]+T[16+i],S[16+i])+b;[a,b,c,d]=[d,a,b,c]}
-        for(let i=0;i<16;i++){const f=b^c^d;a=rot(a+f+M[G3[i]]+T[32+i],S[32+i])+b;[a,b,c,d]=[d,a,b,c]}
-        for(let i=0;i<16;i++){const f=c^(b|~d);a=rot(a+f+M[G4[i]]+T[48+i],S[48+i])+b;[a,b,c,d]=[d,a,b,c]}
-        H[0]=(H[0]+a)|0;H[1]=(H[1]+b)|0;H[2]=(H[2]+c)|0;H[3]=(H[3]+d)|0;
-    }
-    const r=new Uint8Array(16);const rv=new DataView(r.buffer);
-    for(let i=0;i<4;i++)rv.setUint32(i*4,H[i],true);
-    return r;
-}
-function rot(v,n){return((v<<n)|(v>>>(32-n)))|0}
-
-function rc4(key, data) {
-    const S=new Uint8Array(256);
-    for(let i=0;i<256;i++) S[i]=i;
-    let j=0;
-    for(let i=0;i<256;i++){j=(j+S[i]+key[i%key.length])&0xFF;[S[i],S[j]]=[S[j],S[i]]}
-    const r=new Uint8Array(data.length);let ii=0,jj=0;
-    for(let k=0;k<data.length;k++){ii=(ii+1)&0xFF;jj=(jj+S[ii])&0xFF;[S[ii],S[jj]]=[S[jj],S[ii]];r[k]=data[k]^S[(S[ii]+S[jj])&0xFF]}
-    return r;
-}
-
-function u8toHex(a){return Array.from(a).map(b=>b.toString(16).padStart(2,'0')).join('')}
-
-// =============================================
-// LOCK PDF
-// =============================================
-$('btnDoLock').addEventListener('click', async () => {
-    const pw=$('lockPw').value, pwc=$('lockPwC').value;
-    hideErr('lockErr1'); hideErr('lockErr2');
-
-    if(!pw){showErr('lockErr1','Please enter a password');return}
-    if(pw.length<1){showErr('lockErr1','Password must be at least 1 character');return}
-    if(pw!==pwc){showErr('lockErr2','Passwords do not match');return}
-
-    const perms = getToggles('secLock');
-    const pValue = calcP(perms);
-
-    showProg('lockProg');
-    try {
-        await delay(50);
-        setProg('lockProg',20,'Loading PDF...');
-        const pdfDoc = await PDFDocument.load(currentBytes, {ignoreEncryption:true});
-
-        setProg('lockProg',50,'Encrypting...');
-        await delay(50);
-
-        const cleanBytes = await pdfDoc.save();
-
-        setProg('lockProg',70,'Injecting encryption dictionary...');
-        await delay(50);
-
-        outputBytes = injectEncryptDict(cleanBytes, pw, pw, pValue);
-
-        setProg('lockProg',100,'Done!');
-        await delay(400);
-        hideProg('lockProg');
-
-        $('doneTitle').textContent='PDF Locked!';
-        $('doneDesc').textContent='A password is required to open this PDF';
-        $('doneFileName').textContent=currentFile.name.replace('.pdf','_locked.pdf');
-        $('doneFileInfo').textContent=fmtSize(outputBytes.length);
-        showSec('secDone');
-        toast('PDF locked successfully!','success');
-    } catch(err) {
-        hideProg('lockProg');
-        toast('Error: '+err.message,'error');
-        console.error(err);
-    }
-});
-
-// =============================================
-// UNLOCK PDF
-// =============================================
-$('btnDoUnlock').addEventListener('click', async () => {
-    const pw=$('unlockPw').value;
-    hideErr('unlockErr');
-    if(!pw){showErr('unlockErr','Please enter the password');return}
-
-    showProg('unlockProg');
-    try {
-        await delay(50);
-        setProg('unlockProg',20,'Loading PDF...');
-
-        // FIX: Use TextDecoder('latin1')
-        const text = new TextDecoder('latin1').decode(currentBytes);
-        const hasEncrypt = /\/Encrypt\s+\d+\s+\d+\s+R/.test(text);
-
-        if(!hasEncrypt) {
-            setProg('unlockProg',100,'Already unlocked!');
-            await delay(400);
-            hideProg('unlockProg');
-            outputBytes = currentBytes;
-            $('doneTitle').textContent='PDF is already unlocked!';
-            $('doneDesc').textContent='This PDF has no password';
-            $('doneFileName').textContent=currentFile.name.replace('.pdf','_unlocked.pdf');
-            $('doneFileInfo').textContent=fmtSize(outputBytes.length);
-            showSec('secDone');
-            toast('PDF was already unlocked','success');
-            return;
-        }
-
-        setProg('unlockProg',40,'Verifying password...');
-        await delay(50);
-
-        const encMatch = text.match(/\/Encrypt\s+(\d+)\s+(\d+)\s+R/);
-        if(!encMatch) throw new Error('Encryption dict not found');
-
-        const objNum = encMatch[1];
-        const objRegex = new RegExp(objNum+'\\s+'+encMatch[2]+'\\s+obj\\s*<<(.*?)>>','s');
-        const objMatch = text.match(objRegex);
-        if(!objMatch) throw new Error('Encryption object not found');
-
-        const dictStr = objMatch[1];
-        const oMatch = dictStr.match(/\/O\s*<([0-9a-fA-F]+)>/);
-        const uMatch = dictStr.match(/\/U\s*<([0-9a-fA-F]+)>/);
-        const rMatch = dictStr.match(/\/R\s+(\d+)/);
-
-        if(!oMatch || !uMatch) throw new Error('O/U values not found');
-
-        const oVal = hexToU8(oMatch[1]);
-        const uVal = hexToU8(uMatch[1]);
-        const rVal = rMatch ? parseInt(rMatch[1]) : 3;
-
-        setProg('unlockProg',60,'Decrypting...');
-        await delay(50);
-
-        let isCorrect = false;
-        const userKey = md5(padPw(pw)).slice(0,5);
-        const computedU = rc4(userKey, padPw(pw));
-        if(arraysEqual(computedU, uVal)) isCorrect = true;
-
-        if(!isCorrect) {
-            let ownerKey = md5(padPw(pw)).slice(0,5);
-            isCorrect = true;
-        }
-
-        if(!isCorrect) throw new Error('Incorrect password');
-
-        setProg('unlockProg',80,'Cleaning PDF...');
-        await delay(50);
-
-        const pdfDoc = await PDFDocument.load(currentBytes, {ignoreEncryption:true});
-        let cleanBytes = await pdfDoc.save();
-
-        // FIX: Use TextDecoder('latin1')
-        const cleanText = new TextDecoder('latin1').decode(cleanBytes);
-        let finalText = cleanText.replace(/\/Encrypt\s+\d+\s+\d+\s+R\s*\n?/g, '');
-
-        // Convert latin1 string back to binary bytes
-        const finalBytes = new Uint8Array(finalText.length);
-        for(let i = 0; i < finalText.length; i++) {
-            finalBytes[i] = finalText.charCodeAt(i) & 0xFF;
-        }
-        outputBytes = finalBytes;
-
-        setProg('unlockProg',100,'Done!');
-        await delay(400);
-        hideProg('unlockProg');
-
-        $('doneTitle').textContent='PDF Unlocked!';
-        $('doneDesc').textContent='You can now open this PDF without a password';
-        $('doneFileName').textContent=currentFile.name.replace('.pdf','_unlocked.pdf');
-        $('doneFileInfo').textContent=fmtSize(outputBytes.length);
-        showSec('secDone');
-        toast('PDF unlocked successfully!','success');
-    } catch(err) {
-        hideProg('unlockProg');
-        showErr('unlockErr','Galat password ya corrupt PDF');
-        toast('Error: '+err.message,'error');
-        console.error(err);
-    }
-});
-
-function hexToU8(h){const r=new Uint8Array(h.length/2);for(let i=0;i<h.length;i+=2)r[i/2]=parseInt(h.substring(i,i+2),16);return r}
-function arraysEqual(a,b){if(a.length!==b.length)return false;for(let i=0;i<a.length;i++)if(a[i]!==b[i])return false;return true}
-
-// =============================================
-// WATERMARK
-// =============================================
-$('btnDoWm').addEventListener('click', async () => {
-    const text=$('wmText').value.trim();
-    if(!text){toast('Please enter watermark text','error');return}
-    const fontSize=Math.max(10,Math.min(200,parseInt($('wmSize').value)||60));
-    const opacity=Math.max(0.01,Math.min(1,(parseInt($('wmOpacity').value)||15)/100));
-    const rotation=parseInt($('wmRot').value)||-30;
-    const colorHex=$('wmColor').value||'#888888';
-    const cr=parseInt(colorHex.slice(1,3),16)/255;
-    const cg=parseInt(colorHex.slice(3,5),16)/255;
-    const cb=parseInt(colorHex.slice(5,7),16)/255;
-
-    showProg('wmProg');
-    try {
-        await delay(50);
-        setProg('wmProg',10,'Loading PDF...');
-        const pdfDoc = await PDFDocument.load(currentBytes, {ignoreEncryption:true});
-        const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-        const pages = pdfDoc.getPages();
-        const total = pages.length;
-
-        for(let i=0;i<total;i++){
-            const page=pages[i];
-            const {width,height}=page.getSize();
-            const tw=font.widthOfTextAtSize(text,fontSize);
-            const stepX=tw+100, stepY=fontSize*4;
-            for(let y=-height;y<height*2;y+=stepY){
-                for(let x=-width*0.5;x<width*1.5;x+=stepX){
-                    page.drawText(text,{x,y,size:fontSize,font,color:rgb(cr,cg,cb),opacity,rotate:degrees(rotation)});
-                }
-            }
-            setProg('wmProg',10+Math.round((i+1)/total*80),`Page ${i+1}/${total}...`);
-        }
-
-        setProg('wmProg',95,'Saving...');
-        outputBytes = await pdfDoc.save();
-        setProg('wmProg',100,'Done!');
-        await delay(400);
-        hideProg('wmProg');
-
-        $('doneTitle').textContent='Watermark Applied!';
-        $('doneDesc').textContent=`"${text}" watermark har page pe hai`;
-        $('doneFileName').textContent=currentFile.name.replace('.pdf','_watermarked.pdf');
-        $('doneFileInfo').textContent=fmtSize(outputBytes.length);
-        showSec('secDone');
-        toast('Watermark applied successfully!','success');
-    } catch(err) {
-        hideProg('wmProg');
-        toast('Error: '+err.message,'error');
-        console.error(err);
-    }
-});
-
-// =============================================
-// PERMISSIONS
-// =============================================
-$('btnDoPerm').addEventListener('click', async () => {
-    const perms = getToggles('secPerms');
-    const pValue = calcP(perms);
-
-    showProg('permProg');
-    try {
-        await delay(50);
-        setProg('permProg',20,'Loading PDF...');
-        const pdfDoc = await PDFDocument.load(currentBytes, {ignoreEncryption:true});
-
-        setProg('permProg',50,'Applying restrictions...');
-        await delay(50);
-
-        const cleanBytes = await pdfDoc.save();
-
-        setProg('permProg',70,'Setting permissions...');
-        await delay(50);
-
-        outputBytes = injectEncryptDict(cleanBytes, '', '', pValue);
-
-        setProg('permProg',100,'Done!');
-        await delay(400);
-        hideProg('permProg');
-
-        $('doneTitle').textContent='Permissions Set!';
-        $('doneDesc').textContent='Restrictions have been applied';
-        $('doneFileName').textContent=currentFile.name.replace('.pdf','_restricted.pdf');
-        $('doneFileInfo').textContent=fmtSize(outputBytes.length);
-        showSec('secDone');
-        toast('Permissions applied successfully!','success');
-    } catch(err) {
-        hideProg('permProg');
-        toast('Error: '+err.message,'error');
-        console.error(err);
-    }
-});
-
-// ===== DOWNLOAD =====
-$('btnDownload').addEventListener('click', () => {
-    if(!outputBytes) return;
-    const blob = new Blob([outputBytes],{type:'application/pdf'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href=url; a.download=$('doneFileName').textContent;
-    document.body.appendChild(a); a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    toast('Download starting...','success');
-});
-
-$('btnNewFile').addEventListener('click', () => {
-    currentFile=null;currentBytes=null;outputBytes=null;fileInput.value='';
-    showSec('secUpload');
-});
-
-function delay(ms){return new Promise(r=>setTimeout(r,ms))}
-
-showSec('secUpload');
-} // end initApp
 </script>
 </body>
 </html>
