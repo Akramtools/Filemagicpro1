@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>GST Calculator India — CGST, SGST, IGST | FileMagic Pro</title>
+<meta name="description" content="Free GST calculator for India. Calculate GST amount, CGST, SGST, and total price instantly. Works for inclusive and exclusive GST.">
+<meta name="keywords" content="gst calculator india, cgst sgst calculator, gst inclusive exclusive calculator">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/premium-gst-calculator.html">
+<meta property="og:title" content="GST Calculator India — FileMagic Pro">
+<meta property="og:description" content="Calculate GST, CGST, SGST and total amount instantly for free.">
+<meta property="og:type" content="website">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3XYNGTK7JT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3XYNGTK7JT');
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "GST Calculator — FileMagic Pro",
+  "url": "https://akramtools.github.io/Filemagicpro1/premium-gst-calculator.html",
+  "description": "Free online GST calculator for India with CGST, SGST breakdown.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+:root{
+  --bg:#0d0d14;--surface:#13131e;--card:#1a1a28;--card2:#1f1f30;
+  --border:#2a2a3e;--accent:#ff6b35;--accent-glow:rgba(255,107,53,.18);
+  --accent2:#7c3aed;--text:#f0f0f5;--muted:#8888aa;--green:#22c55e;--red:#ef4444;--radius:14px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none;outline:none;-webkit-tap-highlight-color:transparent}
+
+nav{position:sticky;top:0;z-index:999;background:rgba(13,13,20,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:7px}
+.logo span{color:var(--accent)}
+.nav-back{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;background:var(--surface);border:1px solid var(--border);padding:6px 12px;border-radius:20px;transition:all .2s}
+.nav-back:hover{color:var(--text);border-color:var(--accent)}
+
+.hero{text-align:center;padding:40px 20px 24px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(255,107,53,.1) 0%,transparent 70%);pointer-events:none}
+.hero-icon{font-size:2.8rem;margin-bottom:12px;display:block}
+.hero h1{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:800;margin-bottom:8px}
+.hero h1 .hl{color:var(--accent)}
+.hero p{color:var(--muted);font-size:13.5px;max-width:440px;margin:0 auto;line-height:1.7}
+
+.main{max-width:760px;margin:0 auto;padding:0 16px 60px}
+
+.calc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px}
+
+.mode-toggle{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:4px;margin-bottom:18px}
+.mode-btn{flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:700;color:var(--muted);background:transparent;transition:all .2s}
+.mode-btn.active{background:var(--accent);color:#fff}
+
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px;font-weight:600}
+.field input[type="text"]{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 14px;border-radius:10px;font-size:15px;font-weight:600;-webkit-appearance:none;transition:border-color .2s}
+.field input:focus{border-color:var(--accent);outline:none}
+.err-msg{color:var(--red);font-size:11.5px;margin-top:5px;display:none}
+.err-msg.show{display:block}
+
+.gst-chips{display:flex;gap:6px;flex-wrap:wrap}
+.gst-chip{flex:1;min-width:60px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:9px;font-size:13px;font-weight:700;text-align:center;transition:all .2s}
+.gst-chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.gst-chip:hover{border-color:var(--accent)}
+
+.calc-btn{width:100%;background:linear-gradient(135deg,var(--accent),#e55a25);color:#fff;border:none;padding:14px;border-radius:12px;font-size:.95rem;font-weight:700;margin-top:6px;transition:all .25s;box-shadow:0 4px 18px rgba(255,107,53,.25)}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,107,53,.4)}
+.calc-btn:active{transform:scale(.98)}
+
+.result-card{display:none;margin-top:18px;background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(34,197,94,.03));border:1px solid rgba(34,197,94,.3);border-radius:var(--radius);padding:22px}
+.res-main{text-align:center;margin-bottom:18px}
+.res-main .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.res-main .val{font-size:1.9rem;font-weight:800;color:var(--green)}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.res-stat{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.res-stat strong{display:block;font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:2px}
+.res-stat span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+.res-stat.full{grid-column:1/-1}
+
+.how-section{margin-top:44px}
+.sec-title{font-size:1.15rem;font-weight:800;text-align:center;margin-bottom:6px}
+.sec-sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:20px}
+.how-steps{display:flex;gap:10px;flex-wrap:wrap}
+.how-step{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 14px;flex:1;min-width:140px;text-align:center}
+.how-num{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;font-size:.9rem;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.how-name{font-weight:700;font-size:.8rem;margin-bottom:4px}
+.how-desc{font-size:11px;color:var(--muted);line-height:1.5}
+
+.faq-section{margin-top:36px}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:11px;margin-bottom:7px;overflow:hidden}
+.faq-q{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:13px;gap:8px;transition:background .2s;user-select:none}
+.faq-q:hover{background:var(--card2)}
+.faq-arr{color:var(--muted);font-size:11px;transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-arr{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 18px 14px;color:var(--muted);font-size:13px;line-height:1.7}
+.faq-item.open .faq-a{display:block}
+
+.seo-section{margin-top:36px;padding-bottom:10px}
+.seo-section h2{font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--text)}
+.seo-section p{color:var(--muted);font-size:13px;line-height:1.8;margin-bottom:14px}
+
+.disclaimer{margin-top:20px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:11.5px;color:var(--muted);line-height:1.6}
+
+footer{background:var(--surface);border-top:1px solid var(--border);padding:24px 20px;text-align:center}
+.f-logo{font-weight:800;font-size:1rem;margin-bottom:8px}
+.f-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+.f-links a{color:var(--muted);font-size:13px;transition:color .2s}
+.f-links a:hover{color:var(--accent)}
+.f-copy{font-size:11px;color:var(--muted)}
+
+@media(max-width:480px){.how-step{min-width:calc(50% - 5px)}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">🪄 FileMagic<span>Pro</span></a>
+  <a href="index.html" class="nav-back">← All Tools</a>
+</nav>
+
+<section class="hero">
+  <span class="hero-icon">🧾</span>
+  <h1>GST <span class="hl">Calculator</span> India</h1>
+  <p>Calculate GST, CGST, SGST and total amount instantly — for both inclusive and exclusive pricing.</p>
+</section>
+
+<div class="main">
+  <div class="calc-card">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="mode-excl" onclick="setMode('exclusive')">Add GST</button>
+      <button class="mode-btn" id="mode-incl" onclick="setMode('inclusive')">Remove GST</button>
+    </div>
+
+    <div class="field">
+      <label id="amt-label">Amount (Excluding GST)</label>
+      <input type="text" id="a" inputmode="decimal" placeholder="e.g. 10000" value="10000" oninput="this.value=this.value.replace(/[^0-9.]/g,'')">
+      <div class="err-msg" id="a-err">Please enter a valid amount</div>
+    </div>
+
+    <div class="field">
+      <label>GST Rate</label>
+      <div class="gst-chips" id="gst-chips">
+        <button type="button" class="gst-chip" data-rate="5" onclick="setRate(5)">5%</button>
+        <button type="button" class="gst-chip active" data-rate="12" onclick="setRate(12)">12%</button>
+        <button type="button" class="gst-chip" data-rate="18" onclick="setRate(18)">18%</button>
+        <button type="button" class="gst-chip" data-rate="28" onclick="setRate(28)">28%</button>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calc()">🧾 Calculate GST</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="res-main">
+      <div class="lbl" id="res-main-lbl">Total Amount</div>
+      <div class="val" id="total-out">₹0</div>
+    </div>
+    <div class="res-grid">
+      <div class="res-stat"><strong id="base-out">₹0</strong><span id="base-lbl">Base Amount</span></div>
+      <div class="res-stat"><strong id="gst-out">₹0</strong><span>GST Amount</span></div>
+      <div class="res-stat"><strong id="cgst-out">₹0</strong><span>CGST</span></div>
+      <div class="res-stat"><strong id="sgst-out">₹0</strong><span>SGST</span></div>
+    </div>
+  </div>
+
+  <div class="disclaimer">⚠️ CGST and SGST shown assume an intra-state transaction (each is half the total GST rate). For inter-state transactions, the full amount is charged as IGST instead.</div>
+
+  <div class="how-section">
+    <div class="sec-title">How GST Is Calculated</div>
+    <div class="sec-sub">Understanding GST, CGST and SGST</div>
+    <div class="how-steps">
+      <div class="how-step"><div class="how-num">1</div><div class="how-name">Choose Mode</div><div class="how-desc">Add GST to a base price, or remove GST from a final price</div></div>
+      <div class="how-step"><div class="how-num">2</div><div class="how-name">Select Rate</div><div class="how-desc">Pick the applicable GST slab — 5%, 12%, 18% or 28%</div></div>
+      <div class="how-step"><div class="how-num">3</div><div class="how-name">Get Breakdown</div><div class="how-desc">See total GST, plus the CGST and SGST split instantly</div></div>
+    </div>
+  </div>
+
+  <div class="faq-section">
+    <div class="sec-title">Frequently Asked Questions</div>
+    <div class="sec-sub">Common questions about GST calculation</div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How is GST calculated? <span class="faq-arr">▼</span></div><div class="faq-a">GST is calculated as a percentage of the base price: GST Amount = Base Amount × GST Rate ÷ 100. The total payable amount is the base amount plus the GST amount.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is the difference between CGST and SGST? <span class="faq-arr">▼</span></div><div class="faq-a">For transactions within the same state, GST is split equally between CGST (Central GST) and SGST (State GST). For example, an 18% GST rate becomes 9% CGST + 9% SGST.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is IGST? <span class="faq-arr">▼</span></div><div class="faq-a">IGST (Integrated GST) applies to inter-state transactions — sales between different states. The full GST rate is charged as IGST instead of being split into CGST and SGST.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I remove GST from a final price? <span class="faq-arr">▼</span></div><div class="faq-a">Use the "Remove GST" mode and enter the final price including GST. The calculator extracts the base price using the formula: Base = Final Amount ÷ (1 + GST Rate/100).</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What are the current GST slabs in India? <span class="faq-arr">▼</span></div><div class="faq-a">India's main GST slabs are 5%, 12%, 18%, and 28%, with some goods attracting 0% or special rates. The applicable rate depends on the category of goods or services.</div></div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Free GST Calculator with CGST & SGST Breakdown</h2>
+    <p>FileMagic Pro's GST Calculator lets you quickly compute GST amounts for any transaction in India. Whether you need to add GST to a base price or extract the base price from a GST-inclusive amount, this tool gives you an instant, accurate breakdown including CGST and SGST splits.</p>
+    <h2>Why Use an Online GST Calculator?</h2>
+    <p>Manually calculating GST, especially when working backward from an inclusive price, can lead to errors. This free calculator handles both directions instantly, helping shop owners, freelancers, and businesses verify invoices and pricing accurately.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">🪄 FileMagic<span style="color:var(--accent)">Pro</span></div>
+  <div class="f-links">
+    <a href="index.html">All Tools</a>
+    <a href="premium-sip-calculator.html">SIP Calculator</a>
+    <a href="premium-income-tax-calculator.html">Income Tax</a>
+    <a href="premium-loan-emi-calculator.html">EMI Calculator</a>
+  </div>
+  <div class="f-copy">© 2026 FileMagic Pro · Free online tools · No signup required</div>
+</footer>
+
+<script>
+var _mode = 'exclusive';
+var _rate = 12;
+
+function fmtINR(n){
+  if(!isFinite(n)) return '₹0';
+  return '₹' + Math.round(n).toLocaleString('en-IN');
+}
+
+function setMode(m){
+  _mode = m;
+  document.getElementById('mode-excl').classList.toggle('active', m==='exclusive');
+  document.getElementById('mode-incl').classList.toggle('active', m==='inclusive');
+  document.getElementById('amt-label').textContent = m==='exclusive' ? 'Amount (Excluding GST)' : 'Amount (Including GST)';
+  document.getElementById('resultCard').style.display = 'none';
+}
+
+function setRate(r){
+  _rate = r;
+  document.querySelectorAll('#gst-chips .gst-chip').forEach(function(c){c.classList.remove('active')});
+  document.querySelector('#gst-chips [data-rate="'+r+'"]').classList.add('active');
+}
+
+function calc(){
+  var amtInput = document.getElementById('a');
+  var A = parseFloat(amtInput.value);
+  var errEl = document.getElementById('a-err');
+
+  if(isNaN(A) || A <= 0 || A > 999999999){
+    errEl.classList.add('show');
+    document.getElementById('resultCard').style.display = 'none';
+    return;
+  }
+  errEl.classList.remove('show');
+
+  var base, gstAmt, total;
+  if(_mode === 'exclusive'){
+    base = A;
+    gstAmt = A * _rate / 100;
+    total = A + gstAmt;
+  } else {
+    total = A;
+    base = A / (1 + _rate/100);
+    gstAmt = total - base;
+  }
+
+  var cgst = gstAmt / 2;
+  var sgst = gstAmt / 2;
+
+  document.getElementById('res-main-lbl').textContent = _mode==='exclusive' ? 'Total Amount (Incl. GST)' : 'Base Amount (Excl. GST)';
+  document.getElementById('total-out').textContent = fmtINR(_mode==='exclusive' ? total : base);
+  document.getElementById('base-lbl').textContent = _mode==='exclusive' ? 'Base Amount' : 'Total Amount';
+  document.getElementById('base-out').textContent = fmtINR(_mode==='exclusive' ? base : total);
+  document.getElementById('gst-out').textContent = fmtINR(gstAmt);
+  document.getElementById('cgst-out').textContent = fmtINR(cgst);
+  document.getElementById('sgst-out').textContent = fmtINR(sgst);
+
+  document.getElementById('resultCard').style.display = 'block';
+  document.getElementById('resultCard').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function toggleFaq(el){
+  var item = el.parentElement;
+  var isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(i){ i.classList.remove('open'); });
+  if(!isOpen) item.classList.add('open');
+}
+
+calc();
+</script>
+</body>
+</html>
