@@ -40,12 +40,21 @@
         a{text-decoration:none;color:inherit}
         button{cursor:pointer;font-family:inherit;border:none;outline:none;-webkit-tap-highlight-color:transparent}
         :root{--bg:#0d0d14;--surface:#13131e;--card:#1a1a28;--border:#2a2a3e;--accent:#ff6b35;--accent2:#7c3aed;--text:#f0f0f5;--muted:#8888aa;--green:#22c55e;--radius:14px}
+        body.light-mode{--bg:#f4f4f8;--surface:#ffffff;--card:#ffffff;--border:#e0e0e8;--text:#1a1a2e;--muted:#666680;background:#f4f4f8;color:#1a1a2e}
+        body.light-mode nav{background:rgba(244,244,248,0.95)}
 
-        nav{position:sticky;top:0;z-index:999;background:rgba(13,13,20,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:52px}
-        .logo{font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:7px}
+        nav{position:sticky;top:0;z-index:999;background:rgba(13,13,20,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:8px}
+        .logo{font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:7px;white-space:nowrap;flex-shrink:0}
         .logo span{color:var(--accent)}
-        .nav-back{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;transition:all .2s}
-        .nav-back:hover{border-color:var(--accent);color:var(--text)}
+        .nav-right{display:flex;align-items:center;gap:6px;flex-wrap:nowrap}
+        .nav-links{display:flex;gap:2px}
+        .nav-links a{color:var(--muted);font-size:12px;padding:5px 8px;border-radius:7px;transition:color .2s;white-space:nowrap}
+        .nav-links a:hover{color:var(--text)}
+        .dm-toggle,.lang-toggle{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:5px 9px;border-radius:20px;font-size:12px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+        .dm-toggle:hover{border-color:var(--accent);color:var(--text)}
+        .lang-toggle:hover{border-color:var(--accent2);color:var(--text)}
+        .breadcrumb{max-width:700px;margin:14px auto 0;padding:0 20px;font-size:0.85rem;color:var(--muted)}
+        .breadcrumb a{color:var(--accent);text-decoration:none}
 
         .hero{text-align:center;padding:36px 20px 24px;position:relative;overflow:hidden}
         .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:420px;height:280px;background:radial-gradient(ellipse,rgba(124,58,237,.18) 0%,transparent 70%);pointer-events:none}
@@ -157,9 +166,20 @@
 <div id="toast"></div>
 
 <nav>
-    <div class="logo">🪄 FileMagic<span>Pro</span></div>
-    <a href="index.html" class="nav-back">← Back to Tools</a>
+    <a href="index.html" style="display:flex;align-items:center"><div class="logo">🪄 FileMagic<span>Pro</span></div></a>
+    <div class="nav-right">
+        <button class="lang-toggle" id="langBtn" onclick="toggleLang()">🇮🇳 हिंदी</button>
+        <button class="dm-toggle" id="dmBtn" onclick="toggleDark()">☀️ Light</button>
+        <div class="nav-links">
+            <a href="about.html">About</a>
+            <a href="privacy.html">Privacy</a>
+        </div>
+    </div>
 </nav>
+
+<div class="breadcrumb">
+  <a href="index.html">All Tools</a> → 🖼️ Image Tool → Background Remover
+</div>
 
 <section class="hero">
     <div class="hero-badge">🤖 AI-Powered · 100% Browser-Based</div>
@@ -333,14 +353,16 @@
 </div>
 
 <footer>
-    <div class="f-logo">🪄 FileMagic<span style="color:#ff6b35">Pro</span></div>
+    <div class="f-logo">🪄 FileMagic<span style="color:var(--accent)">Pro</span></div>
     <div class="f-links">
-        <a href="index.html">All Tools</a>
         <a href="about.html">About</a>
-        <a href="privacy.html">Privacy</a>
         <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+        <a href="disclaimer.html">Disclaimer</a>
+        <a href="sitemap.xml">Sitemap</a>
     </div>
-    <div class="f-copy">© 2025 FileMagic Pro · Free Background Remover · No Upload Required</div>
+    <div class="f-copy">© 2026 FileMagic Pro · Super 30 Free Tools · Files never leave your device</div>
 </footer>
 
 <!-- MediaPipe via CDN -->
@@ -697,9 +719,30 @@ function hideError() {
 updateColorPreview();
 
 // input[type=range] thumb style
-var style = document.createElement('style');
-style.textContent = 'input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#7c3aed;cursor:pointer}input[type="range"]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#7c3aed;cursor:pointer;border:none}';
-document.head.appendChild(style);
+var rangeStyle = document.createElement('style');
+rangeStyle.textContent = 'input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#7c3aed;cursor:pointer}input[type="range"]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#7c3aed;cursor:pointer;border:none}';
+document.head.appendChild(rangeStyle);
+
+// ===== DARK MODE =====
+function toggleDark(){
+    var b=document.body,btn=document.getElementById('dmBtn');
+    if(b.classList.contains('light-mode')){b.classList.remove('light-mode');btn.textContent='☀️ Light';localStorage.setItem('fmp-theme','dark')}
+    else{b.classList.add('light-mode');btn.textContent='🌙 Dark';localStorage.setItem('fmp-theme','light')}
+}
+
+// ===== LANGUAGE =====
+var _lang='en';
+function toggleLang(){
+    _lang=_lang==='en'?'hi':'en';
+    document.getElementById('langBtn').textContent=_lang==='hi'?'🇬🇧 English':'🇮🇳 हिंदी';
+    localStorage.setItem('fmp-lang',_lang);
+}
+
+// ===== INIT (restore theme/lang saved from homepage) =====
+window.addEventListener('load',function(){
+    if(localStorage.getItem('fmp-theme')==='light'){document.body.classList.add('light-mode');document.getElementById('dmBtn').textContent='🌙 Dark'}
+    if(localStorage.getItem('fmp-lang')==='hi'){document.getElementById('langBtn').textContent='🇬🇧 English';_lang='hi'}
+});
 </script>
 </body>
 </html>
