@@ -1467,62 +1467,6 @@ function renderOrigCanvas(){
     ctx.restore();
 }
 
-function rotateImg(deg){
-    if(!_enhImg)return;
-    _enhRotation=(_enhRotation+deg+360)%360;
-    renderOrigCanvas();
-    applyFx();
-}
-function flipImg(axis){
-    if(!_enhImg)return;
-    if(axis==='h')_enhFlipH=!_enhFlipH; else _enhFlipV=!_enhFlipV;
-    renderOrigCanvas();
-    applyFx();
-}
-
-function setPreset(name){
-    _enhPreset=name;
-    document.querySelectorAll('#fx-presets .fx-chip').forEach(function(c){c.classList.remove('active')});
-    var btn=document.querySelector('#fx-presets [data-preset="'+name+'"]');
-    if(btn)btn.classList.add('active');
-    applyFx();
-}
-
-function resetFx(){
-    ['sl-br','sl-co','sl-sa','sl-sh','sl-bl','sl-tm','sl-vg'].forEach(function(id){$(id).value=0});
-    _enhRotation=0;_enhFlipH=false;_enhFlipV=false;
-    setPreset('none');
-    if(_enhImg){renderOrigCanvas();applyFx();}
-}
-
-// Core pixel processing shared by preview + final export
-function processImageData(d,w,h,opts){
-    var br=opts.br,co=opts.co,sa=opts.sa,sh=opts.sh,tm=opts.tm,vg=opts.vg,preset=opts.preset;
-    var f=(259*(co+255))/(255*(259-co)), sf=1+sa/100;
-    var tmShift=tm*0.6; // warm(+)/cool(-)
-
-    for(var i=0;i<d.length;i+=4){
-        var r=d[i],g=d[i+1],b=d[i+2];
-        // brightness
-        r+=br*2.55;g+=br*2.55;b+=br*2.55;
-        // contrast
-        r=f*(r-128)+128;g=f*(g-128)+128;b=f*(b-128)+128;
-        // saturation
-        var gray=.299*r+.587*g+.114*b;
-        r=gray+sf*(r-gray);g=gray+sf*(g-gray);b=gray+sf*(b-gray);
-        // temperature
-        r+=tmShift; b-=tmShift;
-
-        // presets
-        if(preset==='bw'){
-            var gg=.299*r+.587*g+.114*b; r=g=b=gg;
-        } else if(preset==='sepia'){
-            var sr=r*.393+g*.769+b*.189, sg=r*.349+g*.686+b*.168, sb=r*.272+g*.534+b*.131;
-            r=sr;g=sg;b=sb;
-        } else if(preset==='invert'){
-            r=255-r;g=255-g;b=255-b;
-        } else if(preset==='vivid'){
-            r=(r-128)*1.25+128;g=(g-128)*1.25+128;b=(b-128)*1.25+128;
         } else if(preset==='cool'){
             b+=18;r-=8;
         } else if(preset==='warm'){
