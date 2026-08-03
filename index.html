@@ -590,34 +590,6 @@
     </div>
 </div>
 
-<!-- ROTATE PDF -->
-<div class="panel" id="panel-rotate">
-    <div class="p-head"><span class="p-title">🔄 Rotate PDF</span><button class="p-close" onclick="close_tool('rotate')">✕</button></div>
-    <div class="p-body">
-        <div class="dropzone" onclick="document.getElementById('fi-rotate').click()">
-            <div class="dz-icon">🔄</div><div class="dz-title">Drop PDF Here</div>
-            <div class="dz-sub">Rotate all pages</div>
-            <button class="btn-browse" type="button">📂 Browse PDF</button>
-        </div>
-        <input type="file" id="fi-rotate" class="file-input" accept=".pdf">
-        <div class="finfo" id="fn-rotate"></div>
-        <div class="opt-row"><span class="opt-label">Rotation</span>
-            <select id="rot-deg">
-                <option value="90">90° Clockwise</option>
-                <option value="180">180°</option>
-                <option value="270">90° Counter-clockwise</option>
-            </select>
-        </div>
-        <button class="btn-action" onclick="doRotate()">🔄 Rotate PDF</button>
-        <div class="prog" id="prg-rotate"><div class="prog-bg"><div class="prog-bar" id="pb-rotate"></div></div><div class="prog-txt">Rotating...</div></div>
-        <div class="result" id="res-rotate">
-            <div class="res-title">✅ Rotated!</div>
-            <button class="btn-dl" id="dl-rotate">⬇️ Download PDF</button>
-            <button class="btn-wa" onclick="waShare('Rotate PDF')">📲 Share on WhatsApp</button>
-        </div>
-    </div>
-</div>
-
 <!-- PAGE NUMBERS -->
 <div class="panel" id="panel-pagenumber">
     <div class="p-head"><span class="p-title">🔢 Add Page Numbers</span><button class="p-close" onclick="close_tool('pagenumber')">✕</button></div>
