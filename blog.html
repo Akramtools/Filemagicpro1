@@ -4,27 +4,84 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Free Guides — PDF, Image & File Tips | FileMagic Pro Blog</title>
-  <meta name="description" content="Free step-by-step guides on PDF compression, OCR, file conversion and more — in Hinglish. Learn how to solve everyday file problems for free." />
+  <meta name="description" content="Free step-by-step guides on PDF compression, OCR, file conversion and more. Learn how to solve everyday file problems for free, right in your browser." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/blog.html" />
 
+  <!-- Open Graph -->
   <meta property="og:title" content="FileMagic Pro Blog — Free File & PDF Guides" />
-  <meta property="og:description" content="Step-by-step guides on PDF compression, OCR, file conversion and more." />
+  <meta property="og:description" content="Free step-by-step guides on PDF compression, OCR, file conversion and more." />
   <meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/blog.html" />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="FileMagic Pro" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="FileMagic Pro Blog — Free File & PDF Guides" />
+  <meta name="twitter:description" content="Free step-by-step guides on PDF compression, OCR, file conversion and more." />
 
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
+  <!-- Blog + Breadcrumb structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "FileMagic Pro Blog",
+    "url": "https://akramtools.github.io/Filemagicpro1/blog.html",
+    "description": "Free step-by-step guides on PDF compression, OCR, file conversion and more.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "FileMagic Pro",
+      "url": "https://akramtools.github.io/Filemagicpro1/index.html"
+    },
+    "blogPost": [
+      {
+        "@type": "BlogPosting",
+        "headline": "How to Reduce PDF File Size on Mobile",
+        "url": "https://akramtools.github.io/Filemagicpro1/blog-pdf-size-kaise-kam-kare.html",
+        "description": "A free way to shrink a PDF for WhatsApp or email without losing quality."
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "How to Extract Text from a Photo (Free OCR)",
+        "url": "https://akramtools.github.io/Filemagicpro1/blog-photo-se-text-nikale-ocr.html",
+        "description": "A step-by-step way to pull Hindi/English text out of any photo or scanned document."
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "FileMagic Pro",
+        "item": "https://akramtools.github.io/Filemagicpro1/index.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://akramtools.github.io/Filemagicpro1/blog.html"
+      }
+    ]
+  }
+  </script>
+
   <style>
     :root {
-      --bg: #0c0a14;
-      --surface: #130f1e;
-      --card: #1a1528;
-      --border: #271f3a;
-      --accent: #b06cff;
-      --accent2: #ff6cae;
+      --bg: #0d0d14;
+      --surface: #13131e;
+      --card: #191927;
+      --border: #26263a;
+      --accent: #ff6b35;
+      --accent2: #ff9466;
       --text: #ede8f8;
-      --muted: #8878a8;
+      --muted: #8a8aa3;
       --success: #5cd97a;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,7 +96,10 @@
     .nav-back { font-size: 0.85rem; color: var(--muted); text-decoration: none; }
     .nav-back:hover { color: var(--text); }
 
-    .hero { text-align: center; padding: 48px 24px 32px; background: linear-gradient(180deg, #130c1e 0%, var(--bg) 100%); }
+    .hero { text-align: center; padding: 48px 24px 32px; background: linear-gradient(180deg, #14101e 0%, var(--bg) 100%); }
+    .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 18px; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
     h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 6vw, 2.6rem); font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
     h1 span { color: var(--accent); }
     .hero-sub { color: var(--muted); font-size: 1rem; max-width: 480px; margin: 0 auto; line-height: 1.6; }
@@ -48,9 +108,9 @@
     .article-card {
       background: var(--card); border: 1px solid var(--border); border-radius: 16px;
       padding: 20px; text-decoration: none; color: var(--text); display: block;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, transform 0.2s;
     }
-    .article-card:hover { border-color: var(--accent); }
+    .article-card:hover { border-color: var(--accent); transform: translateY(-2px); }
     .article-card h2 { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
     .article-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
 
@@ -66,23 +126,24 @@
 </nav>
 
 <div class="hero">
+  <p class="breadcrumb"><a href="index.html">Home</a> / Blog</p>
   <h1>Free <span>Guides</span> &<br/>How-Tos</h1>
   <p class="hero-sub">Simple, step-by-step help for everyday PDF, image and file problems — no jargon, no signup.</p>
 </div>
 
 <div class="article-list">
   <a href="blog-pdf-size-kaise-kam-kare.html" class="article-card">
-    <h2>PDF Ka Size Kaise Kam Karein Mobile Se</h2>
-    <p>WhatsApp ya email ke liye PDF file chhoti karne ka free tarika, bina quality kharab kiye.</p>
+    <h2>How to Reduce PDF File Size on Mobile</h2>
+    <p>A free way to shrink a PDF for WhatsApp or email — without losing quality.</p>
   </a>
   <a href="blog-photo-se-text-nikale-ocr.html" class="article-card">
-    <h2>Photo Se Text Kaise Nikale (Free OCR)</h2>
-    <p>Kisi bhi photo ya scanned document se Hindi/English text nikalne ka step-by-step tarika.</p>
+    <h2>How to Extract Text from a Photo (Free OCR)</h2>
+    <p>A step-by-step way to pull Hindi/English text out of any photo or scanned document.</p>
   </a>
 </div>
 
 <footer>
-  <p>© 2025 <a href="index.html">FileMagic Pro</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
+  <p>© 2026 <a href="index.html">FileMagic Pro</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
 </footer>
 
 </body>
