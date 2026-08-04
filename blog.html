@@ -8,21 +8,18 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/blog.html" />
 
-  <!-- Open Graph -->
   <meta property="og:title" content="FileMagic Pro Blog — Free File & PDF Guides" />
   <meta property="og:description" content="Free step-by-step guides on PDF compression, OCR, file conversion and more." />
   <meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/blog.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="FileMagic Pro" />
 
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="FileMagic Pro Blog — Free File & PDF Guides" />
   <meta name="twitter:description" content="Free step-by-step guides on PDF compression, OCR, file conversion and more." />
 
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
-  <!-- Blog + Breadcrumb structured data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -30,22 +27,18 @@
     "name": "FileMagic Pro Blog",
     "url": "https://akramtools.github.io/Filemagicpro1/blog.html",
     "description": "Free step-by-step guides on PDF compression, OCR, file conversion and more.",
-    "publisher": {
-      "@type": "Organization",
-      "name": "FileMagic Pro",
-      "url": "https://akramtools.github.io/Filemagicpro1/index.html"
-    },
+    "publisher": { "@type": "Organization", "name": "FileMagic Pro", "url": "https://akramtools.github.io/Filemagicpro1/index.html" },
     "blogPost": [
       {
         "@type": "BlogPosting",
         "headline": "How to Reduce PDF File Size on Mobile",
-        "url": "https://akramtools.github.io/Filemagicpro1/blog-pdf-size-kaise-kam-kare.html",
+        "url": "https://akramtools.github.io/Filemagicpro1/blog.html#pdf-size",
         "description": "A free way to shrink a PDF for WhatsApp or email without losing quality."
       },
       {
         "@type": "BlogPosting",
         "headline": "How to Extract Text from a Photo (Free OCR)",
-        "url": "https://akramtools.github.io/Filemagicpro1/blog-photo-se-text-nikale-ocr.html",
+        "url": "https://akramtools.github.io/Filemagicpro1/blog.html#photo-ocr",
         "description": "A step-by-step way to pull Hindi/English text out of any photo or scanned document."
       }
     ]
@@ -56,18 +49,20 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "FileMagic Pro",
-        "item": "https://akramtools.github.io/Filemagicpro1/index.html"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Blog",
-        "item": "https://akramtools.github.io/Filemagicpro1/blog.html"
-      }
+      { "@type": "ListItem", "position": 1, "name": "FileMagic Pro", "item": "https://akramtools.github.io/Filemagicpro1/index.html" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://akramtools.github.io/Filemagicpro1/blog.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Does reducing PDF size lower the quality?", "acceptedAnswer": { "@type": "Answer", "text": "No — if you pick the right compression level, text and images stay clearly readable." } },
+      { "@type": "Question", "name": "Do I need to upload my file anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. These tools run entirely in your browser — files never go to any server." } },
+      { "@type": "Question", "name": "Can it recognize Hindi text too?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — it supports four languages: Hindi, English, Urdu and Marathi." } },
+      { "@type": "Question", "name": "Can it extract text from handwriting too?", "acceptedAnswer": { "@type": "Answer", "text": "It's most accurate on printed/typed text. Accuracy on handwriting depends on how clear it is." } }
     ]
   }
   </script>
@@ -82,10 +77,9 @@
       --accent2: #ff9466;
       --text: #ede8f8;
       --muted: #8a8aa3;
-      --success: #5cd97a;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.7; }
 
     nav {
       display: flex; justify-content: space-between; align-items: center;
@@ -100,22 +94,72 @@
     .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 18px; }
     .breadcrumb a { color: var(--muted); text-decoration: none; }
     .breadcrumb a:hover { color: var(--accent); }
-    h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 6vw, 2.6rem); font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
-    h1 span { color: var(--accent); }
+    .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 6vw, 2.6rem); font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
+    .hero h1 span { color: var(--accent); }
     .hero-sub { color: var(--muted); font-size: 1rem; max-width: 480px; margin: 0 auto; line-height: 1.6; }
 
-    .article-list { max-width: 680px; margin: 0 auto; padding: 32px 20px 60px; display: grid; gap: 14px; }
-    .article-card {
+    main { max-width: 640px; margin: 0 auto; padding: 32px 20px 60px; }
+
+    .toc {
       background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-      padding: 20px; text-decoration: none; color: var(--text); display: block;
-      transition: border-color 0.2s, transform 0.2s;
+      padding: 20px; margin-bottom: 40px;
     }
-    .article-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .article-card h2 { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
-    .article-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+    .toc h2 { font-family: 'Syne', sans-serif; font-size: 1rem; margin-bottom: 12px; }
+    .toc a { display: block; color: var(--accent); text-decoration: none; font-size: 0.9rem; padding: 6px 0; font-weight: 600; }
+
+    article { margin-bottom: 56px; }
+    article:last-of-type { margin-bottom: 0; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 999px;
+      padding: 6px 16px; font-size: 0.75rem; font-weight: 700; color: var(--accent);
+      letter-spacing: 0.05em; margin-bottom: 20px;
+    }
+    article h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem, 6vw, 2.2rem); font-weight: 800; line-height: 1.2; margin-bottom: 16px; scroll-margin-top: 80px; }
+    article h1 span { color: var(--accent); }
+    .subtitle { color: var(--muted); font-size: 1rem; margin-bottom: 28px; }
+
+    p { color: var(--muted); margin-bottom: 18px; font-size: 0.95rem; }
+    h2 { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; margin: 32px 0 14px; color: var(--text); }
+
+    ol, ul { margin: 0 0 18px 20px; color: var(--muted); }
+    ol li, ul li { margin-bottom: 12px; font-size: 0.95rem; }
+    ol li strong, ul li strong { color: var(--text); }
+
+    .cta-box {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 28px 20px; text-align: center; margin: 32px 0;
+    }
+    .cta-box p { color: var(--text); font-weight: 600; margin-bottom: 18px; }
+    .cta-btn {
+      display: inline-block; background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #1a0e05; font-weight: 800; font-family: 'Syne', sans-serif;
+      padding: 14px 28px; border-radius: 999px; text-decoration: none; font-size: 0.95rem;
+    }
+
+    .faq-item {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 20px; margin-bottom: 14px;
+    }
+    .faq-item h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .faq-item p { margin-bottom: 0; font-size: 0.9rem; }
+
+    .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+    .tool-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 16px; text-decoration: none; color: var(--text); transition: border-color 0.2s;
+    }
+    .tool-card:hover { border-color: var(--accent); }
+    .tool-card .tool-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
+    .tool-card .tool-desc { color: var(--muted); font-size: 0.8rem; }
+
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
 
     footer { text-align: center; padding: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
     footer a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 480px) { .tools-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -131,16 +175,144 @@
   <p class="hero-sub">Simple, step-by-step help for everyday PDF, image and file problems — no jargon, no signup.</p>
 </div>
 
-<div class="article-list">
-  <a href="blog-pdf-size-kaise-kam-kare.html" class="article-card">
-    <h2>How to Reduce PDF File Size on Mobile</h2>
-    <p>A free way to shrink a PDF for WhatsApp or email — without losing quality.</p>
-  </a>
-  <a href="blog-photo-se-text-nikale-ocr.html" class="article-card">
-    <h2>How to Extract Text from a Photo (Free OCR)</h2>
-    <p>A step-by-step way to pull Hindi/English text out of any photo or scanned document.</p>
-  </a>
-</div>
+<main>
+
+  <div class="toc">
+    <h2>In this guide</h2>
+    <a href="#pdf-size">1. How to Reduce PDF File Size on Mobile</a>
+    <a href="#photo-ocr">2. How to Extract Text from a Photo (Free OCR)</a>
+  </div>
+
+  <article id="pdf-size">
+    <span class="badge">📖 GUIDE</span>
+    <h1>How to Reduce PDF <span>File Size</span> on Mobile</h1>
+    <p class="subtitle">No app install, no file upload — just shrink your PDF right in the browser while keeping the quality intact.</p>
+
+    <p>Ever tried sending an Aadhaar card, a resume, or some form over WhatsApp or email and hit a "file size limit exceeded" error? The problem is simple — your PDF file is too heavy. The good news: fixing it takes about 30 seconds, no app install needed.</p>
+
+    <h2>Why does a PDF file get so large?</h2>
+    <p>Most of the time, a PDF carries high-resolution scanned images or photos that make the file heavy. A text-only PDF stays small, but scanned documents (like Aadhaar cards, mark sheets, or photo-based forms) often end up 2–5 MB — while email and WhatsApp usually want files under 1 MB.</p>
+
+    <h2>Reduce PDF size on mobile — 3 steps</h2>
+    <ol>
+      <li><strong>Open the Compress PDF tool</strong> — no signup or app download needed, it works right in your browser.</li>
+      <li><strong>Select your PDF file</strong> — the file loads directly in the browser; nothing is uploaded anywhere.</li>
+      <li><strong>Tap Download</strong> — your compressed file is ready instantly, ready for WhatsApp or email.</li>
+    </ol>
+
+    <div class="cta-box">
+      <p>Try it now — shrink your PDF file size, completely free:</p>
+      <a href="compress-pdf.html" class="cta-btn">📦 Open Compress PDF</a>
+    </div>
+
+    <h2>How to keep the quality good too</h2>
+    <p>If your PDF has important photos (like an ID card scan), avoid heavy compression — even a light compression level reduces file size significantly without blurring text or photos. In most cases you'll see a 60–70% size reduction with no noticeable loss in quality.</p>
+
+    <h2>FAQs</h2>
+    <div class="faq-item">
+      <h3>Does reducing PDF size lower the quality?</h3>
+      <p>No — if you pick the right compression level, text and images stay clearly readable.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Do I need to upload my file anywhere?</h3>
+      <p>No. This tool runs entirely in your browser — the file never goes to any server.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I compress a PDF without internet?</h3>
+      <p>Once the page has loaded, the processing happens on your device itself.</p>
+    </div>
+
+    <h2>Related Tools</h2>
+    <div class="tools-grid">
+      <a href="merge-pdf.html" class="tool-card">
+        <div class="tool-name">🔗 Merge PDF</div>
+        <div class="tool-desc">Combine multiple PDFs</div>
+      </a>
+      <a href="split-pdf.html" class="tool-card">
+        <div class="tool-name">✂️ Split PDF</div>
+        <div class="tool-desc">Separate out pages</div>
+      </a>
+      <a href="pdf-to-word.html" class="tool-card">
+        <div class="tool-name">📋 PDF to Word</div>
+        <div class="tool-desc">Make an editable file</div>
+      </a>
+      <a href="compress-image.html" class="tool-card">
+        <div class="tool-name">🖼️ Compress Image</div>
+        <div class="tool-desc">Reduce photo file size</div>
+      </a>
+    </div>
+  </article>
+
+  <hr class="divider" />
+
+  <article id="photo-ocr">
+    <span class="badge">📖 GUIDE</span>
+    <h1>How to Extract <span>Text</span> from a Photo</h1>
+    <p class="subtitle">A free way to copy text out of any photo, scanned document, or screenshot — in both Hindi and English.</p>
+
+    <p>Ever had to snap a photo of a book page, a notice board, or a scanned document, and then wasted time typing it all out? OCR (Optical Character Recognition) technology does this in a single click — it hands you the text from a photo, ready to copy and paste.</p>
+
+    <h2>What is OCR and how does it work?</h2>
+    <p>OCR is a technology that recognizes the letters and words hidden inside an image and converts them into editable text. That means you can turn a photo directly into a Word document, a WhatsApp message, or paste it anywhere else you need.</p>
+
+    <h2>Extract text from a photo — 3 steps</h2>
+    <ol>
+      <li><strong>Open the OCR tool</strong> — it works right in the browser, no app download needed.</li>
+      <li><strong>Upload your photo or scanned image</strong> — just select the file from your device.</li>
+      <li><strong>Copy the text</strong> — the text is extracted in a few seconds, ready to copy directly.</li>
+    </ol>
+
+    <div class="cta-box">
+      <p>Try it now — extract text from your photo, completely free:</p>
+      <a href="ocr-pdf.html" class="cta-btn">🔍 Open OCR Tool</a>
+    </div>
+
+    <h2>Which languages are supported?</h2>
+    <p>This tool recognizes text in four languages — Hindi, English, Urdu and Marathi. So if your photo has a notice, letter, or form written in Hindi, you can extract that text directly too.</p>
+
+    <h2>Tips for the best results</h2>
+    <ul>
+      <li>The photo should be clear and well-lit — a blurry photo lowers accuracy.</li>
+      <li>Take the photo at a straight angle — a tilted photo can lead to text being misread.</li>
+      <li>Accuracy is highest on printed/typed text; handwriting may come out slightly less accurate.</li>
+    </ul>
+
+    <h2>FAQs</h2>
+    <div class="faq-item">
+      <h3>Can it recognize Hindi text too?</h3>
+      <p>Yes — it supports four languages: Hindi, English, Urdu and Marathi.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can it extract text from handwriting too?</h3>
+      <p>It's most accurate on printed/typed text. Accuracy on handwriting depends on how clear the handwriting is.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does the photo get uploaded anywhere?</h3>
+      <p>No, the whole process happens right in your browser — the image never goes to a server.</p>
+    </div>
+
+    <h2>Related Tools</h2>
+    <div class="tools-grid">
+      <a href="ocr-pdf.html" class="tool-card">
+        <div class="tool-name">🔍 OCR PDF</div>
+        <div class="tool-desc">Make a scanned PDF searchable</div>
+      </a>
+      <a href="pdf-to-text.html" class="tool-card">
+        <div class="tool-name">📄 PDF to Text</div>
+        <div class="tool-desc">Extract text from a PDF</div>
+      </a>
+      <a href="background-remover.html" class="tool-card">
+        <div class="tool-name">🎭 Background Remover</div>
+        <div class="tool-desc">Remove a photo's background</div>
+      </a>
+      <a href="image-to-pdf.html" class="tool-card">
+        <div class="tool-name">🖼️ Image to PDF</div>
+        <div class="tool-desc">Turn a photo into a PDF</div>
+      </a>
+    </div>
+  </article>
+
+</main>
 
 <footer>
   <p>© 2026 <a href="index.html">FileMagic Pro</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
