@@ -191,6 +191,34 @@ document.getElementById('processBtn').addEventListener('click', async ()=>{
     const maxWidth=pageSize[0]-margin*2;
     const lineHeight=fontSize*1.4;
 
+    // The standard Helvetica font can only encode WinAnsi characters.
+    // Phone keyboards often insert smart quotes/dashes or other symbols
+    // that would otherwise crash PDF generation — normalize those first,
+    // then strip anything still unencodable (e.g. emoji, Hindi script)
+    // instead of failing the whole export.
+    function normalizePunctuation(str){
+      return str
+        .replace(/[\u2018\u2019\u02BC]/g,"'")
+        .replace(/[\u201C\u201D]/g,'"')
+        .replace(/[\u2013\u2014]/g,'-')
+        .replace(/\u2026/g,'...')
+        .replace(/[\u00A0\u2000-\u200B]/g,' ');
+    }
+    function stripUnencodable(str){
+      let out='';
+      for(const ch of str){
+        try{ font.widthOfTextAtSize(ch,fontSize); out+=ch; }
+        catch(e){ out+=(ch===' '||ch==='\t')?ch:''; }
+      }
+      return out;
+    }
+    const safeText=stripUnencodable(normalizePunctuation(text));
+    if(!safeText.trim()){
+      alert('This text uses characters (like Hindi script or emoji) that this tool cannot render yet. Please use plain English/Latin text.');
+      btn.disabled=false; btn.textContent=orig;
+      return;
+    }
+
     function wrapText(paragraph){
       const words=paragraph.split(' ');
       const lines=[]; let current='';
@@ -205,7 +233,7 @@ document.getElementById('processBtn').addEventListener('click', async ()=>{
       return lines.length?lines:[''];
     }
 
-    const paragraphs=text.split('\n');
+    const paragraphs=safeText.split('\n');
     let allLines=[];
     paragraphs.forEach(p=>{allLines=allLines.concat(wrapText(p));});
 
@@ -221,7 +249,7 @@ document.getElementById('processBtn').addEventListener('click', async ()=>{
     triggerDownload(new Blob([bytes],{type:'application/pdf'}), 'text-document.pdf');
     if(typeof gtag==='function')gtag('event','text_to_pdf_download');
   }catch(err){
-    alert('Something went wrong while generating the PDF.');
+    alert('Something went wrong while generating the PDF: '+(err && err.message ? err.message : 'unknown error'));
   }
   btn.disabled=false; btn.textContent=orig;
 });
