@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Sign PDF Online Free - Draw & Add Signature | FileMagic Pro</title>
+<meta name="description" content="Free online tool to sign a PDF. Draw your signature and place it anywhere on the page — works entirely in your browser, no upload.">
+<link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/sign-pdf.html">
+<meta name="robots" content="index, follow">
+<meta name="keywords" content="sign pdf online, add signature to pdf free, esign pdf, draw signature pdf">
+<meta name="author" content="FileMagic Pro">
+<meta property="og:title" content="Sign PDF | FileMagic Pro">
+<meta property="og:description" content="Draw and add your signature to a PDF — free, private, in-browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/sign-pdf.html">
+<meta property="og:image" content="https://akramtools.github.io/Filemagicpro1/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Sign PDF","url":"https://akramtools.github.io/Filemagicpro1/sign-pdf.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free online tool to draw a signature and place it on a PDF page, entirely in the browser."}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How do I sign a PDF online for free?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF, draw your signature on the pad, position it on the page using the sliders, then download the signed PDF."}},
+{"@type":"Question","name":"Is my file uploaded to any server?","acceptedAnswer":{"@type":"Answer","text":"No, the signature is drawn and placed locally in your browser. Your file never leaves your device."}},
+{"@type":"Question","name":"Can I sign on more than one page?","acceptedAnswer":{"@type":"Answer","text":"Currently the signature is placed on the page you select. Repeat the process for additional pages by re-uploading if needed."}},
+{"@type":"Question","name":"Is this legally binding?","acceptedAnswer":{"@type":"Answer","text":"This tool creates a visual signature image on your PDF. For legally binding e-signatures with audit trails, consult a certified e-signature service."}}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"All Tools","item":"https://akramtools.github.io/Filemagicpro1/index.html"},
+{"@type":"ListItem","position":2,"name":"PDF Tools","item":"https://akramtools.github.io/Filemagicpro1/index.html"},
+{"@type":"ListItem","position":3,"name":"Sign PDF","item":"https://akramtools.github.io/Filemagicpro1/sign-pdf.html"}]}
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3XYNGTK7JT"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3XYNGTK7JT');</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0d0d14;color:#f0f0f5;font-size:15px;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+input,select{font-family:inherit;outline:none}
+:root{--bg:#0d0d14;--surface:#13131e;--card:#1a1a28;--border:#2a2a3e;--accent:#ff6b35;--text:#f0f0f5;--muted:#8888aa;--radius:14px}
+body.light-mode{--bg:#f4f4f8;--surface:#fff;--card:#fff;--border:#e0e0e8;--text:#1a1a2e;--muted:#666680;background:#f4f4f8;color:#1a1a2e}
+body.light-mode nav{background:rgba(244,244,248,0.95)}
+nav{position:sticky;top:0;z-index:999;background:rgba(13,13,20,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:8px}
+.logo{font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:7px}
+.logo span{color:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:6px}
+.nav-links{display:flex;gap:2px}
+.nav-links a{color:var(--muted);font-size:12px;padding:5px 8px;border-radius:7px}
+.dm-toggle,.lang-toggle{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:5px 9px;border-radius:20px;font-size:12px}
+.breadcrumb{max-width:700px;margin:16px auto 0;padding:0 20px;font-size:0.85rem;color:var(--muted)}
+.breadcrumb a{color:var(--accent)}
+.container{max-width:700px;margin:0 auto;padding:20px 20px 60px}
+h1{font-size:1.6rem;margin-bottom:8px;text-align:center}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:24px;font-size:0.95rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:20px}
+label{display:block;font-weight:600;margin-bottom:8px;font-size:0.9rem}
+input[type="number"],select{width:100%;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:1rem;margin-bottom:16px}
+input[type="range"]{width:100%;margin-bottom:16px}
+button.calc-btn{width:100%;padding:15px;background:var(--accent);color:#fff;border-radius:10px;font-size:1.05rem;font-weight:700}
+button.secondary-btn{width:100%;padding:12px;background:var(--bg);border:1px solid var(--border);color:var(--muted);border-radius:10px;font-weight:700;margin-bottom:12px}
+button.calc-btn:disabled{opacity:.5;cursor:not-allowed}
+h2{font-size:1.2rem;margin:30px 0 14px}
+.info-section p{color:var(--muted);margin-bottom:10px;font-size:0.95rem}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-question{padding:16px 0;cursor:pointer;display:flex;justify-content:space-between;font-weight:600;font-size:0.95rem}
+.faq-question::after{content:'+';font-size:1.4rem;color:var(--accent)}
+.faq-item.open .faq-question::after{transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:.25s;color:var(--muted);font-size:0.9rem}
+.faq-item.open .faq-answer{max-height:300px;padding-bottom:16px}
+.related-tools ul{list-style:none}
+.related-tools li{margin-bottom:8px}
+.related-tools a{color:var(--accent);font-size:0.9rem}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:24px 20px;text-align:center}
+.f-logo{font-weight:800;font-size:1.05rem;margin-bottom:10px}
+.f-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.f-links a{color:var(--muted);font-size:13px}
+.f-copy{font-size:11px;color:var(--muted)}
+.dropzone{border:2px dashed var(--border);border-radius:12px;padding:34px 16px;text-align:center;cursor:pointer;background:var(--bg)}
+.dropzone.dragover{border-color:var(--accent);background:rgba(255,107,53,0.08)}
+.dropzone .big{font-size:34px;margin-bottom:8px}
+.dropzone .cta{color:var(--accent);font-weight:700}
+.dropzone small{display:block;color:var(--muted);margin-top:6px}
+#fileInput{display:none}
+.workspace{display:none;margin-top:18px}
+.workspace.active{display:block}
+.file-bar{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--muted)}
+.file-bar .name{color:var(--text);font-weight:600;word-break:break-all}
+.file-bar button{background:none;color:var(--accent);font-size:12.5px;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+canvas#sigPad{width:100%;height:160px;background:#fff;border-radius:10px;touch-action:none;margin-bottom:12px;border:1px solid var(--border)}
+</style>
+</head>
+<body>
+<nav>
+    <a href="index.html" style="display:flex;align-items:center"><div class="logo">🪄 FileMagic<span>Pro</span></div></a>
+    <div class="nav-right">
+        <button class="lang-toggle" id="langBtn" onclick="toggleLang()">🇮🇳 हिंदी</button>
+        <button class="dm-toggle" id="dmBtn" onclick="toggleDark()">☀️ Light</button>
+        <div class="nav-links"><a href="about.html">About</a><a href="privacy.html">Privacy</a></div>
+    </div>
+</nav>
+<div class="breadcrumb"><a href="index.html">All Tools</a> → 📄 PDF Tools → Sign PDF</div>
+<div class="container">
+  <h1>Sign PDF</h1>
+  <p class="subtitle">Draw your signature and place it on your PDF — free and private.</p>
+
+  <div class="card">
+    <div class="dropzone" id="dropzone">
+      <div class="big">✍️</div>
+      <div><span class="cta">Choose a PDF</span> or drag & drop here</div>
+      <small>Supports PDF only</small>
+      <input type="file" id="fileInput" accept=".pdf">
+    </div>
+
+    <div class="workspace" id="workspace">
+      <div class="file-bar">
+        <span><span class="name" id="fileName"></span></span>
+        <button id="changeFileBtn">Change file</button>
+      </div>
+
+      <label>Draw your signature below</label>
+      <canvas id="sigPad"></canvas>
+      <button class="secondary-btn" id="clearSigBtn">Clear Signature</button>
+
+      <div class="grid2">
+        <div>
+          <label>Page number</label>
+          <input type="number" id="pageNum" value="1" min="1">
+        </div>
+        <div>
+          <label>Position</label>
+          <select id="sigPosition">
+            <option value="bottom-right">Bottom Right</option>
+            <option value="bottom-left">Bottom Left</option>
+            <option value="bottom-center">Bottom Center</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Signature size</label>
+      <input type="range" id="sigSize" min="80" max="260" value="160">
+
+      <button class="calc-btn" id="processBtn">Sign PDF & Download</button>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h2>How to Sign a PDF Online</h2>
+    <p>1. Upload your PDF using the box above.</p>
+    <p>2. Draw your signature on the pad with your finger or mouse.</p>
+    <p>3. Choose the page and position, then click "Sign PDF & Download" — your signed file downloads instantly.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="card" style="padding:0 22px;">
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How do I sign a PDF online for free?</div><div class="faq-answer">Upload your PDF, draw your signature on the pad, position it on the page using the sliders, then download the signed PDF.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Is my file uploaded to any server?</div><div class="faq-answer">No, the signature is drawn and placed locally in your browser. Your file never leaves your device.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Can I sign on more than one page?</div><div class="faq-answer">Currently the signature is placed on the page you select. Repeat the process for additional pages by re-uploading if needed.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Is this legally binding?</div><div class="faq-answer">This tool creates a visual signature image on your PDF. For legally binding e-signatures with audit trails, consult a certified e-signature service.</div></div>
+    </div>
+  </div>
+
+  <div class="card related-tools">
+    <h2>More Free Tools</h2>
+    <ul>
+      <li><a href="pdf-shield.html">PDF Shield (Lock/Unlock)</a></li>
+      <li><a href="watermark-pdf.html">Watermark PDF</a></li>
+      <li><a href="merge-pdf.html">Merge PDF</a></li>
+      <li><a href="index.html">View All Tools</a></li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+    <div class="f-logo">🪄 FileMagic<span style="color:var(--accent)">Pro</span></div>
+    <div class="f-links">
+        <a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a><a href="sitemap.xml">Sitemap</a>
+    </div>
+    <div class="f-copy">© 2026 FileMagic Pro · Super 30 Free Tools · Files never leave your device</div>
+</footer>
+
+<script>
+const dropzone=document.getElementById('dropzone'),fileInput=document.getElementById('fileInput'),workspace=document.getElementById('workspace');
+let pdfDoc=null, fileNameBase='';
+const canvas=document.getElementById('sigPad');
+const ctx=canvas.getContext('2d');
+let drawing=false, lastX=0, lastY=0;
+
+function resizeCanvas(){
+  const rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*2; canvas.height=rect.height*2;
+  ctx.scale(2,2); ctx.lineWidth=2.5; ctx.lineCap='round'; ctx.strokeStyle='#111';
+}
+window.addEventListener('load',resizeCanvas);
+window.addEventListener('resize',resizeCanvas);
+
+function pos(e){
+  const rect=canvas.getBoundingClientRect();
+  const cx=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
+  const cy=(e.touches?e.touches[0].clientY:e.clientY)-rect.top;
+  return {x:cx,y:cy};
+}
+canvas.addEventListener('pointerdown',(e)=>{drawing=true;const p=pos(e);lastX=p.x;lastY=p.y;});
+canvas.addEventListener('pointermove',(e)=>{if(!drawing)return;const p=pos(e);ctx.beginPath();ctx.moveTo(lastX,lastY);ctx.lineTo(p.x,p.y);ctx.stroke();lastX=p.x;lastY=p.y;});
+window.addEventListener('pointerup',()=>drawing=false);
+document.getElementById('clearSigBtn').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);});
+
+['dragover','dragleave','drop'].forEach(evt=>{
+  dropzone.addEventListener(evt,(e)=>{e.preventDefault();if(evt==='dragover')dropzone.classList.add('dragover');if(evt==='dragleave'||evt==='drop')dropzone.classList.remove('dragover');});
+});
+dropzone.addEventListener('drop',(e)=>{const f=e.dataTransfer.files[0];if(f)handleFile(f);});
+dropzone.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',(e)=>{if(e.target.files[0])handleFile(e.target.files[0]);});
+document.getElementById('changeFileBtn').addEventListener('click',()=>{workspace.classList.remove('active');dropzone.style.display='block';fileInput.value='';pdfDoc=null;});
+
+async function handleFile(file){
+  fileNameBase=file.name.substring(0,file.name.lastIndexOf('.'))||file.name;
+  dropzone.style.display='none';
+  workspace.classList.add('active');
+  document.getElementById('fileName').textContent=file.name;
+  setTimeout(resizeCanvas,50);
+  const buf=await file.arrayBuffer();
+  pdfDoc=await PDFLib.PDFDocument.load(buf);
+  document.getElementById('pageNum').max=pdfDoc.getPageCount();
+  if(typeof gtag==='function')gtag('event','sign_pdf_file_loaded');
+}
+
+document.getElementById('processBtn').addEventListener('click', async ()=>{
+  if(!pdfDoc)return;
+  const btn=document.getElementById('processBtn');
+  btn.disabled=true; const orig=btn.textContent; btn.textContent='Processing...';
+  try{
+    const pageIdx=Math.max(0,Math.min((parseInt(document.getElementById('pageNum').value,10)||1)-1, pdfDoc.getPageCount()-1));
+    const sizePx=parseInt(document.getElementById('sigSize').value,10);
+    const position=document.getElementById('sigPosition').value;
+    const dataUrl=canvas.toDataURL('image/png');
+    const pngBytes=await fetch(dataUrl).then(r=>r.arrayBuffer());
+    const pngImage=await pdfDoc.embedPng(pngBytes);
+    const page=pdfDoc.getPage(pageIdx);
+    const {width,height}=page.getSize();
+    const sigW=sizePx, sigH=sizePx*(pngImage.height/pngImage.width);
+    let x,y;
+    if(position==='bottom-left'){x=30;y=40;}
+    else if(position==='bottom-center'){x=(width-sigW)/2;y=40;}
+    else {x=width-sigW-30;y=40;}
+    page.drawImage(pngImage,{x,y,width:sigW,height:sigH});
+    const bytes=await pdfDoc.save();
+    triggerDownload(new Blob([bytes],{type:'application/pdf'}), fileNameBase+'-signed.pdf');
+    if(typeof gtag==='function')gtag('event','sign_pdf_download');
+  }catch(err){
+    alert('Something went wrong while signing the PDF. Make sure you drew a signature first.');
+  }
+  btn.disabled=false; btn.textContent=orig;
+});
+
+function triggerDownload(blob,filename){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+function toggleFaq(el){const item=el.parentElement;const wasOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!wasOpen)item.classList.add('open');}
+function toggleDark(){var b=document.body,btn=document.getElementById('dmBtn');if(b.classList.contains('light-mode')){b.classList.remove('light-mode');btn.textContent='☀️ Light';localStorage.setItem('fmp-theme','dark')}else{b.classList.add('light-mode');btn.textContent='🌙 Dark';localStorage.setItem('fmp-theme','light')}}
+var _lang='en';
+function toggleLang(){_lang=_lang==='en'?'hi':'en';document.getElementById('langBtn').textContent=_lang==='hi'?'🇬🇧 English':'🇮🇳 हिंदी';localStorage.setItem('fmp-lang',_lang);}
+window.addEventListener('load',function(){
+  if(localStorage.getItem('fmp-theme')==='light'){document.body.classList.add('light-mode');document.getElementById('dmBtn').textContent='🌙 Dark'}
+  if(localStorage.getItem('fmp-lang')==='hi'){document.getElementById('langBtn').textContent='🇬🇧 English';_lang='hi'}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Add Page Numbers to PDF Online Free | FileMagic Pro</title>
+<meta name="description" content="Free online tool to add page numbers to your PDF. Choose position, format and starting number — works entirely in your browser.">
+<link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/page-numbers.html">
+<meta name="robots" content="index, follow">
+<meta name="keywords" content="add page numbers to pdf, pdf page numbering free, number pdf pages online">
+<meta name="author" content="FileMagic Pro">
+<meta property="og:title" content="Page Numbers for PDF | FileMagic Pro">
+<meta property="og:description" content="Add page numbers to PDF — free, private, in-browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/page-numbers.html">
+<meta property="og:image" content="https://akramtools.github.io/Filemagicpro1/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Page Numbers for PDF","url":"https://akramtools.github.io/Filemagicpro1/page-numbers.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free online tool to add page numbers to a PDF with custom position, format and starting number, entirely in the browser."}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How do I add page numbers to a PDF online for free?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF, choose the position and starting number, then download the PDF with page numbers added to every page."}},
+{"@type":"Question","name":"Can I start numbering from a page other than 1?","acceptedAnswer":{"@type":"Answer","text":"Yes, set a custom starting number and every page will count up from there."}},
+{"@type":"Question","name":"Is my file uploaded to any server?","acceptedAnswer":{"@type":"Answer","text":"No, page numbers are added locally in your browser using JavaScript. Your file never leaves your device."}},
+{"@type":"Question","name":"Can I choose where the number appears?","acceptedAnswer":{"@type":"Answer","text":"Yes, pick bottom-center, bottom-right, or top-right placement."}}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"All Tools","item":"https://akramtools.github.io/Filemagicpro1/index.html"},
+{"@type":"ListItem","position":2,"name":"PDF Tools","item":"https://akramtools.github.io/Filemagicpro1/index.html"},
+{"@type":"ListItem","position":3,"name":"Page Numbers","item":"https://akramtools.github.io/Filemagicpro1/page-numbers.html"}]}
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3XYNGTK7JT"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3XYNGTK7JT');</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0d0d14;color:#f0f0f5;font-size:15px;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+input,select{font-family:inherit;outline:none}
+:root{--bg:#0d0d14;--surface:#13131e;--card:#1a1a28;--border:#2a2a3e;--accent:#ff6b35;--text:#f0f0f5;--muted:#8888aa;--radius:14px}
+body.light-mode{--bg:#f4f4f8;--surface:#fff;--card:#fff;--border:#e0e0e8;--text:#1a1a2e;--muted:#666680;background:#f4f4f8;color:#1a1a2e}
+body.light-mode nav{background:rgba(244,244,248,0.95)}
+nav{position:sticky;top:0;z-index:999;background:rgba(13,13,20,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:8px}
+.logo{font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:7px}
+.logo span{color:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:6px}
+.nav-links{display:flex;gap:2px}
+.nav-links a{color:var(--muted);font-size:12px;padding:5px 8px;border-radius:7px}
+.dm-toggle,.lang-toggle{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:5px 9px;border-radius:20px;font-size:12px}
+.breadcrumb{max-width:700px;margin:16px auto 0;padding:0 20px;font-size:0.85rem;color:var(--muted)}
+.breadcrumb a{color:var(--accent)}
+.container{max-width:700px;margin:0 auto;padding:20px 20px 60px}
+h1{font-size:1.6rem;margin-bottom:8px;text-align:center}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:24px;font-size:0.95rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:20px}
+label{display:block;font-weight:600;margin-bottom:8px;font-size:0.9rem}
+input[type="text"],input[type="number"],select{width:100%;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:1rem;margin-bottom:16px}
+button.calc-btn{width:100%;padding:15px;background:var(--accent);color:#fff;border-radius:10px;font-size:1.05rem;font-weight:700}
+button.calc-btn:disabled{opacity:.5;cursor:not-allowed}
+h2{font-size:1.2rem;margin:30px 0 14px}
+.info-section p{color:var(--muted);margin-bottom:10px;font-size:0.95rem}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-question{padding:16px 0;cursor:pointer;display:flex;justify-content:space-between;font-weight:600;font-size:0.95rem}
+.faq-question::after{content:'+';font-size:1.4rem;color:var(--accent)}
+.faq-item.open .faq-question::after{transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:.25s;color:var(--muted);font-size:0.9rem}
+.faq-item.open .faq-answer{max-height:300px;padding-bottom:16px}
+.related-tools ul{list-style:none}
+.related-tools li{margin-bottom:8px}
+.related-tools a{color:var(--accent);font-size:0.9rem}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:24px 20px;text-align:center}
+.f-logo{font-weight:800;font-size:1.05rem;margin-bottom:10px}
+.f-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.f-links a{color:var(--muted);font-size:13px}
+.f-copy{font-size:11px;color:var(--muted)}
+.dropzone{border:2px dashed var(--border);border-radius:12px;padding:34px 16px;text-align:center;cursor:pointer;background:var(--bg)}
+.dropzone.dragover{border-color:var(--accent);background:rgba(255,107,53,0.08)}
+.dropzone .big{font-size:34px;margin-bottom:8px}
+.dropzone .cta{color:var(--accent);font-weight:700}
+.dropzone small{display:block;color:var(--muted);margin-top:6px}
+#fileInput{display:none}
+.workspace{display:none;margin-top:18px}
+.workspace.active{display:block}
+.file-bar{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--muted)}
+.file-bar .name{color:var(--text);font-weight:600;word-break:break-all}
+.file-bar button{background:none;color:var(--accent);font-size:12.5px;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+</style>
+</head>
+<body>
+<nav>
+    <a href="index.html" style="display:flex;align-items:center"><div class="logo">🪄 FileMagic<span>Pro</span></div></a>
+    <div class="nav-right">
+        <button class="lang-toggle" id="langBtn" onclick="toggleLang()">🇮🇳 हिंदी</button>
+        <button class="dm-toggle" id="dmBtn" onclick="toggleDark()">☀️ Light</button>
+        <div class="nav-links"><a href="about.html">About</a><a href="privacy.html">Privacy</a></div>
+    </div>
+</nav>
+<div class="breadcrumb"><a href="index.html">All Tools</a> → 📄 PDF Tools → Page Numbers</div>
+<div class="container">
+  <h1>Add Page Numbers to PDF</h1>
+  <p class="subtitle">Number every page with custom position and starting number — free and private.</p>
+
+  <div class="card">
+    <div class="dropzone" id="dropzone">
+      <div class="big">🔢</div>
+      <div><span class="cta">Choose a PDF</span> or drag & drop here</div>
+      <small>Supports PDF only</small>
+      <input type="file" id="fileInput" accept=".pdf">
+    </div>
+
+    <div class="workspace" id="workspace">
+      <div class="file-bar">
+        <span><span class="name" id="fileName"></span></span>
+        <button id="changeFileBtn">Change file</button>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <label>Position</label>
+          <select id="numPosition">
+            <option value="bottom-center">Bottom Center</option>
+            <option value="bottom-right">Bottom Right</option>
+            <option value="top-right">Top Right</option>
+          </select>
+        </div>
+        <div>
+          <label>Start number</label>
+          <input type="number" id="startNum" value="1" min="0">
+        </div>
+      </div>
+
+      <label>Format</label>
+      <select id="numFormat">
+        <option value="n">1, 2, 3...</option>
+        <option value="page-n">Page 1, Page 2...</option>
+        <option value="n-of-total">1 of N, 2 of N...</option>
+      </select>
+
+      <button class="calc-btn" id="processBtn" style="margin-top:6px">Add Page Numbers & Download</button>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h2>How to Number PDF Pages Online</h2>
+    <p>1. Upload your PDF using the box above.</p>
+    <p>2. Choose position, starting number, and format.</p>
+    <p>3. Click "Add Page Numbers & Download" — every page gets numbered instantly, and nothing is uploaded to a server.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="card" style="padding:0 22px;">
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How do I add page numbers to a PDF online for free?</div><div class="faq-answer">Upload your PDF, choose the position and starting number, then download the PDF with page numbers added to every page.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Can I start numbering from a page other than 1?</div><div class="faq-answer">Yes, set a custom starting number and every page will count up from there.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Is my file uploaded to any server?</div><div class="faq-answer">No, page numbers are added locally in your browser using JavaScript. Your file never leaves your device.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Can I choose where the number appears?</div><div class="faq-answer">Yes, pick bottom-center, bottom-right, or top-right placement.</div></div>
+    </div>
+  </div>
+
+  <div class="card related-tools">
+    <h2>More Free Tools</h2>
+    <ul>
+      <li><a href="watermark-pdf.html">Watermark PDF</a></li>
+      <li><a href="merge-pdf.html">Merge PDF</a></li>
+      <li><a href="split-pdf.html">Split PDF</a></li>
+      <li><a href="index.html">View All Tools</a></li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+    <div class="f-logo">🪄 FileMagic<span style="color:var(--accent)">Pro</span></div>
+    <div class="f-links">
+        <a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a><a href="sitemap.xml">Sitemap</a>
+    </div>
+    <div class="f-copy">© 2026 FileMagic Pro · Super 30 Free Tools · Files never leave your device</div>
+</footer>
+
+<script>
+const dropzone=document.getElementById('dropzone'),fileInput=document.getElementById('fileInput'),workspace=document.getElementById('workspace');
+let pdfDoc=null, fileNameBase='';
+
+['dragover','dragleave','drop'].forEach(evt=>{
+  dropzone.addEventListener(evt,(e)=>{e.preventDefault();if(evt==='dragover')dropzone.classList.add('dragover');if(evt==='dragleave'||evt==='drop')dropzone.classList.remove('dragover');});
+});
+dropzone.addEventListener('drop',(e)=>{const f=e.dataTransfer.files[0];if(f)handleFile(f);});
+dropzone.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',(e)=>{if(e.target.files[0])handleFile(e.target.files[0]);});
+document.getElementById('changeFileBtn').addEventListener('click',()=>{workspace.classList.remove('active');dropzone.style.display='block';fileInput.value='';pdfDoc=null;});
+
+async function handleFile(file){
+  fileNameBase=file.name.substring(0,file.name.lastIndexOf('.'))||file.name;
+  dropzone.style.display='none';
+  workspace.classList.add('active');
+  document.getElementById('fileName').textContent=file.name;
+  const buf=await file.arrayBuffer();
+  pdfDoc=await PDFLib.PDFDocument.load(buf);
+  if(typeof gtag==='function')gtag('event','page_numbers_file_loaded');
+}
+
+document.getElementById('processBtn').addEventListener('click', async ()=>{
+  if(!pdfDoc)return;
+  const btn=document.getElementById('processBtn');
+  btn.disabled=true; const orig=btn.textContent; btn.textContent='Processing...';
+  try{
+    const position=document.getElementById('numPosition').value;
+    const start=parseInt(document.getElementById('startNum').value,10)||0;
+    const format=document.getElementById('numFormat').value;
+    const font=await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+    const pages=pdfDoc.getPages();
+    const total=pages.length;
+    pages.forEach((page,idx)=>{
+      const num=start+idx;
+      let label = format==='page-n' ? `Page ${num}` : (format==='n-of-total' ? `${num} of ${start+total-1}` : `${num}`);
+      const {width}=page.getSize();
+      const size=11;
+      const textWidth=font.widthOfTextAtSize(label,size);
+      let x,y;
+      if(position==='bottom-center'){x=(width-textWidth)/2;y=24;}
+      else if(position==='bottom-right'){x=width-textWidth-30;y=24;}
+      else {x=width-textWidth-30;y=page.getSize().height-36;}
+      page.drawText(label,{x,y,size,font,color:PDFLib.rgb(0.4,0.4,0.45)});
+    });
+    const bytes=await pdfDoc.save();
+    triggerDownload(new Blob([bytes],{type:'application/pdf'}), fileNameBase+'-numbered.pdf');
+    if(typeof gtag==='function')gtag('event','page_numbers_download');
+  }catch(err){
+    alert('Something went wrong while adding page numbers.');
+  }
+  btn.disabled=false; btn.textContent=orig;
+});
+
+function triggerDownload(blob,filename){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+function toggleFaq(el){const item=el.parentElement;const wasOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!wasOpen)item.classList.add('open');}
+function toggleDark(){var b=document.body,btn=document.getElementById('dmBtn');if(b.classList.contains('light-mode')){b.classList.remove('light-mode');btn.textContent='☀️ Light';localStorage.setItem('fmp-theme','dark')}else{b.classList.add('light-mode');btn.textContent='🌙 Dark';localStorage.setItem('fmp-theme','light')}}
+var _lang='en';
+function toggleLang(){_lang=_lang==='en'?'hi':'en';document.getElementById('langBtn').textContent=_lang==='hi'?'🇬🇧 English':'🇮🇳 हिंदी';localStorage.setItem('fmp-lang',_lang);}
+window.addEventListener('load',function(){
+  if(localStorage.getItem('fmp-theme')==='light'){document.body.classList.add('light-mode');document.getElementById('dmBtn').textContent='🌙 Dark'}
+  if(localStorage.getItem('fmp-lang')==='hi'){document.getElementById('langBtn').textContent='🇬🇧 English';_lang='hi'}
+});
+</script>
+</body>
+</html>

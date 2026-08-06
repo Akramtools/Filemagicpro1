@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Text to PDF Converter Online Free | FileMagic Pro</title>
+<meta name="description" content="Free online tool to convert plain text into a PDF file. Choose font size and page size — works entirely in your browser, no upload.">
+<link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/text-to-pdf.html">
+<meta name="robots" content="index, follow">
+<meta name="keywords" content="text to pdf converter online, txt to pdf free, convert text to pdf">
+<meta name="author" content="FileMagic Pro">
+<meta property="og:title" content="Text to PDF | FileMagic Pro">
+<meta property="og:description" content="Convert plain text into a downloadable PDF — free, private, in-browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/text-to-pdf.html">
+<meta property="og:image" content="https://akramtools.github.io/Filemagicpro1/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Text to PDF","url":"https://akramtools.github.io/Filemagicpro1/text-to-pdf.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free online tool to convert plain text into a downloadable PDF file with custom font size and page size, entirely in the browser."}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How do I convert text to PDF online for free?","acceptedAnswer":{"@type":"Answer","text":"Type or paste your text into the box, choose font size and page size, then click Convert to download a PDF."}},
+{"@type":"Question","name":"Can I upload a .txt file instead of typing?","acceptedAnswer":{"@type":"Answer","text":"Yes, use the upload option to load a .txt file directly into the text box before converting."}},
+{"@type":"Question","name":"Is my text uploaded to any server?","acceptedAnswer":{"@type":"Answer","text":"No, the PDF is generated locally in your browser. Your text never leaves your device."}},
+{"@type":"Question","name":"Does it support Hindi or other languages?","acceptedAnswer":{"@type":"Answer","text":"This tool works best with standard Latin-script text. For Hindi/Devanagari documents, use the OCR PDF tool instead."}}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"All Tools","item":"https://akramtools.github.io/Filemagicpro1/index.html"},
+{"@type":"ListItem","position":2,"name":"PDF Tools","item":"https://akramtools.github.io/Filemagicpro1/index.html"},
+{"@type":"ListItem","position":3,"name":"Text to PDF","item":"https://akramtools.github.io/Filemagicpro1/text-to-pdf.html"}]}
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3XYNGTK7JT"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3XYNGTK7JT');</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0d0d14;color:#f0f0f5;font-size:15px;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+input,select,textarea{font-family:inherit;outline:none}
+:root{--bg:#0d0d14;--surface:#13131e;--card:#1a1a28;--border:#2a2a3e;--accent:#ff6b35;--text:#f0f0f5;--muted:#8888aa;--radius:14px}
+body.light-mode{--bg:#f4f4f8;--surface:#fff;--card:#fff;--border:#e0e0e8;--text:#1a1a2e;--muted:#666680;background:#f4f4f8;color:#1a1a2e}
+body.light-mode nav{background:rgba(244,244,248,0.95)}
+nav{position:sticky;top:0;z-index:999;background:rgba(13,13,20,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:8px}
+.logo{font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:7px}
+.logo span{color:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:6px}
+.nav-links{display:flex;gap:2px}
+.nav-links a{color:var(--muted);font-size:12px;padding:5px 8px;border-radius:7px}
+.dm-toggle,.lang-toggle{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:5px 9px;border-radius:20px;font-size:12px}
+.breadcrumb{max-width:700px;margin:16px auto 0;padding:0 20px;font-size:0.85rem;color:var(--muted)}
+.breadcrumb a{color:var(--accent)}
+.container{max-width:700px;margin:0 auto;padding:20px 20px 60px}
+h1{font-size:1.6rem;margin-bottom:8px;text-align:center}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:24px;font-size:0.95rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:20px}
+label{display:block;font-weight:600;margin-bottom:8px;font-size:0.9rem}
+textarea{width:100%;min-height:220px;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:0.95rem;margin-bottom:16px;resize:vertical}
+select{width:100%;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:1rem;margin-bottom:16px}
+button.calc-btn{width:100%;padding:15px;background:var(--accent);color:#fff;border-radius:10px;font-size:1.05rem;font-weight:700}
+button.secondary-btn{width:100%;padding:12px;background:var(--bg);border:1px solid var(--border);color:var(--muted);border-radius:10px;font-weight:700;margin-bottom:12px}
+button.calc-btn:disabled{opacity:.5;cursor:not-allowed}
+h2{font-size:1.2rem;margin:30px 0 14px}
+.info-section p{color:var(--muted);margin-bottom:10px;font-size:0.95rem}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-question{padding:16px 0;cursor:pointer;display:flex;justify-content:space-between;font-weight:600;font-size:0.95rem}
+.faq-question::after{content:'+';font-size:1.4rem;color:var(--accent)}
+.faq-item.open .faq-question::after{transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:.25s;color:var(--muted);font-size:0.9rem}
+.faq-item.open .faq-answer{max-height:300px;padding-bottom:16px}
+.related-tools ul{list-style:none}
+.related-tools li{margin-bottom:8px}
+.related-tools a{color:var(--accent);font-size:0.9rem}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:24px 20px;text-align:center}
+.f-logo{font-weight:800;font-size:1.05rem;margin-bottom:10px}
+.f-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.f-links a{color:var(--muted);font-size:13px}
+.f-copy{font-size:11px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#txtFileInput{display:none}
+.char-count{font-size:12px;color:var(--muted);text-align:right;margin-top:-10px;margin-bottom:14px}
+</style>
+</head>
+<body>
+<nav>
+    <a href="index.html" style="display:flex;align-items:center"><div class="logo">🪄 FileMagic<span>Pro</span></div></a>
+    <div class="nav-right">
+        <button class="lang-toggle" id="langBtn" onclick="toggleLang()">🇮🇳 हिंदी</button>
+        <button class="dm-toggle" id="dmBtn" onclick="toggleDark()">☀️ Light</button>
+        <div class="nav-links"><a href="about.html">About</a><a href="privacy.html">Privacy</a></div>
+    </div>
+</nav>
+<div class="breadcrumb"><a href="index.html">All Tools</a> → 📄 PDF Tools → Text to PDF</div>
+<div class="container">
+  <h1>Text to PDF</h1>
+  <p class="subtitle">Type or paste text and convert it into a downloadable PDF — free and private.</p>
+
+  <div class="card">
+    <label>Your text</label>
+    <textarea id="textInput" placeholder="Type or paste your text here..."></textarea>
+    <div class="char-count"><span id="charCount">0</span> characters</div>
+
+    <button class="secondary-btn" id="uploadTxtBtn">📁 Upload a .txt file instead</button>
+    <input type="file" id="txtFileInput" accept=".txt">
+
+    <div class="grid2">
+      <div>
+        <label>Font size</label>
+        <select id="fontSizeSel">
+          <option value="10">Small (10pt)</option>
+          <option value="12" selected>Normal (12pt)</option>
+          <option value="14">Large (14pt)</option>
+          <option value="18">Extra Large (18pt)</option>
+        </select>
+      </div>
+      <div>
+        <label>Page size</label>
+        <select id="pageSizeSel">
+          <option value="a4" selected>A4</option>
+          <option value="letter">Letter</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="calc-btn" id="processBtn">Convert to PDF & Download</button>
+  </div>
+
+  <div class="info-section">
+    <h2>How to Convert Text to PDF Online</h2>
+    <p>1. Type or paste your text into the box, or upload a .txt file.</p>
+    <p>2. Choose font size and page size.</p>
+    <p>3. Click "Convert to PDF & Download" — the PDF is generated instantly in your browser.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="card" style="padding:0 22px;">
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How do I convert text to PDF online for free?</div><div class="faq-answer">Type or paste your text into the box, choose font size and page size, then click Convert to download a PDF.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Can I upload a .txt file instead of typing?</div><div class="faq-answer">Yes, use the upload option to load a .txt file directly into the text box before converting.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Is my text uploaded to any server?</div><div class="faq-answer">No, the PDF is generated locally in your browser. Your text never leaves your device.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Does it support Hindi or other languages?</div><div class="faq-answer">This tool works best with standard Latin-script text. For Hindi/Devanagari documents, use the OCR PDF tool instead.</div></div>
+    </div>
+  </div>
+
+  <div class="card related-tools">
+    <h2>More Free Tools</h2>
+    <ul>
+      <li><a href="word-to-pdf.html">Word to PDF</a></li>
+      <li><a href="merge-pdf.html">Merge PDF</a></li>
+      <li><a href="pdf-to-text.html">PDF to Text</a></li>
+      <li><a href="index.html">View All Tools</a></li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+    <div class="f-logo">🪄 FileMagic<span style="color:var(--accent)">Pro</span></div>
+    <div class="f-links">
+        <a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a><a href="sitemap.xml">Sitemap</a>
+    </div>
+    <div class="f-copy">© 2026 FileMagic Pro · Super 30 Free Tools · Files never leave your device</div>
+</footer>
+
+<script>
+const textInput=document.getElementById('textInput');
+textInput.addEventListener('input',()=>{document.getElementById('charCount').textContent=textInput.value.length;});
+
+document.getElementById('uploadTxtBtn').addEventListener('click',()=>document.getElementById('txtFileInput').click());
+document.getElementById('txtFileInput').addEventListener('change',(e)=>{
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=(ev)=>{textInput.value=ev.target.result;document.getElementById('charCount').textContent=textInput.value.length;};
+  reader.readAsText(file);
+});
+
+document.getElementById('processBtn').addEventListener('click', async ()=>{
+  const text=textInput.value.trim();
+  if(!text){alert('Please enter some text first.');return;}
+  const btn=document.getElementById('processBtn');
+  btn.disabled=true; const orig=btn.textContent; btn.textContent='Generating...';
+  try{
+    const pdfDoc=await PDFLib.PDFDocument.create();
+    const font=await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+    const fontSize=parseInt(document.getElementById('fontSizeSel').value,10);
+    const pageSizeSel=document.getElementById('pageSizeSel').value;
+    const pageSize = pageSizeSel==='letter' ? [612,792] : [595.28,841.89];
+    const margin=50;
+    const maxWidth=pageSize[0]-margin*2;
+    const lineHeight=fontSize*1.4;
+
+    function wrapText(paragraph){
+      const words=paragraph.split(' ');
+      const lines=[]; let current='';
+      words.forEach(word=>{
+        const test=current?current+' '+word:word;
+        if(font.widthOfTextAtSize(test,fontSize)>maxWidth){
+          if(current)lines.push(current);
+          current=word;
+        } else current=test;
+      });
+      if(current)lines.push(current);
+      return lines.length?lines:[''];
+    }
+
+    const paragraphs=text.split('\n');
+    let allLines=[];
+    paragraphs.forEach(p=>{allLines=allLines.concat(wrapText(p));});
+
+    let page=pdfDoc.addPage(pageSize);
+    let y=pageSize[1]-margin;
+    allLines.forEach(line=>{
+      if(y<margin){page=pdfDoc.addPage(pageSize);y=pageSize[1]-margin;}
+      page.drawText(line,{x:margin,y,size:fontSize,font,color:PDFLib.rgb(0.1,0.1,0.12)});
+      y-=lineHeight;
+    });
+
+    const bytes=await pdfDoc.save();
+    triggerDownload(new Blob([bytes],{type:'application/pdf'}), 'text-document.pdf');
+    if(typeof gtag==='function')gtag('event','text_to_pdf_download');
+  }catch(err){
+    alert('Something went wrong while generating the PDF.');
+  }
+  btn.disabled=false; btn.textContent=orig;
+});
+
+function triggerDownload(blob,filename){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+function toggleFaq(el){const item=el.parentElement;const wasOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!wasOpen)item.classList.add('open');}
+function toggleDark(){var b=document.body,btn=document.getElementById('dmBtn');if(b.classList.contains('light-mode')){b.classList.remove('light-mode');btn.textContent='☀️ Light';localStorage.setItem('fmp-theme','dark')}else{b.classList.add('light-mode');btn.textContent='🌙 Dark';localStorage.setItem('fmp-theme','light')}}
+var _lang='en';
+function toggleLang(){_lang=_lang==='en'?'hi':'en';document.getElementById('langBtn').textContent=_lang==='hi'?'🇬🇧 English':'🇮🇳 हिंदी';localStorage.setItem('fmp-lang',_lang);}
+window.addEventListener('load',function(){
+  if(localStorage.getItem('fmp-theme')==='light'){document.body.classList.add('light-mode');document.getElementById('dmBtn').textContent='🌙 Dark'}
+  if(localStorage.getItem('fmp-lang')==='hi'){document.getElementById('langBtn').textContent='🇬🇧 English';_lang='hi'}
+});
+</script>
+</body>
+</html>

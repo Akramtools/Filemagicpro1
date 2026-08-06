@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Excel Converter Online Free - XLSX/CSV to PDF, HTML, JSON | FileMagic Pro</title>
+<meta name="description" content="Free online Excel converter. Convert XLSX or CSV files to PDF, HTML table or JSON — works entirely in your browser, no upload.">
+<link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/excel-converter.html">
+<meta name="robots" content="index, follow">
+<meta name="keywords" content="excel to pdf online, xlsx to json, csv to pdf free, excel converter">
+<meta name="author" content="FileMagic Pro">
+<meta property="og:title" content="Excel Converter | FileMagic Pro">
+<meta property="og:description" content="Convert XLSX/CSV to PDF, HTML or JSON — free, private, in-browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/excel-converter.html">
+<meta property="og:image" content="https://akramtools.github.io/Filemagicpro1/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Excel Converter","url":"https://akramtools.github.io/Filemagicpro1/excel-converter.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free online tool to convert XLSX or CSV spreadsheets to PDF, HTML table or JSON, entirely in the browser."}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How do I convert Excel to PDF online for free?","acceptedAnswer":{"@type":"Answer","text":"Upload your XLSX or CSV file, choose PDF, HTML or JSON as the output, then download the converted file."}},
+{"@type":"Question","name":"Does it support multiple sheets?","acceptedAnswer":{"@type":"Answer","text":"The first sheet is converted by default. Select a different sheet from the dropdown if your file has more than one."}},
+{"@type":"Question","name":"Is my spreadsheet uploaded to any server?","acceptedAnswer":{"@type":"Answer","text":"No, conversion happens locally in your browser using JavaScript. Your file never leaves your device."}},
+{"@type":"Question","name":"Can I convert CSV files too?","acceptedAnswer":{"@type":"Answer","text":"Yes, both .xlsx and .csv files are supported for upload."}}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"All Tools","item":"https://akramtools.github.io/Filemagicpro1/index.html"},
+{"@type":"ListItem","position":2,"name":"Convert Tools","item":"https://akramtools.github.io/Filemagicpro1/index.html"},
+{"@type":"ListItem","position":3,"name":"Excel Converter","item":"https://akramtools.github.io/Filemagicpro1/excel-converter.html"}]}
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3XYNGTK7JT"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3XYNGTK7JT');</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0d0d14;color:#f0f0f5;font-size:15px;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+select{font-family:inherit;outline:none}
+:root{--bg:#0d0d14;--surface:#13131e;--card:#1a1a28;--border:#2a2a3e;--accent:#ff6b35;--text:#f0f0f5;--muted:#8888aa;--radius:14px}
+body.light-mode{--bg:#f4f4f8;--surface:#fff;--card:#fff;--border:#e0e0e8;--text:#1a1a2e;--muted:#666680;background:#f4f4f8;color:#1a1a2e}
+body.light-mode nav{background:rgba(244,244,248,0.95)}
+nav{position:sticky;top:0;z-index:999;background:rgba(13,13,20,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;gap:8px}
+.logo{font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:7px}
+.logo span{color:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:6px}
+.nav-links{display:flex;gap:2px}
+.nav-links a{color:var(--muted);font-size:12px;padding:5px 8px;border-radius:7px}
+.dm-toggle,.lang-toggle{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:5px 9px;border-radius:20px;font-size:12px}
+.breadcrumb{max-width:700px;margin:16px auto 0;padding:0 20px;font-size:0.85rem;color:var(--muted)}
+.breadcrumb a{color:var(--accent)}
+.container{max-width:700px;margin:0 auto;padding:20px 20px 60px}
+h1{font-size:1.6rem;margin-bottom:8px;text-align:center}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:24px;font-size:0.95rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:20px}
+label{display:block;font-weight:600;margin-bottom:8px;font-size:0.9rem}
+select{width:100%;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:1rem;margin-bottom:16px}
+button.calc-btn{width:100%;padding:15px;background:var(--accent);color:#fff;border-radius:10px;font-size:1.05rem;font-weight:700}
+button.calc-btn:disabled{opacity:.5;cursor:not-allowed}
+h2{font-size:1.2rem;margin:30px 0 14px}
+.info-section p{color:var(--muted);margin-bottom:10px;font-size:0.95rem}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-question{padding:16px 0;cursor:pointer;display:flex;justify-content:space-between;font-weight:600;font-size:0.95rem}
+.faq-question::after{content:'+';font-size:1.4rem;color:var(--accent)}
+.faq-item.open .faq-question::after{transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:.25s;color:var(--muted);font-size:0.9rem}
+.faq-item.open .faq-answer{max-height:300px;padding-bottom:16px}
+.related-tools ul{list-style:none}
+.related-tools li{margin-bottom:8px}
+.related-tools a{color:var(--accent);font-size:0.9rem}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:24px 20px;text-align:center}
+.f-logo{font-weight:800;font-size:1.05rem;margin-bottom:10px}
+.f-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.f-links a{color:var(--muted);font-size:13px}
+.f-copy{font-size:11px;color:var(--muted)}
+.dropzone{border:2px dashed var(--border);border-radius:12px;padding:34px 16px;text-align:center;cursor:pointer;background:var(--bg)}
+.dropzone.dragover{border-color:var(--accent);background:rgba(255,107,53,0.08)}
+.dropzone .big{font-size:34px;margin-bottom:8px}
+.dropzone .cta{color:var(--accent);font-weight:700}
+.dropzone small{display:block;color:var(--muted);margin-top:6px}
+#fileInput{display:none}
+.workspace{display:none;margin-top:18px}
+.workspace.active{display:block}
+.file-bar{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--muted)}
+.file-bar .name{color:var(--text);font-weight:600;word-break:break-all}
+.file-bar button{background:none;color:var(--accent);font-size:12.5px;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.preview-table{overflow-x:auto;background:var(--bg);border:1px solid var(--border);border-radius:10px;margin-bottom:16px}
+table{border-collapse:collapse;width:100%;font-size:12px}
+th,td{border:1px solid var(--border);padding:6px 8px;white-space:nowrap}
+th{background:rgba(255,107,53,0.1);color:var(--accent)}
+</style>
+</head>
+<body>
+<nav>
+    <a href="index.html" style="display:flex;align-items:center"><div class="logo">🪄 FileMagic<span>Pro</span></div></a>
+    <div class="nav-right">
+        <button class="lang-toggle" id="langBtn" onclick="toggleLang()">🇮🇳 हिंदी</button>
+        <button class="dm-toggle" id="dmBtn" onclick="toggleDark()">☀️ Light</button>
+        <div class="nav-links"><a href="about.html">About</a><a href="privacy.html">Privacy</a></div>
+    </div>
+</nav>
+<div class="breadcrumb"><a href="index.html">All Tools</a> → 🔁 Convert Tools → Excel Converter</div>
+<div class="container">
+  <h1>Excel Converter</h1>
+  <p class="subtitle">Convert XLSX or CSV to PDF, HTML or JSON — free and private.</p>
+
+  <div class="card">
+    <div class="dropzone" id="dropzone">
+      <div class="big">📊</div>
+      <div><span class="cta">Choose a spreadsheet</span> or drag & drop here</div>
+      <small>Supports XLSX, XLS, CSV</small>
+      <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+    </div>
+
+    <div class="workspace" id="workspace">
+      <div class="file-bar">
+        <span><span class="name" id="fileName"></span></span>
+        <button id="changeFileBtn">Change file</button>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <label>Sheet</label>
+          <select id="sheetSel"></select>
+        </div>
+        <div>
+          <label>Output format</label>
+          <select id="formatSel">
+            <option value="pdf">PDF</option>
+            <option value="html">HTML</option>
+            <option value="json">JSON</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="preview-table" id="previewTable"></div>
+
+      <button class="calc-btn" id="processBtn">Convert & Download</button>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h2>How to Convert Excel Online</h2>
+    <p>1. Upload your XLSX, XLS or CSV file using the box above.</p>
+    <p>2. Choose the sheet (if multiple) and your desired output format — PDF, HTML or JSON.</p>
+    <p>3. Click "Convert & Download" — the converted file downloads instantly, with nothing sent to a server.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="card" style="padding:0 22px;">
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How do I convert Excel to PDF online for free?</div><div class="faq-answer">Upload your XLSX or CSV file, choose PDF, HTML or JSON as the output, then download the converted file.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Does it support multiple sheets?</div><div class="faq-answer">The first sheet is converted by default. Select a different sheet from the dropdown if your file has more than one.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Is my spreadsheet uploaded to any server?</div><div class="faq-answer">No, conversion happens locally in your browser using JavaScript. Your file never leaves your device.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Can I convert CSV files too?</div><div class="faq-answer">Yes, both .xlsx and .csv files are supported for upload.</div></div>
+    </div>
+  </div>
+
+  <div class="card related-tools">
+    <h2>More Free Tools</h2>
+    <ul>
+      <li><a href="pdf-to-text.html">PDF to Text</a></li>
+      <li><a href="text-to-pdf.html">Text to PDF</a></li>
+      <li><a href="index.html">View All Tools</a></li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+    <div class="f-logo">🪄 FileMagic<span style="color:var(--accent)">Pro</span></div>
+    <div class="f-links">
+        <a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a><a href="sitemap.xml">Sitemap</a>
+    </div>
+    <div class="f-copy">© 2026 FileMagic Pro · Super 30 Free Tools · Files never leave your device</div>
+</footer>
+
+<script>
+const dropzone=document.getElementById('dropzone'),fileInput=document.getElementById('fileInput'),workspace=document.getElementById('workspace');
+let workbook=null, fileNameBase='';
+
+['dragover','dragleave','drop'].forEach(evt=>{
+  dropzone.addEventListener(evt,(e)=>{e.preventDefault();if(evt==='dragover')dropzone.classList.add('dragover');if(evt==='dragleave'||evt==='drop')dropzone.classList.remove('dragover');});
+});
+dropzone.addEventListener('drop',(e)=>{const f=e.dataTransfer.files[0];if(f)handleFile(f);});
+dropzone.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',(e)=>{if(e.target.files[0])handleFile(e.target.files[0]);});
+document.getElementById('changeFileBtn').addEventListener('click',()=>{workspace.classList.remove('active');dropzone.style.display='block';fileInput.value='';workbook=null;});
+
+async function handleFile(file){
+  fileNameBase=file.name.substring(0,file.name.lastIndexOf('.'))||file.name;
+  dropzone.style.display='none';
+  workspace.classList.add('active');
+  document.getElementById('fileName').textContent=file.name;
+  const buf=await file.arrayBuffer();
+  workbook=XLSX.read(buf,{type:'array'});
+  const sheetSel=document.getElementById('sheetSel');
+  sheetSel.innerHTML='';
+  workbook.SheetNames.forEach(name=>{
+    const opt=document.createElement('option'); opt.value=name; opt.textContent=name; sheetSel.appendChild(opt);
+  });
+  renderPreview();
+  if(typeof gtag==='function')gtag('event','excel_converter_file_loaded');
+}
+
+document.getElementById('sheetSel').addEventListener('change',renderPreview);
+
+function getCurrentData(){
+  const sheetName=document.getElementById('sheetSel').value;
+  const sheet=workbook.Sheets[sheetName];
+  return XLSX.utils.sheet_to_json(sheet,{header:1,defval:''});
+}
+
+function renderPreview(){
+  const data=getCurrentData();
+  const container=document.getElementById('previewTable');
+  if(!data.length){container.innerHTML='';return;}
+  const rows=data.slice(0,8);
+  let html='<table>';
+  rows.forEach((row,i)=>{
+    html+='<tr>';
+    row.forEach(cell=>{ html += i===0 ? `<th>${cell}</th>` : `<td>${cell}</td>`; });
+    html+='</tr>';
+  });
+  html+='</table>';
+  container.innerHTML=html;
+}
+
+document.getElementById('processBtn').addEventListener('click', async ()=>{
+  if(!workbook)return;
+  const btn=document.getElementById('processBtn');
+  btn.disabled=true; const orig=btn.textContent; btn.textContent='Converting...';
+  try{
+    const format=document.getElementById('formatSel').value;
+    const data=getCurrentData();
+    if(format==='json'){
+      const headers=data[0]||[];
+      const jsonArr=data.slice(1).map(row=>{
+        const obj={}; headers.forEach((h,i)=>obj[h||('col'+i)]=row[i]!==undefined?row[i]:''); return obj;
+      });
+      const blob=new Blob([JSON.stringify(jsonArr,null,2)],{type:'application/json'});
+      triggerDownload(blob, fileNameBase+'.json');
+    } else if(format==='html'){
+      let html='<html><head><meta charset="UTF-8"><style>table{border-collapse:collapse;font-family:sans-serif}th,td{border:1px solid #ccc;padding:6px 10px}th{background:#f3f3f3}</style></head><body><table>';
+      data.forEach((row,i)=>{
+        html+='<tr>';
+        row.forEach(cell=>{ html += i===0 ? `<th>${cell}</th>` : `<td>${cell}</td>`; });
+        html+='</tr>';
+      });
+      html+='</table></body></html>';
+      const blob=new Blob([html],{type:'text/html'});
+      triggerDownload(blob, fileNameBase+'.html');
+    } else {
+      const pdfDoc=await PDFLib.PDFDocument.create();
+      const font=await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+      const boldFont=await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+      const pageSize=[841.89,595.28];
+      let page=pdfDoc.addPage(pageSize);
+      const margin=30, fontSize=9, rowHeight=16;
+      let y=pageSize[1]-margin;
+      const colCount=Math.max(...data.map(r=>r.length),1);
+      const colWidth=(pageSize[0]-margin*2)/Math.min(colCount,12);
+      data.forEach((row,ri)=>{
+        if(y<margin+rowHeight){page=pdfDoc.addPage(pageSize);y=pageSize[1]-margin;}
+        let x=margin;
+        row.slice(0,12).forEach(cell=>{
+          const text=String(cell).slice(0,20);
+          page.drawText(text,{x,y,size:fontSize,font: ri===0?boldFont:font,color:PDFLib.rgb(0.1,0.1,0.12)});
+          x+=colWidth;
+        });
+        y-=rowHeight;
+      });
+      const bytes=await pdfDoc.save();
+      triggerDownload(new Blob([bytes],{type:'application/pdf'}), fileNameBase+'.pdf');
+    }
+    if(typeof gtag==='function')gtag('event','excel_converter_download',{format});
+  }catch(err){
+    alert('Something went wrong during conversion.');
+  }
+  btn.disabled=false; btn.textContent=orig;
+});
+
+function triggerDownload(blob,filename){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+function toggleFaq(el){const item=el.parentElement;const wasOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!wasOpen)item.classList.add('open');}
+function toggleDark(){var b=document.body,btn=document.getElementById('dmBtn');if(b.classList.contains('light-mode')){b.classList.remove('light-mode');btn.textContent='☀️ Light';localStorage.setItem('fmp-theme','dark')}else{b.classList.add('light-mode');btn.textContent='🌙 Dark';localStorage.setItem('fmp-theme','light')}}
+var _lang='en';
+function toggleLang(){_lang=_lang==='en'?'hi':'en';document.getElementById('langBtn').textContent=_lang==='hi'?'🇬🇧 English':'🇮🇳 हिंदी';localStorage.setItem('fmp-lang',_lang);}
+window.addEventListener('load',function(){
+  if(localStorage.getItem('fmp-theme')==='light'){document.body.classList.add('light-mode');document.getElementById('dmBtn').textContent='🌙 Dark'}
+  if(localStorage.getItem('fmp-lang')==='hi'){document.getElementById('langBtn').textContent='🇬🇧 English';_lang='hi'}
+});
+</script>
+</body>
+</html>
