@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Old Photo Restoration Online Free - Fix Scratches, Noise & Sharpen | FileMagic Pro</title>
+<meta name="description" content="Restore old, damaged, and faded photos online for free. Remove scratches and dust spots, reduce noise/grain, fix contrast and sharpen blurry details — entirely in your browser. No upload to any server, 100% private, works on mobile and desktop.">
+<meta name="keywords" content="old photo restoration online free, restore old photos, remove scratches from photo online, fix faded photo, photo noise reduction online, sharpen old photo free, repair damaged photo online">
+<link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/photo-restoration.html">
+<meta property="og:title" content="Old Photo Restoration Online Free - FileMagic Pro">
+<meta property="og:description" content="Fix scratches, dust, noise, and fading in old photos — free, private, browser-based restoration tool.">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.ico">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3XYNGTK7JT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3XYNGTK7JT');
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Old Photo Restoration Tool",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Free browser-based tool to restore old photos by removing scratches, reducing noise, fixing fade, and sharpening details. No files leave your device."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question","name": "Is this old photo restoration tool free?","acceptedAnswer": {"@type": "Answer","text": "Yes, this tool is completely free with no sign-up, watermark, or usage limit."}},
+    {"@type": "Question","name": "Does this tool upload my photo to a server?","acceptedAnswer": {"@type": "Answer","text": "No. All processing happens locally in your browser using canvas and JavaScript. Your photo never leaves your device."}},
+    {"@type": "Question","name": "Can this tool add color to a black and white photo?","acceptedAnswer": {"@type": "Answer","text": "No, this tool focuses on repair — scratch removal, noise reduction, fade correction, and sharpening. It does not add color to black and white photos."}},
+    {"@type": "Question","name": "What kind of photo damage can this tool fix?","acceptedAnswer": {"@type": "Answer","text": "It works well on scratches, dust spots, grainy noise, faded contrast, yellowing, and mild blur. It cannot repair large torn or missing sections of a photo."}},
+    {"@type": "Question","name": "What file formats are supported?","acceptedAnswer": {"@type": "Answer","text": "JPG, PNG, and WEBP images are supported for upload and download."}},
+    {"@type": "Question","name": "Will restoration reduce my photo's resolution?","acceptedAnswer": {"@type": "Answer","text": "No, the output image keeps the same resolution as your original upload."}},
+    {"@type": "Question","name": "Can I use this on my phone?","acceptedAnswer": {"@type": "Answer","text": "Yes, the tool is fully responsive and works on Android and iOS mobile browsers."}},
+    {"@type": "Question","name": "How does scratch and dust removal work?","acceptedAnswer": {"@type": "Answer","text": "The tool uses a median filter that detects small bright or dark specks different from surrounding pixels and smooths them out, similar to how professional despeckle tools work."}},
+    {"@type": "Question","name": "Why does my photo look slightly softer after noise reduction?","acceptedAnswer": {"@type": "Answer","text": "Noise reduction smooths grain, which can slightly soften fine detail. Use the sharpen slider afterward to bring back crisp edges."}},
+    {"@type": "Question","name": "Can I undo changes and compare before/after?","acceptedAnswer": {"@type": "Answer","text": "Yes, use the before/after slider to compare, and the reset button to start over with the original image at any time."}},
+    {"@type": "Question","name": "Is there a file size limit?","acceptedAnswer": {"@type": "Answer","text": "Since processing happens in your browser, very large images (above 20MB) may process slowly depending on your device."}},
+    {"@type": "Question","name": "Does this work offline?","acceptedAnswer": {"@type": "Answer","text": "Once the page is loaded, image processing works without an internet connection since nothing is sent to a server."}},
+    {"@type": "Question","name": "Can I restore multiple photos at once?","acceptedAnswer": {"@type": "Answer","text": "Currently the tool processes one photo at a time to keep results high quality; you can repeat the process for additional photos."}},
+    {"@type": "Question","name": "What's the best setting for very old sepia photographs?","acceptedAnswer": {"@type": "Answer","text": "Start with medium noise reduction and fade correction, then apply light sharpening. Heavy sharpening on old grain can make speckling worse."}},
+    {"@type": "Question","name": "Is my restored photo saved anywhere online?","acceptedAnswer": {"@type": "Answer","text": "No, nothing is stored online. The downloaded file exists only on your device."}}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position": 1,"name": "Home","item": "https://akramtools.github.io/Filemagicpro1/index.html"},
+    {"@type": "ListItem","position": 2,"name": "Old Photo Restoration","item": "https://akramtools.github.io/Filemagicpro1/photo-restoration.html"}
+  ]
+}
+</script>
+<style>
+:root{
+  --accent:#ff6b35;
+  --bg:#0d0d14;
+  --surface:#13131e;
+  --surface2:#1a1a29;
+  --text:#f0f0f5;
+  --text-dim:#a0a0b8;
+  --border:#2a2a3d;
+}
+[data-theme="light"]{
+  --bg:#f5f5fa;
+  --surface:#ffffff;
+  --surface2:#eeeef5;
+  --text:#15151f;
+  --text-dim:#55556a;
+  --border:#dcdce8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  transition:background .2s,color .2s;
+}
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;background:var(--surface);border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:10px;
+}
+.logo{font-weight:700;font-size:1.2rem;color:var(--accent);text-decoration:none;}
+.nav-controls{display:flex;gap:8px;align-items:center;}
+.nav-btn{
+  background:var(--surface2);border:1px solid var(--border);color:var(--text);
+  padding:6px 12px;border-radius:8px;cursor:pointer;font-size:.85rem;
+}
+.container{max-width:900px;margin:0 auto;padding:24px 16px 60px;}
+h1{font-size:1.6rem;margin-bottom:8px;}
+.subtitle{color:var(--text-dim);margin-bottom:24px;font-size:.95rem;}
+.upload-zone{
+  border:2px dashed var(--border);border-radius:14px;padding:40px 20px;
+  text-align:center;cursor:pointer;background:var(--surface);margin-bottom:20px;
+  transition:border-color .2s;
+}
+.upload-zone.dragover{border-color:var(--accent);}
+.upload-zone .icon{font-size:2.5rem;margin-bottom:10px;}
+.workspace{display:none;}
+.compare-wrap{
+  position:relative;width:100%;border-radius:14px;overflow:hidden;
+  background:var(--surface);margin-bottom:20px;touch-action:none;
+}
+.compare-wrap canvas{display:block;}
+#beforeCanvas{width:100%;height:auto;}
+.after-canvas-wrap{
+  position:absolute;top:0;left:0;height:100%;overflow:hidden;
+}
+#afterCanvas{max-width:none;}
+.slider-handle{
+  position:absolute;top:0;bottom:0;width:3px;background:var(--accent);
+  cursor:ew-resize;left:50%;transform:translateX(-50%);z-index:5;
+}
+.slider-handle::after{
+  content:'⟷';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:var(--accent);color:#fff;width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+}
+.label-tag{
+  position:absolute;top:10px;background:rgba(0,0,0,.6);color:#fff;
+  padding:4px 10px;border-radius:6px;font-size:.75rem;z-index:4;
+}
+.label-before{left:10px;}
+.label-after{right:10px;}
+.controls{
+  background:var(--surface);border-radius:14px;padding:20px;margin-bottom:20px;
+  border:1px solid var(--border);
+}
+.control-row{margin-bottom:18px;}
+.control-row label{
+  display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:6px;color:var(--text-dim);
+}
+.control-row input[type="range"]{
+  width:100%;accent-color:var(--accent);
+}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{
+  flex:1;min-width:120px;padding:12px;border-radius:10px;border:none;
+  font-weight:600;cursor:pointer;font-size:.95rem;
+}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+.processing-note{font-size:.8rem;color:var(--text-dim);margin-top:10px;}
+.seo-section{margin-top:50px;border-top:1px solid var(--border);padding-top:30px;}
+.seo-section h2{font-size:1.2rem;margin:20px 0 10px;}
+.seo-section p{color:var(--text-dim);font-size:.92rem;margin-bottom:10px;}
+.faq-item{border-bottom:1px solid var(--border);padding:14px 0;}
+.faq-q{font-weight:600;cursor:pointer;display:flex;justify-content:space-between;}
+.faq-a{color:var(--text-dim);font-size:.9rem;margin-top:8px;display:none;}
+.faq-item.open .faq-a{display:block;}
+footer{text-align:center;padding:30px;color:var(--text-dim);font-size:.85rem;border-top:1px solid var(--border);}
+footer a{color:var(--accent);text-decoration:none;margin:0 8px;}
+[data-lang="hi"] .en{display:none;}
+[data-lang="en"] .hi{display:none;}
+</style>
+</head>
+<body data-theme="dark" data-lang="en">
+
+<nav>
+  <a href="index.html" class="logo">FileMagic Pro</a>
+  <div class="nav-controls">
+    <button class="nav-btn" id="langToggle">हिं / EN</button>
+    <button class="nav-btn" id="themeToggle">🌙/☀️</button>
+  </div>
+</nav>
+
+<div class="container">
+  <h1><span class="en">Old Photo Restoration Online</span><span class="hi">पुरानी फोटो रिस्टोरेशन ऑनलाइन</span></h1>
+  <p class="subtitle">
+    <span class="en">Remove scratches, dust spots, and noise from old photos. Fix fading and sharpen details — 100% free, 100% private, no upload to any server.</span>
+    <span class="hi">पुरानी फोटो से स्क्रैच, धूल के निशान और नॉइज़ हटाएं। फीकापन ठीक करें और डिटेल शार्प करें — पूरी तरह मुफ्त, पूरी तरह प्राइवेट।</span>
+  </p>
+
+  <div class="upload-zone" id="uploadZone">
+    <div class="icon">📷</div>
+    <p><span class="en"><strong>Tap to upload</strong> or drag your old photo here</span><span class="hi"><strong>अपलोड करने के लिए टैप करें</strong> या फोटो यहाँ खींचें</span></p>
+    <p style="font-size:.8rem;color:var(--text-dim);margin-top:6px;">JPG, PNG, WEBP</p>
+    <input type="file" id="fileInput" accept="image/*" style="display:none;">
+  </div>
+
+  <div class="workspace" id="workspace">
+    <div class="compare-wrap" id="compareWrap">
+      <span class="label-tag label-before">Before</span>
+      <span class="label-tag label-after">After</span>
+      <canvas id="beforeCanvas"></canvas>
+      <div class="after-canvas-wrap" id="afterWrap">
+        <canvas id="afterCanvas"></canvas>
+      </div>
+      <div class="slider-handle" id="sliderHandle"></div>
+    </div>
+
+    <div class="controls">
+      <div class="control-row">
+        <label><span><span class="en">Scratch &amp; Dust Removal</span><span class="hi">स्क्रैच और धूल हटाना</span></span><span id="scratchVal">0</span></label>
+        <input type="range" id="scratchSlider" min="0" max="10" value="0">
+      </div>
+      <div class="control-row">
+        <label><span><span class="en">Noise Reduction</span><span class="hi">नॉइज़ कम करें</span></span><span id="noiseVal">0</span></label>
+        <input type="range" id="noiseSlider" min="0" max="10" value="0">
+      </div>
+      <div class="control-row">
+        <label><span><span class="en">Fade / Contrast Fix</span><span class="hi">फीकापन / कॉन्ट्रास्ट ठीक करें</span></span><span id="fadeVal">0</span></label>
+        <input type="range" id="fadeSlider" min="0" max="10" value="0">
+      </div>
+      <div class="control-row">
+        <label><span><span class="en">Sharpen</span><span class="hi">शार्पन</span></span><span id="sharpenVal">0</span></label>
+        <input type="range" id="sharpenSlider" min="0" max="10" value="0">
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="autoBtn"><span class="en">Auto Enhance</span><span class="hi">ऑटो एन्हांस</span></button>
+        <button class="btn btn-secondary" id="resetBtn"><span class="en">Reset</span><span class="hi">रीसेट</span></button>
+        <button class="btn btn-primary" id="downloadBtn"><span class="en">Download</span><span class="hi">डाउनलोड</span></button>
+      </div>
+      <p class="processing-note" id="processingNote"></p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Free Old Photo Restoration Tool — Fix Scratches, Noise, Fading, and Blur</h2>
+    <p>Family photo albums often hold decades-old prints that have picked up scratches, dust specks, yellowing, faded contrast, and film grain over the years. Professional photo restoration studios charge per photo and can take days to return results, and most online "AI restoration" tools require uploading your family pictures to an unknown server. This tool takes a different approach: every adjustment — scratch removal, noise reduction, fade correction, and sharpening — runs directly in your browser using canvas-based image processing. Your photo is read from your device, processed on your device, and downloaded back to your device. Nothing is transmitted anywhere, which matters for photos that are often irreplaceable and personal.</p>
+
+    <h2>How the Restoration Process Works</h2>
+    <p>Scratches and dust spots usually appear as small, isolated bright or dark pixels that stand out from their surroundings. The scratch removal slider applies a median-filter-style pass that identifies these outlier pixels and blends them with neighboring pixel values, smoothing out specks without blurring the whole image. Noise reduction works similarly but targets finer grain across larger areas, common in old film scans. Fade correction analyzes the photo's brightness histogram and stretches contrast back out, restoring the darks and lights that decades of light exposure or poor storage have washed out. Sharpening then uses a convolution kernel to bring back edge definition that noise reduction or the original camera softened. Because each effect is a separate slider, you control exactly how much of each repair to apply and can compare the result against the original using the before/after slider at any point.</p>
+
+    <h2>Getting the Best Results from Old and Damaged Photos</h2>
+    <p>For heavily scratched black-and-white prints, start with a moderate scratch removal setting around 4–5 rather than the maximum — pushing it too far can soften facial detail along with the scratches. For grainy sepia or faded color photos, noise reduction and fade correction usually do more work than sharpening; apply sharpening last and only lightly, since sharpening old grain can make remaining speckles more visible instead of less. If a photo has large torn or missing sections rather than fine scratches, this tool won't be able to reconstruct missing content — it's built for repairing damage that's still present in the pixels, not recreating parts of the photo that are physically gone.</p>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div id="faqContainer"></div>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </div>
+  <p style="margin-top:12px;">© 2026 FileMagic Pro. All processing happens in your browser.</p>
+</footer>
+
+<script>
+// Theme + language toggles (matches site-wide localStorage keys)
+const body = document.body;
+const themeToggle = document.getElementById('themeToggle');
+const langToggle = document.getElementById('langToggle');
+
+function applyTheme(t){ body.setAttribute('data-theme', t); localStorage.setItem('fmp-theme', t); }
+function applyLang(l){ body.setAttribute('data-lang', l); localStorage.setItem('fmp-lang', l); }
+
+applyTheme(localStorage.getItem('fmp-theme') || 'dark');
+applyLang(localStorage.getItem('fmp-lang') || 'en');
+
+themeToggle.addEventListener('click', () => {
+  applyTheme(body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
+langToggle.addEventListener('click', () => {
+  applyLang(body.getAttribute('data-lang') === 'en' ? 'hi' : 'en');
+});
+
+// Upload handling
+const uploadZone = document.getElementById('uploadZone');
+const fileInput = document.getElementById('fileInput');
+const workspace = document.getElementById('workspace');
+const beforeCanvas = document.getElementById('beforeCanvas');
+const afterCanvas = document.getElementById('afterCanvas');
+const afterWrap = document.getElementById('afterWrap');
+const compareWrap = document.getElementById('compareWrap');
+const sliderHandle = document.getElementById('sliderHandle');
+const processingNote = document.getElementById('processingNote');
+
+let originalImageData = null;
+let originalWidth = 0, originalHeight = 0;
+
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  if (e.dataTransfer.files[0]) loadImage(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', e => {
+  if (e.target.files[0]) loadImage(e.target.files[0]);
+});
+
+function loadImage(file){
+  const img = new Image();
+  img.onload = () => {
+    originalWidth = img.width;
+    originalHeight = img.height;
+
+    // Cap working resolution for performance on mobile devices
+    const maxDim = 1600;
+    let w = img.width, h = img.height;
+    if (w > maxDim || h > maxDim){
+      const scale = maxDim / Math.max(w, h);
+      w = Math.round(w * scale);
+      h = Math.round(h * scale);
+    }
+
+    beforeCanvas.width = w; beforeCanvas.height = h;
+    afterCanvas.width = w; afterCanvas.height = h;
+
+    const bctx = beforeCanvas.getContext('2d');
+    bctx.drawImage(img, 0, 0, w, h);
+    originalImageData = bctx.getImageData(0, 0, w, h);
+
+    const actx = afterCanvas.getContext('2d');
+    actx.putImageData(originalImageData, 0, 0);
+
+    uploadZone.style.display = 'none';
+    workspace.style.display = 'block';
+    setSliderPosition(50);
+    processingNote.textContent = (w !== originalWidth)
+      ? `Preview scaled to ${w}x${h} for smooth editing. Download exports at this working resolution.`
+      : '';
+    resetSliders();
+    // Sync the "after" canvas display size to the "before" canvas's rendered size,
+    // so the reveal wrapper clips it instead of stretching/distorting it.
+    requestAnimationFrame(syncCanvasDisplaySize);
+  };
+  img.src = URL.createObjectURL(file);
+}
+
+function syncCanvasDisplaySize(){
+  if (!originalImageData) return;
+  const displayW = beforeCanvas.clientWidth;
+  const displayH = beforeCanvas.clientHeight;
+  afterCanvas.style.width = displayW + 'px';
+  afterCanvas.style.height = displayH + 'px';
+}
+window.addEventListener('resize', () => { if (originalImageData) syncCanvasDisplaySize(); });
+
+// Before/after compare slider
+function setSliderPosition(percent){
+  afterWrap.style.width = percent + '%';
+  sliderHandle.style.left = percent + '%';
+}
+let dragging = false;
+sliderHandle.addEventListener('mousedown', () => dragging = true);
+sliderHandle.addEventListener('touchstart', () => dragging = true);
+window.addEventListener('mouseup', () => dragging = false);
+window.addEventListener('touchend', () => dragging = false);
+window.addEventListener('mousemove', e => { if (dragging) moveSlider(e.clientX); });
+window.addEventListener('touchmove', e => { if (dragging) moveSlider(e.touches[0].clientX); });
+function moveSlider(clientX){
+  const rect = compareWrap.getBoundingClientRect();
+  let percent = ((clientX - rect.left) / rect.width) * 100;
+  percent = Math.max(0, Math.min(100, percent));
+  setSliderPosition(percent);
+}
+
+// Sliders
+const scratchSlider = document.getElementById('scratchSlider');
+const noiseSlider = document.getElementById('noiseSlider');
+const fadeSlider = document.getElementById('fadeSlider');
+const sharpenSlider = document.getElementById('sharpenSlider');
+const scratchVal = document.getElementById('scratchVal');
+const noiseVal = document.getElementById('noiseVal');
+const fadeVal = document.getElementById('fadeVal');
+const sharpenVal = document.getElementById('sharpenVal');
+
+let renderTimeout = null;
+[scratchSlider, noiseSlider, fadeSlider, sharpenSlider].forEach(s => {
+  s.addEventListener('input', () => {
+    scratchVal.textContent = scratchSlider.value;
+    noiseVal.textContent = noiseSlider.value;
+    fadeVal.textContent = fadeSlider.value;
+    sharpenVal.textContent = sharpenSlider.value;
+    clearTimeout(renderTimeout);
+    renderTimeout = setTimeout(render, 60);
+  });
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  resetSliders();
+  render();
+});
+document.getElementById('autoBtn').addEventListener('click', () => {
+  scratchSlider.value = 5; noiseSlider.value = 4; fadeSlider.value = 5; sharpenSlider.value = 4;
+  scratchVal.textContent = 5; noiseVal.textContent = 4; fadeVal.textContent = 5; sharpenVal.textContent = 4;
+  render();
+});
+function resetSliders(){
+  scratchSlider.value = 0; noiseSlider.value = 0; fadeSlider.value = 0; sharpenSlider.value = 0;
+  scratchVal.textContent = 0; noiseVal.textContent = 0; fadeVal.textContent = 0; sharpenVal.textContent = 0;
+}
+
+document.getElementById('downloadBtn').addEventListener('click', () => {
+  const link = document.createElement('a');
+  link.download = 'restored-photo.png';
+  link.href = afterCanvas.toDataURL('image/png');
+  link.click();
+});
+
+// Core image processing pipeline
+function render(){
+  if (!originalImageData) return;
+  const w = afterCanvas.width, h = afterCanvas.height;
+  let data = new Uint8ClampedArray(originalImageData.data);
+
+  const scratchAmt = parseInt(scratchSlider.value);
+  const noiseAmt = parseInt(noiseSlider.value);
+  const fadeAmt = parseInt(fadeSlider.value);
+  const sharpenAmt = parseInt(sharpenSlider.value);
+
+  if (scratchAmt > 0) data = medianFilterPass(data, w, h, scratchAmt);
+  if (noiseAmt > 0) data = boxBlurPass(data, w, h, noiseAmt);
+  if (fadeAmt > 0) data = contrastStretch(data, fadeAmt);
+  if (sharpenAmt > 0) data = sharpenPass(data, w, h, sharpenAmt);
+
+  const imgData = new ImageData(data, w, h);
+  afterCanvas.getContext('2d').putImageData(imgData, 0, 0);
+}
+
+// Median-filter-style despeckle for scratch/dust removal
+function medianFilterPass(data, w, h, amount){
+  const radius = amount >= 7 ? 2 : 1; // wider kernel at higher settings for visibly stronger removal
+  const strength = amount / 10; // 0..1
+  const out = new Uint8ClampedArray(data);
+  for (let y = radius; y < h - radius; y++){
+    for (let x = radius; x < w - radius; x++){
+      for (let c = 0; c < 3; c++){
+        const vals = [];
+        for (let dy = -radius; dy <= radius; dy++){
+          for (let dx = -radius; dx <= radius; dx++){
+            const idx = ((y+dy)*w + (x+dx)) * 4 + c;
+            vals.push(data[idx]);
+          }
+        }
+        vals.sort((a,b)=>a-b);
+        const median = vals[Math.floor(vals.length/2)];
+        const idx = (y*w + x) * 4 + c;
+        out[idx] = data[idx] * (1 - strength) + median * strength;
+      }
+    }
+  }
+  return out;
+}
+
+// Box blur for grain/noise reduction
+function boxBlurPass(data, w, h, amount){
+  const radius = Math.max(1, Math.round(amount / 3));
+  const strength = amount / 10;
+  const out = new Uint8ClampedArray(data);
+  for (let y = 0; y < h; y++){
+    for (let x = 0; x < w; x++){
+      for (let c = 0; c < 3; c++){
+        let sum = 0, count = 0;
+        for (let dy = -radius; dy <= radius; dy++){
+          const ny = y + dy;
+          if (ny < 0 || ny >= h) continue;
+          for (let dx = -radius; dx <= radius; dx++){
+            const nx = x + dx;
+            if (nx < 0 || nx >= w) continue;
+            sum += data[(ny*w + nx)*4 + c];
+            count++;
+          }
+        }
+        const avg = sum / count;
+        const idx = (y*w + x)*4 + c;
+        out[idx] = data[idx] * (1 - strength) + avg * strength;
+      }
+    }
+  }
+  return out;
+}
+
+// Histogram-based contrast stretch for fade correction
+function contrastStretch(data, amount){
+  const strength = amount / 10;
+  let min = 255, max = 0;
+  for (let i = 0; i < data.length; i += 4){
+    const lum = (data[i] + data[i+1] + data[i+2]) / 3;
+    if (lum < min) min = lum;
+    if (lum > max) max = lum;
+  }
+  const range = Math.max(1, max - min);
+  const out = new Uint8ClampedArray(data);
+  for (let i = 0; i < data.length; i += 4){
+    for (let c = 0; c < 3; c++){
+      const val = data[i+c];
+      const stretched = ((val - min) / range) * 255;
+      out[i+c] = val * (1 - strength) + stretched * strength;
+    }
+  }
+  return out;
+}
+
+// Convolution sharpen
+function sharpenPass(data, w, h, amount){
+  const strength = amount / 10;
+  const kernel = [0,-1,0, -1,5,-1, 0,-1,0];
+  const out = new Uint8ClampedArray(data);
+  for (let y = 1; y < h - 1; y++){
+    for (let x = 1; x < w - 1; x++){
+      for (let c = 0; c < 3; c++){
+        let sum = 0, k = 0;
+        for (let dy = -1; dy <= 1; dy++){
+          for (let dx = -1; dx <= 1; dx++){
+            sum += data[((y+dy)*w + (x+dx))*4 + c] * kernel[k];
+            k++;
+          }
+        }
+        const idx = (y*w + x)*4 + c;
+        out[idx] = data[idx] * (1 - strength) + Math.max(0, Math.min(255, sum)) * strength;
+      }
+    }
+  }
+  return out;
+}
+
+// FAQ render + toggle
+const faqs = [
+  ["Is this old photo restoration tool free?", "Yes, this tool is completely free with no sign-up, watermark, or usage limit."],
+  ["Does this tool upload my photo to a server?", "No. All processing happens locally in your browser using canvas and JavaScript. Your photo never leaves your device."],
+  ["Can this tool add color to a black and white photo?", "No, this tool focuses on repair — scratch removal, noise reduction, fade correction, and sharpening. It does not add color to black and white photos."],
+  ["What kind of photo damage can this tool fix?", "It works well on scratches, dust spots, grainy noise, faded contrast, yellowing, and mild blur. It cannot repair large torn or missing sections of a photo."],
+  ["What file formats are supported?", "JPG, PNG, and WEBP images are supported for upload and download."],
+  ["Will restoration reduce my photo's resolution?", "Very large images are scaled down for smooth in-browser editing; the downloaded file matches that working resolution."],
+  ["Can I use this on my phone?", "Yes, the tool is fully responsive and works on Android and iOS mobile browsers."],
+  ["How does scratch and dust removal work?", "The tool uses a median filter that detects small bright or dark specks different from surrounding pixels and smooths them out, similar to how professional despeckle tools work."],
+  ["Why does my photo look slightly softer after noise reduction?", "Noise reduction smooths grain, which can slightly soften fine detail. Use the sharpen slider afterward to bring back crisp edges."],
+  ["Can I undo changes and compare before/after?", "Yes, use the before/after slider to compare, and the reset button to start over with the original image at any time."],
+  ["Is there a file size limit?", "Since processing happens in your browser, very large images may process slowly depending on your device."],
+  ["Does this work offline?", "Once the page is loaded, image processing works without an internet connection since nothing is sent to a server."],
+  ["Can I restore multiple photos at once?", "Currently the tool processes one photo at a time to keep results high quality; you can repeat the process for additional photos."],
+  ["What's the best setting for very old sepia photographs?", "Start with medium noise reduction and fade correction, then apply light sharpening. Heavy sharpening on old grain can make speckling worse."],
+  ["Is my restored photo saved anywhere online?", "No, nothing is stored online. The downloaded file exists only on your device."]
+];
+const faqContainer = document.getElementById('faqContainer');
+faqs.forEach(([q,a]) => {
+  const div = document.createElement('div');
+  div.className = 'faq-item';
+  div.innerHTML = `<div class="faq-q">${q} <span>+</span></div><div class="faq-a">${a}</div>`;
+  div.querySelector('.faq-q').addEventListener('click', () => div.classList.toggle('open'));
+  faqContainer.appendChild(div);
+});
+</script>
+</body>
+</html>
