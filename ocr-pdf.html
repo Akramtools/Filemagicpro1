@@ -2,24 +2,31 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>OCR PDF - Convert Scanned PDF to Searchable PDF Free | FileMagic Pro</title>
-<meta name="description" content="Free online OCR PDF tool - convert non-selectable scanned PDF or image files into selectable, searchable PDF. Supports English, Hindi and Marathi. 100% private, runs in your browser.">
-<meta name="keywords" content="OCR PDF free, searchable PDF, scanned PDF to text, Marathi OCR, Hindi OCR, PDF text recognition">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+<title>PDF OCR & Search Tool Online Free - Make Scanned PDF Searchable | FileMagic Pro</title>
+<meta name="description" content="Make scanned PDFs searchable and editable online for free. OCR support for English, Hindi, Marathi, and Urdu. Search any word or letter, edit recognized text, and download a searchable PDF — entirely in your browser, no file upload to any server.">
+<meta name="keywords" content="pdf ocr online free, make scanned pdf searchable, marathi ocr pdf, hindi ocr pdf, epic number search pdf, searchable pdf converter, extract text from scanned pdf">
 <link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/ocr-pdf.html">
-<meta property="og:title" content="OCR PDF - Convert Scanned PDF to Searchable PDF | FileMagic Pro">
-<meta property="og:description" content="Convert non-selectable PDF and image files into selectable, searchable PDF - free, private, runs in your browser.">
+<meta property="og:title" content="PDF OCR & Search Tool Online Free - FileMagic Pro">
+<meta property="og:description" content="Make scanned PDFs searchable with English/Hindi/Marathi/Urdu OCR — free, private, browser-based.">
 <meta property="og:type" content="website">
-
+<link rel="icon" href="favicon.ico">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3XYNGTK7JT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3XYNGTK7JT');
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "OCR PDF",
-  "applicationCategory": "Utility",
+  "name": "PDF OCR & Search Tool",
+  "applicationCategory": "BusinessApplication",
   "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "description": "Free browser-based tool to convert scanned PDF and image files into selectable, searchable PDF documents with Hindi, Marathi and English text recognition."
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Free browser-based tool to OCR scanned PDFs, search text (including single characters), edit recognized text, and export a searchable PDF. No files leave your device."
 }
 </script>
 <script type="application/ld+json">
@@ -27,240 +34,300 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Is this OCR PDF tool free to use?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, this tool is completely free with no limit on the number of files you can convert." }
-    },
-    {
-      "@type": "Question",
-      "name": "Are my files uploaded to a server?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No. All processing happens locally in your browser. Your files never leave your device." }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool support Marathi and Hindi text?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, you can choose English, Hindi, Marathi, or a combination before converting your file." }
-    },
-    {
-      "@type": "Question",
-      "name": "What does a searchable PDF mean?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A searchable PDF looks exactly like the original scanned pages, but an invisible text layer is added underneath so you can select, search and copy the text." }
-    }
+    {"@type": "Question","name": "Is this PDF OCR tool free?","acceptedAnswer": {"@type": "Answer","text": "Yes, completely free with no sign-up, watermark, or usage limit."}},
+    {"@type": "Question","name": "Does this tool upload my PDF to a server?","acceptedAnswer": {"@type": "Answer","text": "No. OCR, search, and PDF building all run locally in your browser using Tesseract.js and pdf-lib. Your file never leaves your device."}},
+    {"@type": "Question","name": "Which languages are supported?","acceptedAnswer": {"@type": "Answer","text": "English, Hindi, Marathi, and Urdu, individually or combined. English + Marathi is recommended for most Maharashtra government and enumeration documents."}},
+    {"@type": "Question","name": "Can I search for a single letter or number?","acceptedAnswer": {"@type": "Answer","text": "Yes, exact search supports queries as short as one character, useful for checking a single Marathi letter or digit."}},
+    {"@type": "Question","name": "What is the OCR-confusion suggestion feature?","acceptedAnswer": {"@type": "Answer","text": "If an exact search finds nothing, the tool checks common OCR misreads such as O/0, I/1, and S/5 and shows them clearly labeled as suggestions, never as exact matches."}},
+    {"@type": "Question","name": "Can I edit the recognized text?","acceptedAnswer": {"@type": "Answer","text": "Yes, each page's OCR text can be corrected directly in the editor, which updates the search index. This edits the text layer, not the visible scanned image."}},
+    {"@type": "Question","name": "What does 'Fast', 'Balanced', and 'High Accuracy' mean?","acceptedAnswer": {"@type": "Answer","text": "Fast skips pages that already have selectable text and renders scanned pages at lower quality for speed. Balanced and High Accuracy increase render quality for better OCR accuracy on scanned pages, at the cost of processing time."}},
+    {"@type": "Question","name": "Will this work on already-searchable PDFs?","acceptedAnswer": {"@type": "Answer","text": "Yes, pages that already contain selectable text are detected automatically and skipped from OCR, which speeds up processing significantly."}},
+    {"@type": "Question","name": "Can I use this on my phone?","acceptedAnswer": {"@type": "Answer","text": "Yes, the tool is fully responsive and works on Android and iOS mobile browsers."}},
+    {"@type": "Question","name": "Does this work offline?","acceptedAnswer": {"@type": "Answer","text": "Once the page and OCR language data are loaded, processing works without sending your file anywhere."}},
+    {"@type": "Question","name": "Is there a file size limit?","acceptedAnswer": {"@type": "Answer","text": "Since processing happens in your browser, very large or many-page PDFs may process slowly depending on your device."}},
+    {"@type": "Question","name": "What do I get as output?","acceptedAnswer": {"@type": "Answer","text": "A downloadable searchable PDF with an invisible OCR text layer, plus a plain text download of all recognized text."}}
   ]
 }
 </script>
-
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position": 1,"name": "Home","item": "https://akramtools.github.io/Filemagicpro1/index.html"},
+    {"@type": "ListItem","position": 2,"name": "PDF OCR & Search","item": "https://akramtools.github.io/Filemagicpro1/ocr-pdf.html"}
+  ]
+}
+</script>
 <style>
 :root{
   --accent:#ff6b35;
-  --accent-dark:#e6552a;
   --bg:#0d0d14;
-  --bg-light:#f5f5f8;
-  --card-dark:#16161f;
-  --card-light:#ffffff;
-  --text-dark:#eaeaf0;
-  --text-light:#1a1a22;
-  --border-dark:#26262f;
-  --border-light:#e0e0e6;
+  --surface:#13131e;
+  --surface2:#1a1a29;
+  --text:#f0f0f5;
+  --text-dim:#a0a0b8;
+  --border:#2a2a3d;
+}
+[data-theme="light"]{
+  --bg:#f5f5fa;
+  --surface:#ffffff;
+  --surface2:#eeeef5;
+  --text:#15151f;
+  --text-dim:#55556a;
+  --border:#dcdce8;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{
-  font-family:'Segoe UI',Roboto,system-ui,sans-serif;
-  background:var(--bg-light);
-  color:var(--text-light);
-  min-height:100vh;
-  transition:background .25s,color .25s;
-}
-body.dark{
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   background:var(--bg);
-  color:var(--text-dark);
+  color:var(--text);
+  line-height:1.6;
+  transition:background .2s,color .2s;
 }
-
 nav{
   display:flex;align-items:center;justify-content:space-between;
-  padding:14px 18px;
-  background:var(--card-light);
-  border-bottom:1px solid var(--border-light);
-  position:sticky;top:0;z-index:50;
+  padding:14px 20px;background:var(--surface);border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:10px;
 }
-body.dark nav{background:var(--card-dark);border-bottom:1px solid var(--border-dark);}
-.logo{font-size:1.25rem;font-weight:700;display:flex;align-items:center;gap:6px;color:inherit;text-decoration:none;}
-.nav-actions{display:flex;gap:10px;align-items:center;}
+.logo{font-weight:700;font-size:1.2rem;color:var(--accent);text-decoration:none;}
+.nav-controls{display:flex;gap:8px;align-items:center;}
 .nav-btn{
-  background:none;border:1px solid var(--border-light);color:inherit;
-  padding:6px 12px;border-radius:20px;font-size:.85rem;cursor:pointer;
+  background:var(--surface2);border:1px solid var(--border);color:var(--text);
+  padding:6px 12px;border-radius:8px;cursor:pointer;font-size:.85rem;
 }
-body.dark .nav-btn{border-color:var(--border-dark);}
-
-.hero{text-align:center;padding:40px 18px 6px;}
-.hero h1{font-size:1.7rem;margin-bottom:12px;}
-.hero p{opacity:.75;font-size:1rem;max-width:520px;margin:0 auto;line-height:1.6;}
-
-.container{max-width:600px;margin:0 auto;padding:28px 16px 60px;text-align:center;}
-
-.select-btn{
-  display:block;
-  margin:0 auto;
-  background:var(--accent);
-  color:#fff;
-  font-weight:700;
-  font-size:1.15rem;
-  padding:20px 30px;
-  border-radius:16px;
-  border:none;
-  cursor:pointer;
-  width:100%;
-  max-width:420px;
-  box-shadow:0 8px 20px rgba(255,107,53,.25);
+.container{max-width:1100px;margin:0 auto;padding:24px 16px 60px;}
+h1{font-size:1.6rem;margin-bottom:8px;}
+.subtitle{color:var(--text-dim);margin-bottom:24px;font-size:.95rem;}
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:20px;margin-bottom:20px;
 }
-.select-btn:active{background:var(--accent-dark);}
-input[type=file]{display:none;}
-
-.dropzone{
-  border:2px dashed transparent;
-  border-radius:18px;
-  padding:6px;
-  transition:background .2s,border-color .2s;
+.card h2{font-size:1.05rem;margin-bottom:14px;}
+.upload-zone{
+  border:2px dashed var(--border);border-radius:14px;padding:40px 20px;
+  text-align:center;cursor:pointer;background:var(--surface2);
+  transition:border-color .2s;
 }
-.dropzone.dragover{background:rgba(255,107,53,.08);border-color:var(--accent);}
-
-.lang-row{
-  display:flex;justify-content:center;gap:10px;margin-top:24px;flex-wrap:wrap;
+.upload-zone.dragover{border-color:var(--accent);}
+.upload-zone .icon{font-size:2.5rem;margin-bottom:10px;}
+.file-info{font-size:.85rem;color:var(--text-dim);margin-top:12px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px;}
+.field label{display:block;font-weight:600;font-size:.9rem;margin-bottom:6px;}
+.field select{
+  width:100%;padding:11px;border:1px solid var(--border);border-radius:10px;
+  font:inherit;background:var(--surface2);color:var(--text);
 }
-.lang-row select{
-  padding:10px 14px;border-radius:10px;
-  border:1px solid var(--border-light);
-  background:transparent;color:inherit;font-size:.9rem;
+.hint{font-size:.8rem;color:var(--text-dim);margin-top:6px;}
+.mode-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.mode-btn{
+  padding:10px 12px;border:1px solid var(--border);background:var(--surface2);
+  color:var(--text);border-radius:9px;cursor:pointer;font-size:.88rem;
 }
-body.dark .lang-row select{border-color:var(--border-dark);}
-
-.file-info{margin-top:18px;font-size:.9rem;opacity:.85;word-break:break-all;}
-
-.run-btn{
-  margin-top:20px;
-  padding:16px 30px;
-  border-radius:14px;
-  border:none;
-  background:var(--accent);
-  color:#fff;
-  font-weight:700;
-  font-size:1.05rem;
-  cursor:pointer;
-  width:100%;max-width:420px;
+.mode-btn.active{border-color:var(--accent);background:rgba(255,107,53,.12);color:var(--accent);}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.btn{
+  flex:1;min-width:140px;padding:12px;border-radius:10px;border:none;
+  font-weight:600;cursor:pointer;font-size:.95rem;
 }
-.run-btn:disabled{opacity:.5;}
-
-.progress-wrap{margin-top:22px;display:none;max-width:420px;margin-left:auto;margin-right:auto;}
-.progress-bar-bg{background:var(--border-light);border-radius:20px;height:10px;overflow:hidden;}
-body.dark .progress-bar-bg{background:var(--border-dark);}
-.progress-bar-fill{height:100%;background:var(--accent);width:0%;transition:width .2s;}
-.progress-label{font-size:.85rem;margin-top:8px;opacity:.8;}
-
-.done-box{margin-top:24px;display:none;}
-.done-box .check{font-size:2.4rem;margin-bottom:8px;}
-.download-btn{
-  display:block;margin:14px auto 0;
-  padding:16px 30px;border-radius:14px;border:none;
-  background:var(--accent);color:#fff;font-weight:700;font-size:1.05rem;
-  cursor:pointer;width:100%;max-width:420px;
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.hidden{display:none!important;}
+.progress-track{height:10px;background:var(--surface2);border-radius:20px;overflow:hidden;border:1px solid var(--border);}
+.progress-fill{height:100%;width:0;background:var(--accent);transition:.2s;}
+.progress-status{margin-top:10px;font-size:.9rem;}
+.progress-stats{font-size:.8rem;color:var(--text-dim);margin-top:4px;}
+.workspace-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,1fr);gap:18px;}
+.search-row{display:flex;gap:8px;}
+.search-row input{
+  flex:1;padding:11px;border:1px solid var(--border);border-radius:10px;
+  font:inherit;background:var(--surface2);color:var(--text);
 }
-.reset-link{margin-top:14px;font-size:.85rem;color:var(--accent);cursor:pointer;text-decoration:underline;background:none;border:none;}
-
-.faq{margin-top:50px;text-align:left;}
-.faq h2{font-size:1.2rem;margin-bottom:14px;text-align:center;}
-.faq-item{border-bottom:1px solid var(--border-light);padding:12px 0;}
-body.dark .faq-item{border-color:var(--border-dark);}
-.faq-item h3{font-size:.95rem;margin-bottom:6px;}
-.faq-item p{font-size:.85rem;opacity:.8;line-height:1.5;}
-
-footer{
-  text-align:center;padding:26px 16px;
-  border-top:1px solid var(--border-light);
-  font-size:.8rem;opacity:.7;
+.check-row{font-size:.85rem;color:var(--text-dim);margin:10px 0;display:flex;align-items:center;gap:6px;}
+.search-info{font-size:.85rem;color:var(--text-dim);margin:8px 0;}
+.results{max-height:260px;overflow:auto;border:1px solid var(--border);border-radius:10px;}
+.hit{padding:11px;border-bottom:1px solid var(--border);cursor:pointer;font-size:.88rem;}
+.hit:last-child{border-bottom:none;}
+.hit:hover{background:var(--surface2);}
+.hit mark{background:var(--accent);color:#fff;padding:0 2px;border-radius:3px;}
+.notice{
+  padding:12px;border-left:4px solid var(--accent);background:var(--surface2);
+  border-radius:6px;line-height:1.45;font-size:.85rem;margin-top:12px;
 }
-body.dark footer{border-color:var(--border-dark);}
-footer a{color:var(--accent);text-decoration:none;margin:0 6px;}
-
-canvas.render-canvas{display:none;}
+.viewer{
+  background:#000;border-radius:12px;min-height:360px;display:flex;
+  align-items:center;justify-content:center;overflow:auto;border:1px solid var(--border);
+}
+.viewer canvas{max-width:100%;height:auto;background:#fff;}
+.pager{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:12px;}
+.pager b{font-size:.88rem;color:var(--text-dim);}
+.editor-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.editor-row select{
+  flex:1;min-width:140px;padding:10px;border:1px solid var(--border);border-radius:9px;
+  font:inherit;background:var(--surface2);color:var(--text);
+}
+textarea{
+  width:100%;min-height:320px;padding:14px;border:1px solid var(--border);border-radius:10px;
+  font:inherit;background:var(--surface2);color:var(--text);resize:vertical;line-height:1.5;
+}
+.editor-note{font-size:.8rem;color:var(--text-dim);margin-top:10px;}
+.output-info{font-size:.85rem;color:var(--text-dim);margin-top:10px;}
+.seo-section{margin-top:50px;border-top:1px solid var(--border);padding-top:30px;}
+.seo-section h2{font-size:1.2rem;margin:20px 0 10px;}
+.seo-section p{color:var(--text-dim);font-size:.92rem;margin-bottom:10px;}
+.faq-item{border-bottom:1px solid var(--border);padding:14px 0;}
+.faq-q{font-weight:600;cursor:pointer;display:flex;justify-content:space-between;}
+.faq-a{color:var(--text-dim);font-size:.9rem;margin-top:8px;display:none;}
+.faq-item.open .faq-a{display:block;}
+footer{text-align:center;padding:30px;color:var(--text-dim);font-size:.85rem;border-top:1px solid var(--border);}
+footer a{color:var(--accent);text-decoration:none;margin:0 8px;}
+[data-lang="hi"] .en{display:none;}
+[data-lang="en"] .hi{display:none;}
+@media(max-width:800px){
+  .grid2,.workspace-grid{grid-template-columns:1fr;}
+  h1{font-size:1.35rem;}
+  textarea{min-height:220px;}
+}
 </style>
 </head>
-<body>
+<body data-theme="dark" data-lang="en">
 
 <nav>
-  <a href="index.html" class="logo">🪄 <span>FileMagicPro</span></a>
-  <div class="nav-actions">
-    <button class="nav-btn" id="langToggle">हिंदी</button>
-    <button class="nav-btn" id="themeToggle">🌙</button>
+  <a href="index.html" class="logo">FileMagic Pro</a>
+  <div class="nav-controls">
+    <button class="nav-btn" id="langToggle">हिं / EN</button>
+    <button class="nav-btn" id="themeToggle">🌙/☀️</button>
   </div>
 </nav>
 
-<div class="hero">
-  <h1 id="t-title">OCR PDF</h1>
-  <p id="t-sub">Convert non-selectable PDF or image files into a selectable, searchable PDF with high accuracy - English, Hindi & Marathi supported.</p>
-</div>
-
 <div class="container">
-  <div class="dropzone" id="dropzone">
-    <button class="select-btn" id="selectBtn" type="button">Select PDF or Image file</button>
-    <input type="file" id="fileInput" accept="application/pdf,image/*">
+  <h1><span class="en">PDF OCR & Search Tool Online</span><span class="hi">पीडीएफ ओसीआर और सर्च टूल ऑनलाइन</span></h1>
+  <p class="subtitle">
+    <span class="en">Make scanned PDFs searchable and editable. Specially optimized for English + Marathi. Existing PDF text is detected first for speed; only scanned pages are sent through OCR — 100% free, 100% private.</span>
+    <span class="hi">स्कैन की गई PDF को सर्च करने योग्य और एडिट करने योग्य बनाएं। इंग्लिश + मराठी के लिए खास तौर पर ऑप्टिमाइज़्ड। मौजूदा PDF टेक्स्ट पहले पहचाना जाता है; सिर्फ स्कैन किए पन्ने OCR से गुज़रते हैं — पूरी तरह मुफ्त, पूरी तरह प्राइवेट।</span>
+  </p>
+
+  <div class="card">
+    <div class="upload-zone" id="uploadZone">
+      <div class="icon">📄</div>
+      <p><span class="en"><strong>Tap to upload</strong> or drag your PDF/image here</span><span class="hi"><strong>अपलोड करने के लिए टैप करें</strong> या PDF/इमेज यहाँ खींचें</span></p>
+      <p style="font-size:.8rem;color:var(--text-dim);margin-top:6px;">PDF, JPG, PNG</p>
+      <input type="file" id="file" accept="application/pdf,image/*" class="hidden">
+    </div>
+    <div class="file-info" id="fileInfo"></div>
+
+    <div class="grid2">
+      <div class="field">
+        <label><span class="en">OCR language</span><span class="hi">OCR भाषा</span></label>
+        <select id="lang">
+          <option value="eng+mar" selected>English + Marathi ⭐ Recommended</option>
+          <option value="eng">English</option>
+          <option value="mar">Marathi</option>
+          <option value="eng+hin+mar">English + Hindi + Marathi</option>
+          <option value="eng+mar+urd">English + Marathi + Urdu</option>
+          <option value="eng+hin+mar+urd">English + Hindi + Marathi + Urdu</option>
+        </select>
+        <p class="hint"><span class="en">Use fewer languages for faster and more accurate recognition.</span><span class="hi">तेज़ और सटीक पहचान के लिए कम भाषाएं चुनें।</span></p>
+      </div>
+      <div class="field">
+        <label><span class="en">Processing mode</span><span class="hi">प्रोसेसिंग मोड</span></label>
+        <div class="mode-row">
+          <button class="mode-btn active" data-mode="fast">⚡ <span class="en">Fast</span><span class="hi">फास्ट</span></button>
+          <button class="mode-btn" data-mode="balanced">⚖️ <span class="en">Balanced</span><span class="hi">बैलेंस्ड</span></button>
+          <button class="mode-btn" data-mode="accuracy">🔎 <span class="en">High Accuracy</span><span class="hi">हाई एक्युरेसी</span></button>
+        </div>
+        <p class="hint"><span class="en">Fast: selectable pages are skipped; scanned pages use lower render quality.</span><span class="hi">फास्ट: पहले से सिलेक्टेबल पन्ने छोड़ दिए जाते हैं; स्कैन पन्ने कम क्वालिटी में प्रोसेस होते हैं।</span></p>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="start" disabled>🔍 <span class="en">Make Searchable & Build Search Index</span><span class="hi">सर्चेबल बनाएं और इंडेक्स तैयार करें</span></button>
+      <button class="btn btn-secondary hidden" id="cancel"><span class="en">Cancel</span><span class="hi">रद्द करें</span></button>
+    </div>
   </div>
 
-  <div class="lang-row">
-    <select id="langSelect">
-      <option value="eng">English</option>
-      <option value="hin">Hindi (हिन्दी)</option>
-      <option value="mar">Marathi (मराठी)</option>
-      <option value="eng+hin">English + Hindi</option>
-      <option value="eng+mar">English + Marathi</option>
-      <option value="hin+mar" selected>Hindi + Marathi</option>
-      <option value="eng+hin+mar">English + Hindi + Marathi</option>
-    </select>
+  <div id="progressCard" class="card hidden">
+    <div class="progress-track"><div class="progress-fill" id="bar"></div></div>
+    <div class="progress-status" id="status">Preparing…</div>
+    <div class="progress-stats" id="stats"></div>
   </div>
 
-  <div class="file-info" id="fileInfo"></div>
+  <div id="workspace" class="hidden">
+    <div class="workspace-grid">
+      <div class="card">
+        <h2>🔍 <span class="en">Exact PDF Search</span><span class="hi">एग्जैक्ट PDF सर्च</span></h2>
+        <div class="search-row">
+          <input id="query" placeholder="Type any letter, word, number or EPIC number…">
+          <button class="btn btn-primary" id="searchBtn" style="flex:none;min-width:90px;"><span class="en">Search</span><span class="hi">खोजें</span></button>
+        </div>
+        <p class="hint" style="margin-top:8px;"><span class="en">Search is exact by default. Even one Marathi character or one English letter can be searched.</span><span class="hi">सर्च डिफ़ॉल्ट रूप से एग्जैक्ट है। एक मराठी अक्षर या एक इंग्लिश अक्षर भी खोजा जा सकता है।</span></p>
+        <label class="check-row"><input id="ignoreCase" type="checkbox" style="width:auto"> <span class="en">Ignore English case (A/a)</span><span class="hi">इंग्लिश केस अनदेखा करें (A/a)</span></label>
+        <div id="searchInfo" class="search-info"></div>
+        <div id="results" class="results"></div>
+        <div class="notice"><b><span class="en">EPIC/ID search:</span><span class="hi">EPIC/ID सर्च:</span></b> <span class="en">the exact search runs first. If no result is found, a second suggestion checks common OCR confusion such as O/0, I/1 and S/5, but it is never presented as an exact match.</span><span class="hi">पहले एग्जैक्ट सर्च चलता है। अगर कोई रिज़ल्ट नहीं मिलता, तो O/0, I/1, S/5 जैसे आम OCR कन्फ्यूज़न के आधार पर सुझाव दिखाए जाते हैं, लेकिन इन्हें कभी एग्जैक्ट मैच नहीं दिखाया जाता।</span></div>
+      </div>
+      <div class="card">
+        <h2>📄 <span class="en">PDF Preview</span><span class="hi">PDF प्रीव्यू</span></h2>
+        <div class="viewer"><canvas id="preview"></canvas></div>
+        <div class="pager">
+          <button class="btn btn-secondary" id="prev" style="flex:none;">← <span class="en">Prev</span><span class="hi">पिछला</span></button>
+          <b id="pageNo">Page 0 / 0</b>
+          <button class="btn btn-secondary" id="next" style="flex:none;"><span class="en">Next</span><span class="hi">अगला</span> →</button>
+        </div>
+      </div>
+    </div>
 
-  <button class="run-btn" id="runBtn" style="display:none;">Convert to Searchable PDF</button>
+    <div class="card">
+      <h2>✏️ <span class="en">Edit Recognized Text</span><span class="hi">पहचाना गया टेक्स्ट एडिट करें</span></h2>
+      <div class="editor-row">
+        <select id="editPage"></select>
+        <button class="btn btn-secondary" id="loadPage" style="flex:none;"><span class="en">Load Page</span><span class="hi">पेज लोड करें</span></button>
+        <button class="btn btn-primary" id="saveEdit" style="flex:none;"><span class="en">Save Edit</span><span class="hi">सेव करें</span></button>
+      </div>
+      <textarea id="editor" placeholder="Recognized text for selected page will appear here…"></textarea>
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="copy"><span class="en">Copy Text</span><span class="hi">टेक्स्ट कॉपी करें</span></button>
+        <button class="btn btn-secondary" id="txt"><span class="en">Download Edited Text (.txt)</span><span class="hi">एडिटेड टेक्स्ट डाउनलोड करें (.txt)</span></button>
+      </div>
+      <p class="editor-note"><span class="en">You can directly correct names, Marathi letters, and numbers here. Editing a scanned PDF's visible image itself requires a full PDF image editor; this editor changes the OCR/search text index.</span><span class="hi">आप यहाँ सीधे नाम, मराठी अक्षर और नंबर ठीक कर सकते हैं। स्कैन की गई PDF की दिखने वाली इमेज एडिट करने के लिए पूरा PDF इमेज एडिटर चाहिए; यह एडिटर सिर्फ OCR/सर्च टेक्स्ट इंडेक्स बदलता है।</span></p>
+    </div>
 
-  <div class="progress-wrap" id="progressWrap">
-    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
-    <div class="progress-label" id="progressLabel">Loading...</div>
+    <div class="card">
+      <h2>⬇️ <span class="en">Output</span><span class="hi">आउटपुट</span></h2>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="downloadPdf"><span class="en">Download Searchable PDF</span><span class="hi">सर्चेबल PDF डाउनलोड करें</span></button>
+        <button class="btn btn-secondary" id="downloadText"><span class="en">Download All OCR Text</span><span class="hi">सारा OCR टेक्स्ट डाउनलोड करें</span></button>
+      </div>
+      <div id="outputInfo" class="output-info"></div>
+    </div>
   </div>
 
-  <div class="done-box" id="doneBox">
-    <div class="check">✅</div>
-    <div id="doneLabel">Your searchable PDF is ready!</div>
-    <button class="download-btn" id="downloadBtn">⬇️ Download Searchable PDF</button>
-    <br>
-    <button class="reset-link" id="resetLink">Convert another file</button>
+  <div class="seo-section">
+    <h2>Free PDF OCR & Search Tool — English, Hindi, Marathi & Urdu</h2>
+    <p>Scanned PDFs — old government forms, enumeration sheets, printed records — often can't be searched or copied because they're really just page images. This tool runs OCR (optical character recognition) directly in your browser, detecting pages that already have selectable text and skipping them for speed, then recognizing text on scanned pages using Tesseract.js with support for English, Hindi, Marathi, and Urdu. The result is a searchable PDF with an invisible text layer laid exactly over the original page image, so the document still looks the same but every word becomes findable and copyable. Nothing is uploaded to a server; the entire process, from reading the PDF to building the searchable output, happens on your device.</p>
+
+    <h2>How Exact Search and OCR-Confusion Suggestions Work</h2>
+    <p>Once OCR finishes, every page's recognized text is indexed for instant search. The search box performs an exact match first — useful for finding a specific EPIC number, a single Marathi letter, or a name spelled a particular way. If nothing matches exactly, the tool checks a small set of characters that OCR commonly confuses, such as O and 0, I and 1, or S and 5, and shows those as clearly labeled possible matches rather than exact results. This two-step approach avoids false confidence: you always know whether a result is a confirmed exact match or a suggestion worth double-checking against the original scan.</p>
+
+    <h2>Choosing a Processing Mode and Editing Results</h2>
+    <p>Fast mode skips pages that already have selectable text and renders scanned pages at a lower quality for quicker OCR — a good default for long documents. Balanced and High Accuracy render scanned pages at higher resolution before recognition, which improves accuracy on small or low-contrast text at the cost of more processing time. After OCR completes, the built-in editor lets you correct misread names, numbers, or Marathi characters page by page — these corrections update the searchable text index immediately, so search results reflect your fixes even though the visible scanned image itself stays unchanged.</p>
   </div>
 
-  <div class="faq">
+  <div class="seo-section">
     <h2>Frequently Asked Questions</h2>
-    <div class="faq-item">
-      <h3>Is this OCR PDF tool free to use?</h3>
-      <p>Yes, completely free with no limit on the number of files you can convert.</p>
-    </div>
-    <div class="faq-item">
-      <h3>Are my files uploaded to a server?</h3>
-      <p>No. All processing happens locally in your browser. Your files never leave your device.</p>
-    </div>
-    <div class="faq-item">
-      <h3>Does this tool support Marathi and Hindi text?</h3>
-      <p>Yes, choose English, Hindi, Marathi, or any combination before converting your file.</p>
-    </div>
-    <div class="faq-item">
-      <h3>What does a searchable PDF mean?</h3>
-      <p>A searchable PDF looks exactly like the original scanned pages, but an invisible text layer is added underneath so you can select, search and copy the text.</p>
-    </div>
+    <div id="faqContainer"></div>
   </div>
 </div>
-
-<canvas class="render-canvas" id="renderCanvas"></canvas>
 
 <footer>
-  © 2026 FileMagicPro
-  <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="disclaimer.html">Disclaimer</a> · <a href="index.html">All Tools</a>
+  <div>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </div>
+  <p style="margin-top:12px;">© 2026 FileMagic Pro. All processing happens in your browser.</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
@@ -268,287 +335,277 @@ canvas.render-canvas{display:none;}
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
 <script>
-// ---------- THEME & LANG TOGGLE (same keys as rest of site) ----------
+// Theme + language toggles (matches site-wide localStorage keys)
+const body = document.body;
 const themeToggle = document.getElementById('themeToggle');
 const langToggle = document.getElementById('langToggle');
 
-function applyTheme(t){
-  document.body.classList.toggle('dark', t==='dark');
-  themeToggle.textContent = t==='dark' ? '☀️' : '🌙';
+function applyTheme(t){ body.setAttribute('data-theme', t); localStorage.setItem('fmp-theme', t); }
+function applyLang(l){ body.setAttribute('data-lang', l); localStorage.setItem('fmp-lang', l); }
+
+applyTheme(localStorage.getItem('fmp-theme') || 'dark');
+applyLang(localStorage.getItem('fmp-lang') || 'en');
+
+themeToggle.addEventListener('click', () => {
+  applyTheme(body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
+langToggle.addEventListener('click', () => {
+  applyLang(body.getAttribute('data-lang') === 'en' ? 'hi' : 'en');
+});
+
+// FAQ render + toggle
+const faqs = [
+  ["Is this PDF OCR tool free?", "Yes, completely free with no sign-up, watermark, or usage limit."],
+  ["Does this tool upload my PDF to a server?", "No. OCR, search, and PDF building all run locally in your browser using Tesseract.js and pdf-lib. Your file never leaves your device."],
+  ["Which languages are supported?", "English, Hindi, Marathi, and Urdu, individually or combined. English + Marathi is recommended for most Maharashtra government and enumeration documents."],
+  ["Can I search for a single letter or number?", "Yes, exact search supports queries as short as one character, useful for checking a single Marathi letter or digit."],
+  ["What is the OCR-confusion suggestion feature?", "If an exact search finds nothing, the tool checks common OCR misreads such as O/0, I/1, and S/5 and shows them clearly labeled as suggestions, never as exact matches."],
+  ["Can I edit the recognized text?", "Yes, each page's OCR text can be corrected directly in the editor, which updates the search index. This edits the text layer, not the visible scanned image."],
+  ["What does 'Fast', 'Balanced', and 'High Accuracy' mean?", "Fast skips pages that already have selectable text and renders scanned pages at lower quality for speed. Balanced and High Accuracy increase render quality for better OCR accuracy on scanned pages, at the cost of processing time."],
+  ["Will this work on already-searchable PDFs?", "Yes, pages that already contain selectable text are detected automatically and skipped from OCR, which speeds up processing significantly."],
+  ["Can I use this on my phone?", "Yes, the tool is fully responsive and works on Android and iOS mobile browsers."],
+  ["Does this work offline?", "Once the page and OCR language data are loaded, processing works without sending your file anywhere."],
+  ["Is there a file size limit?", "Since processing happens in your browser, very large or many-page PDFs may process slowly depending on your device."],
+  ["What do I get as output?", "A downloadable searchable PDF with an invisible OCR text layer, plus a plain text download of all recognized text."]
+];
+const faqContainer = document.getElementById('faqContainer');
+faqs.forEach(([q,a]) => {
+  const div = document.createElement('div');
+  div.className = 'faq-item';
+  div.innerHTML = `<div class="faq-q">${q} <span>+</span></div><div class="faq-a">${a}</div>`;
+  div.querySelector('.faq-q').addEventListener('click', () => div.classList.toggle('open'));
+  faqContainer.appendChild(div);
+});
+
+// ===== OCR PDF tool logic (unchanged functionality) =====
+const $=id=>document.getElementById(id);
+let file=null,mode='fast',cancelled=false,srcPdf=null,pdfBytes=null,pageTexts=[],pageWordData=[],searchableUrl=null,previewPage=1;
+let latinFontBytes=null,devFontBytes=null;
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+$('uploadZone').addEventListener('click', () => $('file').click());
+$('uploadZone').addEventListener('dragover', e => { e.preventDefault(); $('uploadZone').classList.add('dragover'); });
+$('uploadZone').addEventListener('dragleave', () => $('uploadZone').classList.remove('dragover'));
+$('uploadZone').addEventListener('drop', e => {
+  e.preventDefault();
+  $('uploadZone').classList.remove('dragover');
+  if (e.dataTransfer.files[0]){ file=e.dataTransfer.files[0]; onFileChosen(); }
+});
+$('file').onchange=e=>{ file=e.target.files[0]; if(!file)return; onFileChosen(); };
+function onFileChosen(){
+  $('fileInfo').textContent=`${file.name} • ${(file.size/1048576).toFixed(2)} MB`;
+  $('start').disabled=false;
 }
-let savedTheme = localStorage.getItem('fmp-theme') || 'light';
-applyTheme(savedTheme);
-themeToggle.addEventListener('click', ()=>{
-  savedTheme = savedTheme==='dark' ? 'light' : 'dark';
-  localStorage.setItem('fmp-theme', savedTheme);
-  applyTheme(savedTheme);
-});
 
-const translations = {
-  en:{title:"OCR PDF",
-      sub:"Convert non-selectable PDF or image files into a selectable, searchable PDF with high accuracy - English, Hindi & Marathi supported.",
-      select:"Select PDF or Image file", run:"Convert to Searchable PDF", done:"Your searchable PDF is ready!",
-      download:"⬇️ Download Searchable PDF", again:"Convert another file"},
-  hi:{title:"OCR PDF - Searchable PDF Banao",
-      sub:"Non-selectable PDF ya image file ko selectable, searchable PDF mein badlo - English, Hindi & Marathi support ke saath.",
-      select:"PDF ya Image File Select Karo", run:"Searchable PDF Banao", done:"Aapki searchable PDF taiyar hai!",
-      download:"⬇️ Searchable PDF Download Karo", again:"Doosri file convert karo"}
-};
-function applyLang(l){
-  const t = translations[l];
-  document.getElementById('t-title').textContent = t.title;
-  document.getElementById('t-sub').textContent = t.sub;
-  document.getElementById('selectBtn').textContent = t.select;
-  document.getElementById('runBtn').textContent = t.run;
-  document.getElementById('doneLabel').textContent = t.done;
-  document.getElementById('downloadBtn').textContent = t.download;
-  document.getElementById('resetLink').textContent = t.again;
-  langToggle.textContent = l==='hi' ? 'English' : 'हिंदी';
+document.querySelectorAll('.mode-btn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  mode=b.dataset.mode;
+});
+$('cancel').onclick=()=>cancelled=true;
+
+function cfg(){
+  return mode==='fast'?{scale:1.25,minText:12}:mode==='balanced'?{scale:1.7,minText:12}:{scale:2.25,minText:6};
 }
-let savedLang = localStorage.getItem('fmp-lang') || 'en';
-applyLang(savedLang);
-langToggle.addEventListener('click', ()=>{
-  savedLang = savedLang==='en' ? 'hi' : 'en';
-  localStorage.setItem('fmp-lang', savedLang);
-  applyLang(savedLang);
-});
-
-// ---------- FILE HANDLING ----------
-const dropzone = document.getElementById('dropzone');
-const fileInput = document.getElementById('fileInput');
-const selectBtn = document.getElementById('selectBtn');
-const fileInfo = document.getElementById('fileInfo');
-const runBtn = document.getElementById('runBtn');
-const progressWrap = document.getElementById('progressWrap');
-const progressFill = document.getElementById('progressFill');
-const progressLabel = document.getElementById('progressLabel');
-const doneBox = document.getElementById('doneBox');
-const downloadBtn = document.getElementById('downloadBtn');
-const resetLink = document.getElementById('resetLink');
-const langSelect = document.getElementById('langSelect');
-
-let currentFile = null;
-let resultBlobUrl = null;
-let resultFileName = 'searchable.pdf';
-
-selectBtn.addEventListener('click', ()=> fileInput.click());
-
-['dragover','dragenter'].forEach(evt=>{
-  dropzone.addEventListener(evt, e=>{ e.preventDefault(); dropzone.classList.add('dragover'); });
-});
-['dragleave','drop'].forEach(evt=>{
-  dropzone.addEventListener(evt, e=>{ e.preventDefault(); dropzone.classList.remove('dragover'); });
-});
-dropzone.addEventListener('drop', e=>{
-  if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-});
-fileInput.addEventListener('change', e=>{
-  if(e.target.files.length) handleFile(e.target.files[0]);
-});
-
-function handleFile(file){
-  const validType = file.type.startsWith('image/') || file.type==='application/pdf';
-  if(!validType){
-    alert('Please select a PDF or image file.');
-    return;
+async function fontBytes(){
+  if(!latinFontBytes){
+    latinFontBytes=await fetch('https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/notosans/NotoSans%5Bwdth,wght%5D.ttf').then(r=>r.arrayBuffer());
+    devFontBytes=await fetch('https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/notosansdevanagari/NotoSansDevanagari%5Bwdth,wght%5D.ttf').then(r=>r.arrayBuffer());
   }
-  currentFile = file;
-  fileInfo.textContent = `📎 ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
-  runBtn.style.display = 'block';
-  doneBox.style.display = 'none';
+  return {latinFontBytes,devFontBytes};
 }
-
-resetLink.addEventListener('click', ()=>{
-  currentFile = null;
-  fileInfo.textContent = '';
-  runBtn.style.display = 'none';
-  doneBox.style.display = 'none';
-  fileInput.value = '';
-});
-
-// ---------- FONT LOADING (Devanagari + Latin, for invisible text layer) ----------
-let cachedFontBytes = null;
-async function getFontBytes(){
-  if(cachedFontBytes) return cachedFontBytes;
-  progressLabel.textContent = 'Loading language data...';
-  const url = 'https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/notosansdevanagari/NotoSansDevanagari%5Bwdth,wght%5D.ttf';
-  const res = await fetch(url);
-  cachedFontBytes = await res.arrayBuffer();
-  return cachedFontBytes;
+function setProgress(p,statusText,statsText){
+  $('bar').style.width=Math.max(0,Math.min(100,p))+'%';
+  if(statusText!==undefined)$('status').textContent=statusText;
+  if(statsText!==undefined)$('stats').textContent=statsText;
 }
+function hasDevanagari(s){return /[\u0900-\u097F]/.test(s)}
+function normalize(s,ignore){return ignore?s.toLocaleLowerCase():s}
+function ocrVariants(q){const groups={'0':'O','O':'0','1':'I','I':'1','5':'S','S':'5','8':'B','B':'8'};let out=[q];for(let i=0;i<q.length&&out.length<24;i++){let c=q[i],a=groups[c];if(a)out.push(q.slice(0,i)+a+q.slice(i+1))}return [...new Set(out)]}
 
-// ---------- MAIN CONVERSION ----------
-runBtn.addEventListener('click', async ()=>{
-  if(!currentFile) return;
-  runBtn.style.display = 'none';
-  progressWrap.style.display = 'block';
-  doneBox.style.display = 'none';
-  progressFill.style.width = '0%';
-  progressLabel.textContent = 'Preparing...';
-
+$('start').onclick=run;
+async function run(){
+  if(!file)return;
+  cancelled=false;
+  $('progressCard').classList.remove('hidden');
+  $('cancel').classList.remove('hidden');
+  $('start').disabled=true;
+  pageTexts=[];pageWordData=[];
   try{
-    const lang = langSelect.value;
-    const fontBytes = await getFontBytes();
-
-    PDFLib.PDFDocument;
-    const outDoc = await PDFLib.PDFDocument.create();
-    outDoc.registerFontkit(fontkit);
-    const customFont = await outDoc.embedFont(fontBytes, { subset: true });
-
-    const worker = await Tesseract.createWorker(lang);
-
-    if(currentFile.type === 'application/pdf'){
-      await processPdf(currentFile, outDoc, customFont, worker);
-    } else {
-      await processImage(currentFile, outDoc, customFont, worker);
+    if(file.type==='application/pdf')await runPdf();
+    else await runImage();
+    if(cancelled)throw new Error('Cancelled');
+    $('workspace').classList.remove('hidden');
+    $('outputInfo').textContent=`Ready: ${pageTexts.length} pages indexed. Search works page-by-page and supports one-character queries.`;
+    buildPageSelect();
+    previewPage=1;
+    await renderPreview();
+    setProgress(100,'Completed','Search index is ready');
+  }catch(e){
+    console.error(e);
+    setProgress(0,'Stopped: '+e.message);
+  }finally{
+    $('cancel').classList.add('hidden');
+    $('start').disabled=false;
+  }
+}
+async function runPdf(){
+  pdfBytes=await file.arrayBuffer();
+  srcPdf=await pdfjsLib.getDocument({data:pdfBytes.slice(0)}).promise;
+  const total=srcPdf.numPages;
+  const out=await PDFLib.PDFDocument.create();
+  const originalPdf=await PDFLib.PDFDocument.load(pdfBytes);
+  out.registerFontkit(fontkit);
+  const fb=await fontBytes();
+  const latin=await out.embedFont(fb.latinFontBytes,{subset:true});
+  const dev=await out.embedFont(fb.devFontBytes,{subset:true});
+  const worker=await Tesseract.createWorker($('lang').value);
+  const c=cfg();
+  let scanned=0,skipped=0;
+  for(let n=1;n<=total;n++){
+    if(cancelled)break;
+    const p=await srcPdf.getPage(n);
+    setProgress((n-1)/total*100,`Checking page ${n} / ${total}`,`Text pages skipped: ${skipped} • OCR pages: ${scanned}`);
+    const tc=await p.getTextContent();
+    const nativeText=tc.items.map(x=>x.str).join(' ').replace(/\s+/g,' ').trim();
+    const [copied]=await out.copyPages(originalPdf,[n-1]);
+    out.addPage(copied);
+    const outPage=out.getPage(out.getPageCount()-1);
+    if(nativeText.length>=c.minText){
+      pageTexts[n-1]=nativeText;pageWordData[n-1]=[];skipped++;
+    }else{
+      scanned++;
+      const vp=p.getViewport({scale:c.scale});
+      const canvas=document.createElement('canvas');
+      canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);
+      const ctx=canvas.getContext('2d',{willReadFrequently:true});
+      await p.render({canvasContext:ctx,viewport:vp}).promise;
+      setProgress((n-1+.35)/total*100,`OCR page ${n} / ${total}`,`Text pages skipped: ${skipped} • OCR pages: ${scanned}`);
+      const {data}=await worker.recognize(canvas);
+      pageTexts[n-1]=(data.text||'').trim();
+      pageWordData[n-1]=data.words||[];
+      addInvisibleWords(outPage,data.words||[],latin,dev,c.scale,outPage.getHeight());
+      canvas.width=canvas.height=1;
     }
-
-    await worker.terminate();
-
-    progressLabel.textContent = 'Finalizing PDF...';
-    const pdfBytes = await outDoc.save();
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    if(resultBlobUrl) URL.revokeObjectURL(resultBlobUrl);
-    resultBlobUrl = URL.createObjectURL(blob);
-    resultFileName = currentFile.name.replace(/\.[^/.]+$/, '') + '-searchable.pdf';
-
-    progressWrap.style.display = 'none';
-    doneBox.style.display = 'block';
-  } catch(err){
-    console.error(err);
-    alert('Kuch galat ho gaya. Please dusri file try karein.\n(' + err.message + ')');
-    progressWrap.style.display = 'none';
-    runBtn.style.display = 'block';
+    setProgress(n/total*100,`Finished page ${n} / ${total}`,`Text pages skipped: ${skipped} • OCR pages: ${scanned}`);
   }
-});
-
-const SCALE = 2; // render scale for OCR accuracy
-
-async function processPdf(file, outDoc, customFont, worker){
-  const arrayBuffer = await file.arrayBuffer();
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  const srcPdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-  const numPages = srcPdf.numPages;
-
-  for(let i=1; i<=numPages; i++){
-    progressLabel.textContent = `Rendering page ${i} of ${numPages}...`;
-    const page = await srcPdf.getPage(i);
-    const viewport1 = page.getViewport({ scale: 1 });
-    const viewportScaled = page.getViewport({ scale: SCALE });
-
-    const canvas = document.getElementById('renderCanvas');
-    canvas.width = viewportScaled.width;
-    canvas.height = viewportScaled.height;
-    const ctx = canvas.getContext('2d');
-    await page.render({ canvasContext: ctx, viewport: viewportScaled }).promise;
-
-    progressLabel.textContent = `Recognizing text - page ${i} of ${numPages}...`;
-    const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.82);
-    const { data } = await worker.recognize(jpgDataUrl);
-
-    const pageWidthPt = viewport1.width;
-    const pageHeightPt = viewport1.height;
-    const outPage = outDoc.addPage([pageWidthPt, pageHeightPt]);
-
-    const jpgImage = await outDoc.embedJpg(jpgDataUrl);
-    outPage.drawImage(jpgImage, { x:0, y:0, width: pageWidthPt, height: pageHeightPt });
-
-    drawInvisibleWords(outPage, data.words, customFont, SCALE, pageHeightPt);
-
-    progressFill.style.width = `${Math.round((i/numPages)*100)}%`;
-  }
+  await worker.terminate();
+  if(cancelled)return;
+  const bytes=await out.save();
+  if(searchableUrl)URL.revokeObjectURL(searchableUrl);
+  searchableUrl=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
 }
-
-async function processImage(file, outDoc, customFont, worker){
-  const imgUrl = await fileToDataUrl(file);
-  const imgEl = await loadImage(imgUrl);
-  const pageWidthPt = imgEl.naturalWidth;
-  const pageHeightPt = imgEl.naturalHeight;
-
-  progressLabel.textContent = 'Recognizing text...';
-  const { data } = await worker.recognize(imgUrl);
-
-  const outPage = outDoc.addPage([pageWidthPt, pageHeightPt]);
-
-  let embeddedImage;
-  if(/png/i.test(file.type)){
-    embeddedImage = await outDoc.embedPng(imgUrl);
-  } else {
-    const canvas = document.getElementById('renderCanvas');
-    canvas.width = pageWidthPt; canvas.height = pageHeightPt;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(imgEl, 0, 0);
-    const jpgUrl = canvas.toDataURL('image/jpeg', 0.9);
-    embeddedImage = await outDoc.embedJpg(jpgUrl);
-  }
-  outPage.drawImage(embeddedImage, { x:0, y:0, width: pageWidthPt, height: pageHeightPt });
-
-  drawInvisibleWords(outPage, data.words, customFont, 1, pageHeightPt);
-  progressFill.style.width = '100%';
-}
-
-function drawInvisibleWords(outPage, words, customFont, scale, pageHeightPt){
-  if(!words) return;
+function addInvisibleWords(page,words,latin,dev,scale,h){
   for(const w of words){
-    const text = (w.text || '').trim();
-    if(!text) continue;
-    const bbox = w.bbox;
-    if(!bbox) continue;
-
-    const xPt = bbox.x0 / scale;
-    const wordWidthPt = Math.max((bbox.x1 - bbox.x0) / scale, 1);
-    const heightPt = Math.max((bbox.y1 - bbox.y0) / scale, 1);
-    const yBottomPt = pageHeightPt - (bbox.y1 / scale);
-
-    let fontSize = heightPt * 0.82;
+    const t=(w.text||'').trim();
+    if(!t||!w.bbox)continue;
     try{
-      const measuredWidth = customFont.widthOfTextAtSize(text, fontSize);
-      if(measuredWidth > 0){
-        const ratio = wordWidthPt / measuredWidth;
-        if(ratio > 0.3 && ratio < 3){
-          fontSize = fontSize; // keep height-based size; width handled by natural spacing
-        }
-      }
-    } catch(e){ /* ignore glyph measuring errors */ }
-
-    try{
-      outPage.drawText(text, {
-        x: xPt,
-        y: yBottomPt,
-        size: fontSize,
-        font: customFont,
-        opacity: 0
-      });
-    } catch(e){
-      // skip characters the font cannot encode
-    }
+      const b=w.bbox,size=Math.max(1,(b.y1-b.y0)/scale*.82);
+      page.drawText(t,{x:b.x0/scale,y:h-b.y1/scale,size,font:hasDevanagari(t)?dev:latin,opacity:0});
+    }catch(e){}
   }
 }
-
-function fileToDataUrl(file){
-  return new Promise((resolve, reject)=>{
-    const reader = new FileReader();
-    reader.onload = ()=> resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
+async function runImage(){
+  const worker=await Tesseract.createWorker($('lang').value);
+  setProgress(20,'Reading image…');
+  const {data}=await worker.recognize(file);
+  await worker.terminate();
+  pageTexts=[(data.text||'').trim()];
+  pageWordData=[data.words||[]];
+  const out=await PDFLib.PDFDocument.create();
+  const ab=await file.arrayBuffer();
+  let img;
+  try{
+    img=file.type==='image/png'?await out.embedPng(ab):await out.embedJpg(ab);
+  }catch(e){throw new Error('Use PNG or JPG image')}
+  const pg=out.addPage([img.width,img.height]);
+  pg.drawImage(img,{x:0,y:0,width:img.width,height:img.height});
+  const fb=await fontBytes();
+  out.registerFontkit(fontkit);
+  const latin=await out.embedFont(fb.latinFontBytes,{subset:true}),dev=await out.embedFont(fb.devFontBytes,{subset:true});
+  addInvisibleWords(pg,data.words||[],latin,dev,1,img.height);
+  const bytes=await out.save();
+  searchableUrl=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+  srcPdf=await pdfjsLib.getDocument({data:bytes.slice(0)}).promise;
+  setProgress(100,'Image OCR complete');
+}
+function buildPageSelect(){
+  $('editPage').innerHTML=pageTexts.map((_,i)=>`<option value="${i}">Page ${i+1}</option>`).join('');
+  loadEditor();
+}
+function loadEditor(){ $('editor').value=pageTexts[+$('editPage').value]||''; }
+$('loadPage').onclick=loadEditor;
+$('editPage').onchange=loadEditor;
+$('saveEdit').onclick=()=>{
+  let i=+$('editPage').value;
+  pageTexts[i]=$('editor').value;
+  $('outputInfo').textContent=`Edits saved for page ${i+1}. Search index updated.`;
+};
+function snippet(t,q){
+  let i=t.indexOf(q);
+  if(i<0)return t.slice(0,180);
+  return t.slice(Math.max(0,i-70),i)+'<mark>'+esc(t.slice(i,i+q.length))+'</mark>'+esc(t.slice(i+q.length,i+q.length+90));
+}
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function search(){
+  const q=$('query').value;
+  if(q===''){ $('results').innerHTML='';$('searchInfo').textContent='Type at least one character.';return }
+  const ign=$('ignoreCase').checked,qq=normalize(q,ign);
+  let hits=[];
+  pageTexts.forEach((t,i)=>{
+    const hay=normalize(t,ign);
+    let at=hay.indexOf(qq);
+    if(at>=0)hits.push({i,t,at,exact:true});
+  });
+  $('searchInfo').textContent=hits.length?`${hits.length} exact page match(es) found for "${q}".`:'No exact match.';
+  if(!hits.length&&/[A-Za-z0-9]/.test(q)){
+    for(const v of ocrVariants(q)){
+      if(v===q)continue;
+      pageTexts.forEach((t,i)=>{
+        if(normalize(t,ign).includes(normalize(v,ign)))hits.push({i,t,at:normalize(t,ign).indexOf(normalize(v,ign)),exact:false,v});
+      });
+    }
+    if(hits.length)$('searchInfo').textContent=`No exact match. ${hits.length} possible OCR-confusion suggestion(s) found.`;
+  }
+  $('results').innerHTML=hits.map(h=>`<div class="hit" data-p="${h.i}"><b>Page ${h.i+1}</b> ${h.exact?'• Exact':'• Possible '+esc(h.v)}<br><span class="hint">${snippet(h.t,h.exact?q:h.v)}</span></div>`).join('')||'<div class="hit">No result</div>';
+  document.querySelectorAll('.hit[data-p]').forEach(x=>x.onclick=async()=>{
+    previewPage=+x.dataset.p+1;
+    await renderPreview();
+    $('editPage').value=+x.dataset.p;
+    loadEditor();
   });
 }
-function loadImage(src){
-  return new Promise((resolve, reject)=>{
-    const img = new Image();
-    img.onload = ()=> resolve(img);
-    img.onerror = reject;
-    img.src = src;
-  });
-}
+$('searchBtn').onclick=search;
+$('query').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
 
-downloadBtn.addEventListener('click', ()=>{
-  if(!resultBlobUrl) return;
-  const a = document.createElement('a');
-  a.href = resultBlobUrl;
-  a.download = resultFileName;
+async function renderPreview(){
+  if(!srcPdf)return;
+  previewPage=Math.max(1,Math.min(srcPdf.numPages,previewPage));
+  const p=await srcPdf.getPage(previewPage),vp=p.getViewport({scale:1.25});
+  const c=$('preview'),ctx=c.getContext('2d');
+  c.width=vp.width;c.height=vp.height;
+  await p.render({canvasContext:ctx,viewport:vp}).promise;
+  $('pageNo').textContent=`Page ${previewPage} / ${srcPdf.numPages}`;
+}
+$('prev').onclick=async()=>{previewPage--;await renderPreview();};
+$('next').onclick=async()=>{previewPage++;await renderPreview();};
+
+function dl(blob,name){
+  const u=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=u;a.download=name;a.click();
+  setTimeout(()=>URL.revokeObjectURL(u),1000);
+}
+function allText(){ return pageTexts.map((t,i)=>`===== PAGE ${i+1} =====\n${t}`).join('\n\n'); }
+$('copy').onclick=async()=>navigator.clipboard.writeText($('editor').value);
+$('txt').onclick=()=>dl(new Blob([$('editor').value],{type:'text/plain;charset=utf-8'}),'edited-page.txt');
+$('downloadText').onclick=()=>dl(new Blob([allText()],{type:'text/plain;charset=utf-8'}),'pdf-ocr-text.txt');
+$('downloadPdf').onclick=()=>{
+  if(!searchableUrl)return;
+  const a=document.createElement('a');
+  a.href=searchableUrl;
+  a.download=(file?.name||'document').replace(/\.[^.]+$/,'')+'-searchable.pdf';
   a.click();
-});
+};
 </script>
 </body>
 </html>
