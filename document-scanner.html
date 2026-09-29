@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+  <title>Document Scanner Free Online — Scan to PDF | FileMagic Pro</title>
+  <meta name="description" content="Free online document scanner. Scan with your camera or upload a photo, auto-detect edges, straighten perspective, crop freely, apply B&W/Grayscale/Enhance filters, combine multiple pages into one PDF. No upload to server, works entirely in your browser. Free Adobe Scan / CamScanner alternative." />
+  <meta name="keywords" content="document scanner online, scan to pdf, free document scanner, camera scanner, adobe scan alternative, camscanner alternative, pdf scanner free" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://akramtools.github.io/Filemagicpro1/document-scanner.html" />
+
+  <meta property="og:title" content="Document Scanner Free Online | FileMagic Pro" />
+  <meta property="og:description" content="Scan documents with your camera, auto-crop and straighten, apply filters, combine into one PDF. Free, private, no sign up." />
+  <meta property="og:url" content="https://akramtools.github.io/Filemagicpro1/document-scanner.html" />
+  <meta property="og:type" content="website" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Document Scanner Free Online",
+    "url": "https://akramtools.github.io/Filemagicpro1/document-scanner.html",
+    "description": "Free online document scanner with auto edge detection, perspective correction, manual crop, filters and multi-page PDF export.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"Is my document uploaded to your server?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs in your browser — capture, edge detection, cropping, filters and PDF creation. Your files never leave your device."}},
+      {"@type":"Question","name":"Does it auto-detect the document edges?","acceptedAnswer":{"@type":"Answer","text":"Yes, it finds the document's four corners and straightens the perspective automatically. You can drag the corner handles to fine-tune it."}},
+      {"@type":"Question","name":"What if I want a simple rectangular crop instead?","acceptedAnswer":{"@type":"Answer","text":"Switch to Rectangle Crop mode for a free-form crop box with resizable edges and corners."}},
+      {"@type":"Question","name":"Can I zoom in and out while scanning or cropping?","acceptedAnswer":{"@type":"Answer","text":"Yes, pinch with two fingers or use the on-screen plus/minus buttons on both the camera view and the crop screen."}},
+      {"@type":"Question","name":"Can I scan multiple pages into one PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes, scan as many pages as you like, reorder or delete any page, then export them all as a single PDF."}},
+      {"@type":"Question","name":"Does it work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes, it works on Android and iOS browsers using your phone camera, or you can upload a photo from your gallery."}}
+    ]
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script async src="https://docs.opencv.org/4.9.0/opencv.js" onload="onOpenCvLoaded()" onerror="onOpenCvFailed()"></script>
+
+  <style>
+    :root {
+      --bg: #06080f;
+      --surface: #0d1018;
+      --card: #131820;
+      --border: #1c2230;
+      --accent: #2563ff;
+      --accent2: #06b6d4;
+      --text: #ddeeff;
+      --muted: #607090;
+      --success: #22d3a5;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 24px; background: var(--surface);
+      border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--accent); text-decoration: none; }
+    .nav-back { font-size: 0.85rem; color: var(--muted); text-decoration: none; }
+    .nav-back:hover { color: var(--text); }
+
+    .hero { text-align: center; padding: 48px 24px 32px; background: linear-gradient(180deg, #090d18 0%, var(--bg) 100%); }
+    .tool-badge {
+      display: inline-block; background: rgba(37,99,255,0.12); color: var(--accent);
+      border: 1px solid rgba(37,99,255,0.28); border-radius: 20px;
+      padding: 4px 14px; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;
+    }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 6vw, 2.8rem); font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
+    h1 span { color: var(--accent); }
+    .hero-sub { color: var(--muted); font-size: 1rem; max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .trust-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .pill { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 0.78rem; color: var(--muted); }
+    .pill span { color: var(--success); margin-right: 4px; }
+
+    .format-flow { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 32px; }
+    .fmt-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 20px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; }
+    .fmt-cam { border-color: rgba(37,99,255,0.4); color: var(--accent); }
+    .fmt-pdf { border-color: rgba(239,68,68,0.4); color: #ef4444; }
+    .fmt-arrow { color: var(--muted); font-size: 1.4rem; }
+
+    .tool-wrapper { max-width: 680px; margin: 32px auto; padding: 0 16px 48px; }
+    .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    #screen-camera.active, #screen-crop.active {
+      display: flex; flex-direction: column;
+      position: fixed; inset: 0; z-index: 300;
+      height: 100dvh; width: 100vw; background: var(--bg);
+    }
+
+    .capture-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px; }
+    .drop-zone { border: 2px dashed var(--border); border-radius: 14px; padding: 36px 14px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .drop-zone:hover, .drop-zone:active { border-color: var(--accent); background: rgba(37,99,255,0.05); }
+    .drop-icon { width: 56px; height: 56px; background: rgba(37,99,255,0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 1.6rem; }
+    .drop-title { font-family: 'Syne', sans-serif; font-size: 0.92rem; font-weight: 700; margin-bottom: 4px; }
+    .drop-sub { font-size: 0.75rem; color: var(--muted); }
+    #fileInput { display: none; }
+
+    #tool-body { padding: 0 24px 24px; }
+    .steps-info { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 20px; }
+    .steps-title { font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+    .step-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 6px; }
+    .step-num { width: 20px; height: 20px; border-radius: 50%; background: rgba(37,99,255,0.2); color: var(--accent); font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .step-txt { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+
+    .btn-convert { width: 100%; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 1rem; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; transition: opacity 0.2s, transform 0.1s; margin-bottom: 12px; display:flex; align-items:center; justify-content:center; gap:8px; }
+    .btn-convert:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-convert:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-secondary { width:100%; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 13px; font-size: 0.92rem; font-family:'Syne',sans-serif; font-weight:700; cursor:pointer; margin-bottom:12px; }
+    .row2 { display:flex; gap:10px; }
+    .row2>* { flex:1; }
+
+    .pages-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(84px,1fr)); gap: 10px; margin-bottom: 16px; }
+    .page-thumb { position: relative; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background:#fff; aspect-ratio: 3/4; cursor: grab; }
+    .page-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .page-thumb .num { position:absolute; top:4px; left:4px; background:rgba(0,0,0,.65); color:#fff; font-size:10.5px; padding:1px 6px; border-radius:6px; font-family:'Syne',sans-serif; }
+    .page-thumb .del { position:absolute; top:4px; right:4px; background:rgba(0,0,0,.65); color:#fff; border:none; border-radius:6px; width:20px; height:20px; font-size:12px; cursor:pointer; }
+    .page-thumb.dragging { opacity: .4; }
+    .hint-text { font-size: 0.72rem; color: var(--muted); text-align:center; margin: -6px 0 12px; }
+
+    /* camera (full-screen) */
+    #camWrap { position:relative; flex:1; min-height:0; overflow:hidden; touch-action:none; background:#000; margin:0; }
+    video#camVideo { width:100%; height:100%; display:block; object-fit:cover; transform-origin:center center; }
+    .cam-guide { position:absolute; inset:22px; border:2px dashed rgba(255,255,255,.55); border-radius:10px; pointer-events:none; }
+    .zoom-pill { position:absolute; bottom:14px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:10px; background:rgba(0,0,0,.6); border-radius:24px; padding:6px 10px; }
+    .zoom-pill button { width:30px; height:30px; border-radius:50%; border:none; background:rgba(255,255,255,.15); color:#fff; font-size:16px; cursor:pointer; }
+    .zoom-pill span { color:#fff; font-size:11.5px; min-width:32px; text-align:center; font-family:'DM Sans',sans-serif; }
+    .cam-actions { padding: 14px 20px calc(14px + env(safe-area-inset-bottom,0px)); display:flex; gap:10px; flex:0 0 auto; background:var(--surface); }
+    .cam-actions>* { flex:1; }
+
+    /* crop (full-screen) */
+    #cropStage { position:relative; flex:1; min-height:0; width:100%; background:#000; overflow:hidden; touch-action:none; margin:0; }
+    #cropWrapper { position:absolute; top:0; left:0; transform-origin:0 0; }
+    #cropCanvas { display:block; }
+    .handle { position:absolute; width:26px; height:26px; margin:-13px 0 0 -13px; border-radius:50%; background:var(--accent); border:3px solid #fff; box-shadow:0 0 0 2px rgba(0,0,0,.35); touch-action:none; cursor:grab; z-index:2; }
+    #rectBoxOverlay { position:absolute; border:2px solid #fff; box-shadow: 0 0 0 9999px rgba(0,0,0,.55); pointer-events:none; }
+    .crop-status { flex:0 0 auto; font-size:0.68rem; color:var(--muted); text-align:center; padding: 3px 8px 0; background:var(--surface); line-height:1.3; }
+    .mode-bar, .filter-bar { flex:0 0 auto; display:flex; gap:6px; overflow-x:auto; padding: 3px 8px; background:var(--surface); }
+    .mode-chip, .filter-chip { flex:0 0 auto; padding:5px 12px; border-radius:16px; border:1px solid var(--border); background:var(--card); font-size:0.72rem; cursor:pointer; color:var(--text); font-family:'DM Sans',sans-serif; }
+    .mode-chip.active, .filter-chip.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+    .tool-row { flex:0 0 auto; display:flex; justify-content:center; align-items:center; gap:8px; margin: 0 8px; padding: 3px 0; flex-wrap:wrap; background:var(--surface); }
+    .tool-row button { background:var(--card); border:1px solid var(--border); border-radius:9px; width:32px; height:32px; font-size:14px; color:var(--text); cursor:pointer; }
+    .zoom-label { font-size:11px; color:var(--muted); min-width:32px; text-align:center; }
+    .crop-actions { flex:0 0 auto; padding: 4px 20px calc(10px + env(safe-area-inset-bottom,0px)); display:flex; gap:10px; background:var(--surface); }
+    .crop-actions>* { flex:1; }
+
+    #progress-bar { display:none; height:4px; background:var(--border); border-radius:2px; margin: 0 24px 12px; overflow:hidden; }
+    #progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); width:0%; transition:width .3s; }
+    #status-msg { font-size:0.82rem; text-align:center; color:var(--muted); min-height:18px; padding: 0 24px; }
+
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,.75); display:none; align-items:center; justify-content:center; z-index:200; flex-direction:column; gap:12px; color:#fff; text-align:center; padding:20px; }
+    .overlay.show { display:flex; }
+    .spinner { width:34px; height:34px; border:3px solid rgba(255,255,255,.25); border-top-color:var(--accent); border-radius:50%; animation:spin 1s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* SEO / FAQ / other-tools (matches site standard) */
+    .seo-section { max-width: 680px; margin: 0 auto; padding: 0 16px 60px; }
+    .seo-section h2 { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:700; margin-bottom:10px; color:var(--text); }
+    .seo-section p { color: var(--muted); font-size:0.9rem; line-height:1.7; margin-bottom:24px; }
+    .faq-item { border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:10px; background:var(--card); }
+    .faq-q { font-family:'Syne',sans-serif; font-weight:600; font-size:0.9rem; margin-bottom:8px; color:var(--text); }
+    .faq-a { font-size:0.85rem; color:var(--muted); line-height:1.6; }
+
+    .other-tools { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:32px; }
+    .other-tool-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; text-decoration:none; display:flex; align-items:center; gap:10px; transition:border-color .15s; }
+    .other-tool-card:hover { border-color:var(--accent); }
+    .ot-icon { font-size:1.4rem; }
+    .ot-name { font-family:'Syne',sans-serif; font-size:0.82rem; font-weight:700; color:var(--text); }
+    .ot-desc { font-size:0.72rem; color:var(--muted); margin-top:2px; }
+
+    footer { text-align:center; padding:24px; border-top:1px solid var(--border); color:var(--muted); font-size:0.8rem; }
+    footer a { color:var(--accent); text-decoration:none; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">⚡ FileMagic Pro</a>
+  <a href="index.html" class="nav-back">← All Tools</a>
+</nav>
+
+<div class="hero">
+  <div class="tool-badge">📷 Scanner Tool</div>
+  <div class="format-flow">
+    <div class="fmt-box fmt-cam">📷 Camera</div>
+    <div class="fmt-arrow">→</div>
+    <div class="fmt-box fmt-pdf">📕 PDF</div>
+  </div>
+  <h1>Scan Documents <span>to PDF</span><br/>Free Online</h1>
+  <p class="hero-sub">Scan with your camera or upload a photo — auto edge detection, perspective straightening, filters and multi-page PDF export. No upload, no sign up.</p>
+  <div class="trust-pills">
+    <div class="pill"><span>✓</span> No Upload</div>
+    <div class="pill"><span>✓</span> Auto Crop</div>
+    <div class="pill"><span>✓</span> Multi-Page PDF</div>
+    <div class="pill"><span>✓</span> 100% Free</div>
+  </div>
+</div>
+
+<div class="tool-wrapper">
+  <div class="tool-card">
+
+    <!-- START SCREEN -->
+    <div class="screen active" id="screen-start">
+      <div class="capture-grid">
+        <div class="drop-zone" id="openCameraBtn">
+          <div class="drop-icon">📷</div>
+          <div class="drop-title">Use Camera</div>
+          <div class="drop-sub">Scan live with your phone</div>
+        </div>
+        <div class="drop-zone" id="openUploadBtn">
+          <div class="drop-icon">🖼️</div>
+          <div class="drop-title">Upload Photo</div>
+          <div class="drop-sub">Pick from your gallery</div>
+        </div>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" multiple />
+
+      <div id="tool-body" style="display:none">
+        <div class="steps-info">
+          <div class="steps-title">ℹ️ How this works</div>
+          <div class="step-row"><div class="step-num">1</div><div class="step-txt">Edges are auto-detected and perspective is straightened in your browser</div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-txt">Pick a filter, add as many pages as you need, reorder or delete any page</div></div>
+          <div class="step-row"><div class="step-num">3</div><div class="step-txt">Export as one combined PDF, or as JPG images — nothing is uploaded</div></div>
+        </div>
+        <div class="hint-text">Drag a page to reorder it</div>
+        <div class="pages-grid" id="pagesGrid"></div>
+        <div class="row2">
+          <button class="btn-convert" id="exportPdfBtn">📕 Export as PDF</button>
+          <button class="btn-secondary" id="exportImgBtn">⬇ Export Images</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMERA SCREEN -->
+    <div class="screen" id="screen-camera">
+      <div id="camWrap">
+        <video id="camVideo" autoplay playsinline muted></video>
+        <div class="cam-guide"></div>
+        <div class="zoom-pill">
+          <button id="camZoomOutBtn" type="button">－</button>
+          <span id="camZoomLabel">1.0x</span>
+          <button id="camZoomInBtn" type="button">＋</button>
+        </div>
+      </div>
+      <div class="cam-actions">
+        <button class="btn-secondary" id="camCancelBtn">Cancel</button>
+        <button class="btn-convert" id="camCaptureBtn">📸 Capture</button>
+      </div>
+    </div>
+
+    <!-- CROP SCREEN -->
+    <div class="screen" id="screen-crop">
+      <div id="cropStage"><div id="cropWrapper"><canvas id="cropCanvas"></canvas></div></div>
+      <div class="crop-status" id="cropStatus"></div>
+      <div class="mode-bar">
+        <div class="mode-chip active" data-mode="perspective">Auto / Perspective</div>
+        <div class="mode-chip" data-mode="rectangle">Rectangle Crop</div>
+      </div>
+      <div class="tool-row">
+        <button id="rotateLeftBtn" title="Rotate left">⟲</button>
+        <button id="autoDetectBtn" title="Auto detect">🔍</button>
+        <button id="rotateRightBtn" title="Rotate right">⟳</button>
+        <button id="cropZoomOutBtn" title="Zoom out">－</button>
+        <span class="zoom-label" id="cropZoomLabel">100%</span>
+        <button id="cropZoomInBtn" title="Zoom in">＋</button>
+      </div>
+      <div class="filter-bar" id="filterBar">
+        <div class="filter-chip active" data-filter="original">Original</div>
+        <div class="filter-chip" data-filter="gray">Grayscale</div>
+        <div class="filter-chip" data-filter="bw">B &amp; W</div>
+        <div class="filter-chip" data-filter="enhance">Enhance</div>
+      </div>
+      <div class="crop-actions">
+        <button class="btn-secondary" id="cropCancelBtn">Discard</button>
+        <button class="btn-convert" id="cropConfirmBtn">✓ Add Page</button>
+      </div>
+    </div>
+
+    <div id="progress-bar"><div id="progress-fill"></div></div>
+    <div id="status-msg"></div>
+  </div>
+</div>
+
+<div class="seo-section">
+  <h2>Also Try These Tools</h2>
+  <div class="other-tools">
+    <a href="pdf-to-word.html" class="other-tool-card">
+      <div class="ot-icon">📄</div>
+      <div><div class="ot-name">PDF to Word</div><div class="ot-desc">Convert PDF to editable DOC</div></div>
+    </a>
+    <a href="word-to-pdf.html" class="other-tool-card">
+      <div class="ot-icon">📘</div>
+      <div><div class="ot-name">Word to PDF</div><div class="ot-desc">Convert DOC to PDF free</div></div>
+    </a>
+    <a href="compress-image.html" class="other-tool-card">
+      <div class="ot-icon">🖼️</div>
+      <div><div class="ot-name">Compress Image</div><div class="ot-desc">Reduce image file size</div></div>
+    </a>
+    <a href="compress-pdf.html" class="other-tool-card">
+      <div class="ot-icon">🗜️</div>
+      <div><div class="ot-name">Compress PDF</div><div class="ot-desc">Reduce PDF file size</div></div>
+    </a>
+  </div>
+
+  <h2>How to Scan a Document Online Free</h2>
+  <p>Open the camera or upload an existing photo, and the scanner automatically finds the document's edges and straightens the perspective so it looks flat and front-facing. Drag the corner handles to fine-tune the crop, or switch to Rectangle Crop for a simple free-form box. Pick a filter, keep scanning more pages, then export everything as one PDF or as separate images — all inside your browser, nothing uploaded.</p>
+
+  <h2>Why Use a Browser-Based Document Scanner?</h2>
+  <p>A dedicated scanner app takes storage space and often asks for an account or shows ads. FileMagic Pro's scanner works instantly in any mobile or desktop browser, detects and straightens document edges the same way premium scanning apps do, and keeps every photo and page entirely on your device — nothing is ever sent to a server.</p>
+
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item"><div class="faq-q">Is my document uploaded to your server?</div><div class="faq-a">No. Everything runs in your browser — capture, edge detection, cropping, filters and PDF creation. Your files never leave your device.</div></div>
+  <div class="faq-item"><div class="faq-q">Does it auto-detect the document edges?</div><div class="faq-a">Yes, it finds the document's four corners and straightens the perspective automatically. You can drag the corner handles to fine-tune it.</div></div>
+  <div class="faq-item"><div class="faq-q">What if I want a simple rectangular crop instead?</div><div class="faq-a">Switch to Rectangle Crop mode for a free-form crop box with resizable edges and corners — no perspective warping.</div></div>
+  <div class="faq-item"><div class="faq-q">Can I zoom in and out while scanning or cropping?</div><div class="faq-a">Yes, pinch with two fingers or use the on-screen plus/minus buttons on both the camera view and the crop screen — zoom in and out both work reliably.</div></div>
+  <div class="faq-item"><div class="faq-q">Can I scan multiple pages into one PDF?</div><div class="faq-a">Yes, scan as many pages as you like, drag to reorder, delete any page, then export the whole set as a single PDF.</div></div>
+  <div class="faq-item"><div class="faq-q">What filters are available?</div><div class="faq-a">Original color, Grayscale, high-contrast Black & White for text pages, and Enhance for automatic brightness/contrast correction.</div></div>
+  <div class="faq-item"><div class="faq-q">Does it work on mobile?</div><div class="faq-a">Yes, it works on Android and iOS browsers using your phone camera, or you can upload a photo from your gallery.</div></div>
+  <div class="faq-item"><div class="faq-q">Is there a page limit?</div><div class="faq-a">No fixed limit — keep adding pages before exporting the final PDF.</div></div>
+</div>
+
+<footer>
+  <p>© 2026 <a href="index.html">FileMagic Pro</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
+</footer>
+
+<div class="overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div id="loadingText">Loading…</div>
+</div>
+
+<script>
+/* ============ GA4 ============ */
+(function(){
+  var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-3XYNGTK7JT';document.head.appendChild(s);
+  window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;
+  gtag('js', new Date()); gtag('config','G-3XYNGTK7JT');
+})();
+
+/* ============ STATE ============ */
+let cvReady = false;
+let stream = null, camTrack = null;
+let camNativeZoom = false, camZoomMin=1, camZoomMax=3, camZoomCurrent=1;
+let camDigitalZoom = 1;
+let pages = [];
+let rawImg = null;
+let displayScale = 1;
+let currentFilter = 'original';
+let cropMode = 'perspective';
+let workCorners = null;    // 4 independent points, perspective mode (warped on confirm)
+let rectBox = null;        // {x1,y1,x2,y2} true axis-aligned rectangle, rectangle mode
+let activePoints = null;   // reference to whichever array is being edited right now (perspective mode only)
+let zoomState = {scale:1, tx:0, ty:0};
+let stageOffset = {x:0, y:0}; // base centering offset of #cropWrapper within #cropStage
+
+const screens = {
+  start: document.getElementById('screen-start'),
+  camera: document.getElementById('screen-camera'),
+  crop: document.getElementById('screen-crop')
+};
+function showScreen(name){ Object.values(screens).forEach(s=>s.classList.remove('active')); screens[name].classList.add('active'); }
+function showOverlay(txt){ document.getElementById('loadingText').textContent = txt; document.getElementById('loadingOverlay').classList.add('show'); }
+function hideOverlay(){ document.getElementById('loadingOverlay').classList.remove('show'); }
+
+function onOpenCvLoaded(){ cvReady = true; }
+function onOpenCvFailed(){ cvReady = false; }
+showOverlay('Loading scanner engine…');
+let cvWaitTries = 0;
+const cvWaitTimer = setInterval(()=>{
+  cvWaitTries++;
+  if (typeof cv !== 'undefined' && cv.Mat) { cvReady = true; clearInterval(cvWaitTimer); hideOverlay(); }
+  else if (cvWaitTries > 60) { clearInterval(cvWaitTimer); hideOverlay(); }
+}, 250);
+
+/* ============ CAMERA ============ */
+document.getElementById('openCameraBtn').onclick = async ()=>{
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width:{ideal:4032}, height:{ideal:3024} }, audio:false });
+    document.getElementById('camVideo').srcObject = stream;
+    camTrack = stream.getVideoTracks()[0];
+    camDigitalZoom = 1;
+    document.getElementById('camVideo').style.transform = 'scale(1)';
+    try{
+      const caps = camTrack.getCapabilities ? camTrack.getCapabilities() : {};
+      if (caps && caps.zoom){
+        camNativeZoom = true;
+        camZoomMin = caps.zoom.min; camZoomMax = caps.zoom.max;
+        const settings = camTrack.getSettings ? camTrack.getSettings() : {};
+        camZoomCurrent = settings.zoom || camZoomMin;
+      } else { camNativeZoom = false; }
+    }catch(e){ camNativeZoom = false; }
+    updateCamZoomLabel();
+    showScreen('camera');
+  }catch(e){ alert('Camera access failed / permission denied.'); }
+};
+document.getElementById('camCancelBtn').onclick = ()=>{ stopCamera(); showScreen('start'); };
+function stopCamera(){ if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; camTrack=null; } }
+
+function updateCamZoomLabel(){
+  const val = camNativeZoom ? camZoomCurrent : camDigitalZoom;
+  document.getElementById('camZoomLabel').textContent = val.toFixed(1)+'x';
+}
+function setCamZoomMultiply(ratio){
+  if (camNativeZoom && camTrack){
+    let z = Math.max(camZoomMin, Math.min(camZoomMax, camZoomCurrent*ratio));
+    camZoomCurrent = z;
+    camTrack.applyConstraints({ advanced: [{ zoom: z }] }).catch(()=>{});
+  } else {
+    camDigitalZoom = Math.max(1, Math.min(4, camDigitalZoom*ratio));
+    document.getElementById('camVideo').style.transform = `scale(${camDigitalZoom})`;
+  }
+  updateCamZoomLabel();
+}
+function setCamZoomStep(dir){
+  if (camNativeZoom){
+    let z = Math.max(camZoomMin, Math.min(camZoomMax, camZoomCurrent + dir*(camZoomMax-camZoomMin)/10));
+    camZoomCurrent = z;
+    camTrack.applyConstraints({ advanced: [{ zoom: z }] }).catch(()=>{});
+  } else {
+    camDigitalZoom = Math.max(1, Math.min(4, camDigitalZoom + dir*0.3));
+    document.getElementById('camVideo').style.transform = `scale(${camDigitalZoom})`;
+  }
+  updateCamZoomLabel();
+}
+document.getElementById('camZoomInBtn').onclick = ()=>setCamZoomStep(1);
+document.getElementById('camZoomOutBtn').onclick = ()=>setCamZoomStep(-1);
+
+(function(){
+  const wrap = document.getElementById('camWrap');
+  let pts = new Map(); let lastDist = null;
+  wrap.addEventListener('pointerdown', e=>{ pts.set(e.pointerId,{x:e.clientX,y:e.clientY}); if(pts.size===2) lastDist=dist2(); });
+  wrap.addEventListener('pointermove', e=>{
+    if(!pts.has(e.pointerId)) return;
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pts.size===2){ const d = dist2(); if(lastDist) setCamZoomMultiply(d/lastDist); lastDist = d; }
+  });
+  function endPt(e){ pts.delete(e.pointerId); if(pts.size<2) lastDist=null; }
+  wrap.addEventListener('pointerup', endPt); wrap.addEventListener('pointercancel', endPt);
+  function dist2(){ const a=[...pts.values()]; return Math.hypot(a[0].x-a[1].x, a[0].y-a[1].y); }
+})();
+
+function canvasFromSource(src, srcW, srcH){
+  // Crops for digital zoom at the source's own native pixel density (no upscale/stretch —
+  // stretching a small crop back up to full frame size is what causes blurry/pixelated results).
+  const c = document.createElement('canvas');
+  if (!camNativeZoom && camDigitalZoom > 1){
+    const sw = srcW/camDigitalZoom, sh = srcH/camDigitalZoom;
+    const sx = (srcW-sw)/2, sy = (srcH-sh)/2;
+    c.width = sw; c.height = sh;
+    c.getContext('2d').drawImage(src, sx, sy, sw, sh, 0, 0, sw, sh);
+  } else {
+    c.width = srcW; c.height = srcH;
+    c.getContext('2d').drawImage(src, 0, 0);
+  }
+  return c;
+}
+document.getElementById('camCaptureBtn').onclick = async ()=>{
+  const video = document.getElementById('camVideo');
+  // Prefer ImageCapture.takePhoto() — grabs a full sensor-resolution still (often far higher
+  // than the live preview stream), so passport-page detail survives zooming in later.
+  try{
+    if (window.ImageCapture && camTrack){
+      const capture = new ImageCapture(camTrack);
+      const blob = await capture.takePhoto();
+      const bitmap = await createImageBitmap(blob);
+      const c = canvasFromSource(bitmap, bitmap.width, bitmap.height);
+      stopCamera();
+      loadRawFromCanvas(c);
+      return;
+    }
+  }catch(e){ /* fall through to video-frame capture below */ }
+  const c = canvasFromSource(video, video.videoWidth, video.videoHeight);
+  stopCamera();
+  loadRawFromCanvas(c);
+};
+
+/* ============ UPLOAD ============ */
+document.getElementById('openUploadBtn').onclick = ()=> document.getElementById('fileInput').click();
+document.getElementById('fileInput').onchange = (e)=>{
+  const files = Array.from(e.target.files||[]);
+  if(!files.length) return;
+  processUploadQueue(files);
+  e.target.value = '';
+};
+let uploadQueue = [];
+function processUploadQueue(files){
+  uploadQueue = files.slice(1);
+  const reader = new FileReader();
+  reader.onload = (ev)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+      c.getContext('2d').drawImage(img,0,0);
+      loadRawFromCanvas(c);
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(files[0]);
+}
+function continueUploadQueueIfAny(){
+  if(uploadQueue.length){ const f = uploadQueue.shift(); processUploadQueue([f, ...uploadQueue]); return true; }
+  return false;
+}
+
+/* ============ CROP STAGE ============ */
+function loadRawFromCanvas(canvas){
+  rawImg = canvas;
+  showScreen('crop');
+  currentFilter = 'original';
+  cropMode = 'perspective';
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.toggle('active', c.dataset.filter==='original'));
+  document.querySelectorAll('.mode-chip').forEach(c=>c.classList.toggle('active', c.dataset.mode==='perspective'));
+  resetZoom();
+  setTimeout(()=>{ runAutoDetect(); }, 30);
+}
+function resetZoom(){ zoomState = {scale:1, tx:0, ty:0}; applyZoomTransform(); updateCropZoomLabel(); }
+function applyZoomTransform(){ document.getElementById('cropWrapper').style.transform = `translate(${zoomState.tx}px,${zoomState.ty}px) scale(${zoomState.scale})`; }
+function updateCropZoomLabel(){ document.getElementById('cropZoomLabel').textContent = Math.round(zoomState.scale*100)+'%'; }
+
+function setupCropCanvasDisplay(){
+  const cnv = document.getElementById('cropCanvas');
+  const stage = document.getElementById('cropStage');
+  const wrapper = document.getElementById('cropWrapper');
+  cnv.width = rawImg.width; cnv.height = rawImg.height;
+  cnv.getContext('2d').drawImage(rawImg,0,0);
+  const availW = stage.clientWidth || 320, availH = stage.clientHeight || 400;
+  displayScale = Math.min(availW/rawImg.width, availH/rawImg.height);
+  const dispW = rawImg.width*displayScale, dispH = rawImg.height*displayScale;
+  cnv.style.width = dispW+'px'; cnv.style.height = dispH+'px';
+  wrapper.style.width = dispW+'px'; wrapper.style.height = dispH+'px';
+  stageOffset = { x: Math.max(0,(availW-dispW)/2), y: Math.max(0,(availH-dispH)/2) };
+  wrapper.style.left = stageOffset.x+'px';
+  wrapper.style.top = stageOffset.y+'px';
+  resetZoom();
+}
+function clientToImageCoords(clientX, clientY){
+  const rect = document.getElementById('cropStage').getBoundingClientRect();
+  const localX = (clientX - rect.left - stageOffset.x - zoomState.tx) / zoomState.scale;
+  const localY = (clientY - rect.top - stageOffset.y - zoomState.ty) / zoomState.scale;
+  let x = localX/displayScale, y = localY/displayScale;
+  x = Math.max(0, Math.min(rawImg.width, x));
+  y = Math.max(0, Math.min(rawImg.height, y));
+  return {x,y};
+}
+
+(function(){
+  const stage = document.getElementById('cropStage');
+  let pts = new Map(); let mode = null; let panStart = null; let pinchLast = null;
+  stage.addEventListener('pointerdown', e=>{
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pts.size===1){ mode='pan'; panStart = {x:e.clientX,y:e.clientY, tx0:zoomState.tx, ty0:zoomState.ty}; }
+    else if(pts.size===2){ mode='pinch'; pinchLast = pinchInfo(); }
+  });
+  stage.addEventListener('pointermove', e=>{
+    if(!pts.has(e.pointerId)) return;
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(mode==='pan' && pts.size===1){
+      const dx = e.clientX-panStart.x, dy = e.clientY-panStart.y;
+      zoomState.tx = panStart.tx0+dx; zoomState.ty = panStart.ty0+dy;
+      applyZoomTransform();
+    } else if(mode==='pinch' && pts.size===2){
+      const cur = pinchInfo();
+      const ratio = cur.dist/pinchLast.dist;
+      const rect = stage.getBoundingClientRect();
+      const midX = cur.midX-rect.left-stageOffset.x, midY = cur.midY-rect.top-stageOffset.y;
+      const contentX = (midX - zoomState.tx)/zoomState.scale;
+      const contentY = (midY - zoomState.ty)/zoomState.scale;
+      zoomState.scale = Math.max(1, Math.min(4, zoomState.scale*ratio));
+      zoomState.tx = midX - contentX*zoomState.scale;
+      zoomState.ty = midY - contentY*zoomState.scale;
+      applyZoomTransform(); updateCropZoomLabel();
+      pinchLast = cur;
+    }
+  });
+  function endPt(e){
+    pts.delete(e.pointerId);
+    if(pts.size===0){ mode=null; }
+    else if(pts.size===1){ mode='pan'; const p=[...pts.values()][0]; panStart={x:p.x,y:p.y,tx0:zoomState.tx,ty0:zoomState.ty}; }
+  }
+  stage.addEventListener('pointerup', endPt); stage.addEventListener('pointercancel', endPt);
+  function pinchInfo(){ const a=[...pts.values()]; return { dist: Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y), midX:(a[0].x+a[1].x)/2, midY:(a[0].y+a[1].y)/2 }; }
+})();
+document.getElementById('cropZoomInBtn').onclick = ()=>zoomAtCenter(1.3);
+document.getElementById('cropZoomOutBtn').onclick = ()=>zoomAtCenter(1/1.3);
+function zoomAtCenter(ratio){
+  const stage = document.getElementById('cropStage');
+  const rect = stage.getBoundingClientRect();
+  const midX = rect.width/2-stageOffset.x, midY = rect.height/2-stageOffset.y;
+  const contentX = (midX - zoomState.tx)/zoomState.scale;
+  const contentY = (midY - zoomState.ty)/zoomState.scale;
+  let newScale = Math.max(1, Math.min(4, zoomState.scale*ratio));
+  zoomState.scale = newScale;
+  zoomState.tx = midX - contentX*newScale;
+  zoomState.ty = midY - contentY*newScale;
+  if (newScale <= 1.001){ zoomState.scale=1; zoomState.tx=0; zoomState.ty=0; }
+  applyZoomTransform(); updateCropZoomLabel();
+}
+
+document.querySelector('.mode-bar').addEventListener('click', (e)=>{
+  const chip = e.target.closest('.mode-chip'); if(!chip) return;
+  document.querySelectorAll('.mode-chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  cropMode = chip.dataset.mode;
+  if (cropMode === 'rectangle'){
+    if (!rectBox){
+      const w = rawImg.width, h = rawImg.height, m = Math.min(w,h)*0.1;
+      rectBox = {x1:m, y1:m, x2:w-m, y2:h-m};
+    }
+    document.getElementById('cropStatus').textContent = 'Drag a corner to resize — stays a straight rectangle, exact crop';
+    renderRectHandles();
+  } else {
+    activePoints = workCorners;
+    document.getElementById('cropStatus').textContent = cvReady ? 'Edges auto-detected — drag dots to fine-tune' : 'Auto-detect unavailable — drag dots to crop manually';
+    renderQuadHandles();
+  }
+});
+
+function runAutoDetect(){
+  setupCropCanvasDisplay();
+  let pts = null;
+  if (cvReady) { try { pts = detectDocumentCorners(rawImg); } catch(e){ pts = null; } }
+  if (!pts) {
+    const w = rawImg.width, h = rawImg.height, m = Math.min(w,h)*0.06;
+    pts = [{x:m,y:m},{x:w-m,y:m},{x:w-m,y:h-m},{x:m,y:h-m}];
+  }
+  workCorners = pts; rectBox = null;
+  activePoints = (cropMode === 'rectangle') ? null : workCorners;
+  document.getElementById('cropStatus').textContent = cvReady ? 'Edges auto-detected — drag dots to fine-tune' : 'Auto-detect unavailable — drag dots to crop manually';
+  if (cropMode === 'perspective'){ renderQuadHandles(); }
+  else { document.querySelector('.mode-chip[data-mode="rectangle"]').click(); }
+}
+document.getElementById('autoDetectBtn').onclick = runAutoDetect;
+
+function detectDocumentCorners(canvasImg){
+  let src = cv.imread(canvasImg);
+  let gray = new cv.Mat(); cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
+  let blurred = new cv.Mat(); cv.GaussianBlur(gray, blurred, new cv.Size(5,5), 0);
+  let edged = new cv.Mat(); cv.Canny(blurred, edged, 50, 150);
+  let kernel = cv.Mat.ones(3,3, cv.CV_8U);
+  let dilated = new cv.Mat(); cv.dilate(edged, dilated, kernel);
+  let contours = new cv.MatVector(); let hierarchy = new cv.Mat();
+  cv.findContours(dilated, contours, hierarchy, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE);
+  let maxArea = 0; let biggest = null;
+  const imgArea = src.rows*src.cols;
+  for (let i=0;i<contours.size();i++){
+    let cnt = contours.get(i);
+    let peri = cv.arcLength(cnt, true);
+    let approx = new cv.Mat();
+    cv.approxPolyDP(cnt, approx, 0.02*peri, true);
+    if (approx.rows === 4){
+      let area = Math.abs(cv.contourArea(approx));
+      if (area > maxArea && area > imgArea*0.15){ maxArea = area; if(biggest) biggest.delete(); biggest = approx; }
+      else approx.delete();
+    } else approx.delete();
+    cnt.delete();
+  }
+  let result = null;
+  if (biggest){
+    let pts = [];
+    for(let i=0;i<4;i++) pts.push({x:biggest.data32S[i*2], y:biggest.data32S[i*2+1]});
+    result = orderCorners(pts);
+    biggest.delete();
+  }
+  src.delete(); gray.delete(); blurred.delete(); edged.delete(); kernel.delete(); dilated.delete(); contours.delete(); hierarchy.delete();
+  return result;
+}
+function orderCorners(pts){
+  const sum = pts.map(p=>p.x+p.y), diff = pts.map(p=>p.x-p.y);
+  const tl = pts[sum.indexOf(Math.min(...sum))];
+  const br = pts[sum.indexOf(Math.max(...sum))];
+  const tr = pts[diff.indexOf(Math.max(...diff))];
+  const bl = pts[diff.indexOf(Math.min(...diff))];
+  return [tl,tr,br,bl];
+}
+
+function renderQuadHandles(){
+  document.querySelectorAll('.handle').forEach(h=>h.remove());
+  const wrapper = document.getElementById('cropWrapper');
+  activePoints.forEach((p, idx)=>{
+    const h = document.createElement('div');
+    h.className='handle'; h.dataset.idx = idx;
+    h.style.left = (p.x*displayScale)+'px';
+    h.style.top = (p.y*displayScale)+'px';
+    h.addEventListener('pointerdown', (e)=>{ e.stopPropagation(); startQuadDrag(e, idx); });
+    wrapper.appendChild(h);
+  });
+}
+function startQuadDrag(e, idx){
+  function move(e2){
+    const p = clientToImageCoords(e2.clientX, e2.clientY);
+    activePoints[idx] = p;
+    const handles = document.querySelectorAll('.handle');
+    handles[idx].style.left = (p.x*displayScale)+'px';
+    handles[idx].style.top = (p.y*displayScale)+'px';
+  }
+  function up(){ window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); }
+  window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
+}
+
+function rectBoxToCorners(r){
+  return [{x:r.x1,y:r.y1},{x:r.x2,y:r.y1},{x:r.x2,y:r.y2},{x:r.x1,y:r.y2}];
+}
+function updateRectVisual(){
+  const ov = document.getElementById('rectBoxOverlay'); if (!ov) return;
+  ov.style.left = (rectBox.x1*displayScale)+'px';
+  ov.style.top = (rectBox.y1*displayScale)+'px';
+  ov.style.width = ((rectBox.x2-rectBox.x1)*displayScale)+'px';
+  ov.style.height = ((rectBox.y2-rectBox.y1)*displayScale)+'px';
+}
+function renderRectHandles(){
+  document.querySelectorAll('.handle').forEach(h=>h.remove());
+  const old = document.getElementById('rectBoxOverlay'); if (old) old.remove();
+  const wrapper = document.getElementById('cropWrapper');
+  const ov = document.createElement('div'); ov.id = 'rectBoxOverlay';
+  wrapper.appendChild(ov);
+  updateRectVisual();
+  rectBoxToCorners(rectBox).forEach((p, idx)=>{
+    const h = document.createElement('div');
+    h.className='handle'; h.dataset.idx = idx;
+    h.style.left = (p.x*displayScale)+'px';
+    h.style.top = (p.y*displayScale)+'px';
+    h.addEventListener('pointerdown', (e)=>{ e.stopPropagation(); startRectDrag(e, idx); });
+    wrapper.appendChild(h);
+  });
+}
+function startRectDrag(e, idx){
+  const minSize = Math.min(rawImg.width, rawImg.height)*0.08;
+  function move(e2){
+    const p = clientToImageCoords(e2.clientX, e2.clientY);
+    if (idx===0){ rectBox.x1 = Math.min(p.x, rectBox.x2-minSize); rectBox.y1 = Math.min(p.y, rectBox.y2-minSize); }
+    else if (idx===1){ rectBox.x2 = Math.max(p.x, rectBox.x1+minSize); rectBox.y1 = Math.min(p.y, rectBox.y2-minSize); }
+    else if (idx===2){ rectBox.x2 = Math.max(p.x, rectBox.x1+minSize); rectBox.y2 = Math.max(p.y, rectBox.y1+minSize); }
+    else { rectBox.x1 = Math.min(p.x, rectBox.x2-minSize); rectBox.y2 = Math.max(p.y, rectBox.y1+minSize); }
+    rectBox.x1 = Math.max(0, rectBox.x1); rectBox.y1 = Math.max(0, rectBox.y1);
+    rectBox.x2 = Math.min(rawImg.width, rectBox.x2); rectBox.y2 = Math.min(rawImg.height, rectBox.y2);
+    updateRectVisual();
+    const handles = document.querySelectorAll('.handle');
+    rectBoxToCorners(rectBox).forEach((pt,i)=>{ handles[i].style.left=(pt.x*displayScale)+'px'; handles[i].style.top=(pt.y*displayScale)+'px'; });
+  }
+  function up(){ window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); }
+  window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
+}
+
+function rotateRaw(deg){
+  const c = document.createElement('canvas');
+  if (deg===90 || deg===-90){ c.width = rawImg.height; c.height = rawImg.width; }
+  else { c.width = rawImg.width; c.height = rawImg.height; }
+  const ctx = c.getContext('2d');
+  ctx.translate(c.width/2, c.height/2); ctx.rotate(deg*Math.PI/180);
+  ctx.drawImage(rawImg, -rawImg.width/2, -rawImg.height/2);
+  rawImg = c;
+  const wasRect = cropMode === 'rectangle';
+  rectBox = null;
+  runAutoDetect();
+  if (wasRect){ document.querySelector('.mode-chip[data-mode="rectangle"]').click(); }
+}
+document.getElementById('rotateLeftBtn').onclick = ()=>rotateRaw(-90);
+document.getElementById('rotateRightBtn').onclick = ()=>rotateRaw(90);
+
+document.getElementById('filterBar').addEventListener('click',(e)=>{
+  const chip = e.target.closest('.filter-chip'); if(!chip) return;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  currentFilter = chip.dataset.filter;
+});
+
+function applyFilterToCanvas(canvas, filter){
+  if (filter === 'original') return canvas;
+  const out = document.createElement('canvas'); out.width = canvas.width; out.height = canvas.height;
+  const ctx = out.getContext('2d');
+  ctx.drawImage(canvas,0,0);
+  const id = ctx.getImageData(0,0,out.width,out.height);
+  const d = id.data;
+  if (filter === 'gray' || filter === 'bw'){
+    const hist = new Array(256).fill(0);
+    for (let i=0;i<d.length;i+=4){
+      const l = 0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];
+      d[i]=d[i+1]=d[i+2]=l;
+      if (filter==='bw') hist[Math.round(l)]++;
+    }
+    if (filter==='bw'){
+      const total = out.width*out.height;
+      let sum=0; for(let t=0;t<256;t++) sum+=t*hist[t];
+      let sumB=0,wB=0,wF=0,maxVar=0,threshold=127;
+      for(let t=0;t<256;t++){
+        wB+=hist[t]; if(wB===0) continue;
+        wF=total-wB; if(wF===0) break;
+        sumB+=t*hist[t];
+        const mB=sumB/wB, mF=(sum-sumB)/wF;
+        const varBetween=wB*wF*(mB-mF)*(mB-mF);
+        if(varBetween>maxVar){maxVar=varBetween; threshold=t;}
+      }
+      for (let i=0;i<d.length;i+=4){ const v = d[i] > threshold ? 255 : 0; d[i]=d[i+1]=d[i+2]=v; }
+    }
+  } else if (filter === 'enhance'){
+    const contrast = 1.35, brightness = 18;
+    for (let i=0;i<d.length;i+=4){
+      for (let c=0;c<3;c++){ let v = (d[i+c]-128)*contrast + 128 + brightness; d[i+c] = Math.max(0, Math.min(255, v)); }
+    }
+  }
+  ctx.putImageData(id,0,0);
+  return out;
+}
+
+const EXPORT_DPI = 300; // target DPI for both JPG and PDF output (no resampling — pixels stay as captured/cropped)
+
+// Patches the JFIF header of a canvas-generated JPEG blob to declare a given DPI,
+// so image viewers / printers / receiving software read it as a real 300 DPI scan.
+async function setJpegDpi(blob, dpi){
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  if (bytes[0]===0xFF && bytes[1]===0xD8 && bytes[2]===0xFF && bytes[3]===0xE0 &&
+      bytes[6]===0x4A && bytes[7]===0x46 && bytes[8]===0x49 && bytes[9]===0x46 && bytes[10]===0x00){
+    bytes[13] = 1;                          // units = dots per inch
+    bytes[14] = (dpi>>8)&0xFF; bytes[15] = dpi&0xFF; // X density
+    bytes[16] = (dpi>>8)&0xFF; bytes[17] = dpi&0xFF; // Y density
+    return new Blob([bytes], {type:'image/jpeg'});
+  }
+  return blob; // unexpected header layout — leave untouched rather than risk corrupting it
+}
+function blobToDataURL(blob){
+  return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(blob); });
+}
+
+document.getElementById('cropCancelBtn').onclick = ()=>{ showScreen('start'); continueUploadQueueIfAny(); };
+document.getElementById('cropConfirmBtn').onclick = async ()=>{
+  let finalCanvas;
+  if (cropMode === 'rectangle'){ finalCanvas = cropAxisAligned(rawImg, rectBoxToCorners(rectBox)); }
+  else if (cvReady){ try { finalCanvas = warpPerspectiveCanvas(rawImg, workCorners); } catch(e){ finalCanvas = cropAxisAligned(rawImg, workCorners); } }
+  else { finalCanvas = cropAxisAligned(rawImg, workCorners); }
+  const filtered = applyFilterToCanvas(finalCanvas, currentFilter);
+  let blob = await new Promise(res=>filtered.toBlob(res, 'image/jpeg', 0.97));
+  blob = await setJpegDpi(blob, EXPORT_DPI);
+  const dataUrl = await blobToDataURL(blob);
+  pages.push({ dataUrl });
+  document.getElementById('tool-body').style.display = 'block';
+  renderPagesGrid();
+  showScreen('start');
+  continueUploadQueueIfAny();
+};
+
+function warpPerspectiveCanvas(imgCanvas, corners){
+  let src = cv.imread(imgCanvas);
+  const [tl,tr,br,bl] = corners;
+  const widthA = Math.hypot(br.x-bl.x, br.y-bl.y), widthB = Math.hypot(tr.x-tl.x, tr.y-tl.y);
+  const maxWidth = Math.max(widthA, widthB);
+  const heightA = Math.hypot(tr.x-br.x, tr.y-br.y), heightB = Math.hypot(tl.x-bl.x, tl.y-bl.y);
+  const maxHeight = Math.max(heightA, heightB);
+  const srcTri = cv.matFromArray(4,1,cv.CV_32FC2, [tl.x,tl.y, tr.x,tr.y, br.x,br.y, bl.x,bl.y]);
+  const dstTri = cv.matFromArray(4,1,cv.CV_32FC2, [0,0, maxWidth,0, maxWidth,maxHeight, 0,maxHeight]);
+  const M = cv.getPerspectiveTransform(srcTri, dstTri);
+  const dst = new cv.Mat();
+  const dsize = new cv.Size(Math.round(maxWidth), Math.round(maxHeight));
+  cv.warpPerspective(src, dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
+  const out = document.createElement('canvas'); out.width = dsize.width; out.height = dsize.height;
+  cv.imshow(out, dst);
+  src.delete(); dst.delete(); srcTri.delete(); dstTri.delete(); M.delete();
+  return out;
+}
+function cropAxisAligned(imgCanvas, corners){
+  const xs = corners.map(p=>p.x), ys = corners.map(p=>p.y);
+  const x0=Math.min(...xs), x1=Math.max(...xs), y0=Math.min(...ys), y1=Math.max(...ys);
+  return cropRect(imgCanvas, {x:x0,y:y0,w:x1-x0,h:y1-y0});
+}
+function cropRect(imgCanvas, rect){
+  const out = document.createElement('canvas'); out.width = Math.round(rect.w); out.height = Math.round(rect.h);
+  out.getContext('2d').drawImage(imgCanvas, rect.x,rect.y,rect.w,rect.h, 0,0,rect.w,rect.h);
+  return out;
+}
+
+/* ============ PAGES ============ */
+function renderPagesGrid(){
+  const grid = document.getElementById('pagesGrid');
+  grid.innerHTML = '';
+  pages.forEach((p, i)=>{
+    const div = document.createElement('div');
+    div.className = 'page-thumb'; div.draggable = true; div.dataset.idx = i;
+    div.innerHTML = `<span class="num">${i+1}</span><img src="${p.dataUrl}"><button class="del" data-i="${i}">✕</button>`;
+    grid.appendChild(div);
+  });
+  grid.querySelectorAll('.del').forEach(btn=>{
+    btn.onclick = (e)=>{ e.stopPropagation(); pages.splice(parseInt(btn.dataset.i),1); renderPagesGrid(); if(!pages.length) document.getElementById('tool-body').style.display='none'; };
+  });
+  let dragSrc = null;
+  grid.querySelectorAll('.page-thumb').forEach(el=>{
+    el.addEventListener('dragstart', ()=>{ dragSrc = el; el.classList.add('dragging'); });
+    el.addEventListener('dragend', ()=>{ el.classList.remove('dragging'); });
+    el.addEventListener('dragover', (e)=>e.preventDefault());
+    el.addEventListener('drop', (e)=>{
+      e.preventDefault();
+      if(!dragSrc || dragSrc===el) return;
+      const from = parseInt(dragSrc.dataset.idx), to = parseInt(el.dataset.idx);
+      const moved = pages.splice(from,1)[0];
+      pages.splice(to,0,moved);
+      renderPagesGrid();
+    });
+  });
+}
+
+/* ============ EXPORT ============ */
+document.getElementById('exportPdfBtn').onclick = async ()=>{
+  if(!pages.length) return;
+  const bar = document.getElementById('progress-bar'), fill = document.getElementById('progress-fill'), msg = document.getElementById('status-msg');
+  bar.style.display='block'; fill.style.width='10%'; msg.textContent='Building PDF…';
+  try{
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const pdfDoc = await PDFDocument.create();
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const MARGIN = 20, LABEL_H = 16;
+    for (let i=0;i<pages.length;i++){
+      fill.style.width = `${10 + (i/pages.length*80)}%`; msg.textContent = `Adding page ${i+1} of ${pages.length}…`;
+      const jpgBytes = await (await fetch(pages[i].dataUrl)).arrayBuffer();
+      const img = await pdfDoc.embedJpg(jpgBytes);
+      const imgW = img.width*72/EXPORT_DPI, imgH = img.height*72/EXPORT_DPI;
+      const pageW = imgW + MARGIN*2, pageH = imgH + MARGIN*2 + LABEL_H;
+      const page = pdfDoc.addPage([pageW, pageH]);
+      page.drawImage(img, {x:MARGIN, y:MARGIN+LABEL_H, width:imgW, height:imgH});
+      const label = `Page ${i+1} of ${pages.length}`;
+      const labelW = font.widthOfTextAtSize(label, 8);
+      page.drawText(label, {x:(pageW-labelW)/2, y:MARGIN/2, size:8, font, color:rgb(0.5,0.5,0.5)});
+    }
+    fill.style.width='95%'; msg.textContent='Finalizing…';
+    const bytes = await pdfDoc.save();
+    const blob = new Blob([bytes], {type:'application/pdf'});
+    downloadBlob(blob, 'scanned-document.pdf');
+    fill.style.width='100%'; msg.textContent='✅ PDF downloaded';
+  }catch(e){ msg.textContent = '❌ Error: '+e.message; }
+  setTimeout(()=>{ bar.style.display='none'; fill.style.width='0'; msg.textContent=''; }, 1500);
+};
+
+document.getElementById('exportImgBtn').onclick = async ()=>{
+  if(!pages.length) return;
+  if (pages.length === 1){ downloadBlob(await (await fetch(pages[0].dataUrl)).blob(), 'scan-page-1.jpg'); return; }
+  const bar = document.getElementById('progress-bar'), fill = document.getElementById('progress-fill'), msg = document.getElementById('status-msg');
+  bar.style.display='block'; fill.style.width='20%'; msg.textContent='Zipping images…';
+  try{
+    const zip = new JSZip();
+    for (let i=0;i<pages.length;i++){
+      const blob = await (await fetch(pages[i].dataUrl)).blob();
+      zip.file(`scan-page-${i+1}.jpg`, blob);
+      fill.style.width = `${20 + (i/pages.length*70)}%`;
+    }
+    const content = await zip.generateAsync({type:'blob'});
+    downloadBlob(content, 'scanned-pages.zip');
+    fill.style.width='100%'; msg.textContent='✅ ZIP downloaded';
+  }catch(e){ msg.textContent = '❌ Error: '+e.message; }
+  setTimeout(()=>{ bar.style.display='none'; fill.style.width='0'; msg.textContent=''; }, 1500);
+};
+
+function downloadBlob(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 5000);
+}
+</script>
+</body>
+</html>
